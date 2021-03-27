@@ -206,16 +206,13 @@ public class SeXe {
     //Cac ham ve DELETE---------------------------------------------------------
     
     //Cac ham UPDATE------------------------------------------------------------
-    //1. Cap nhat lai xe trong QL ve thang
-    public void capNhatVeThang(String bienSo, String maSV, Date ngayDK, Date ngayHH, String trangThai){
+    //1. Cap nhat lai trang thai xe trong QL ve thang
+    public void capNhatTTVeThang(String bienSo, String trangThai){
         Connection ketNoi = KetNoiCSDL.ketNoi();
-        String sql = "update QL_VE_THANG set MA_SINH_VIEN = ?, NGAY_LAM_VE = ?, NGAY_HET_HAN = ?, TRANG_THAI = ? where TAI_KHOANG = '" + bienSo + "'";
+        String sql = "update QL_VE_THANG set TRANG_THAI = ? where BIEN_SO_XE = '" + bienSo + "'";
         try {
             PreparedStatement ps = ketNoi.prepareStatement(sql);
-            ps.setString(1, maSV);
-            ps.setDate(2, ngayDK);
-            ps.setDate(3, ngayHH);
-            ps.setString(4, trangThai);
+            ps.setString(1, trangThai);
             ps.executeUpdate();
             
         } 

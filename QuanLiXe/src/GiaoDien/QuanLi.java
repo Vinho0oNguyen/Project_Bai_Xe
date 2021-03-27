@@ -43,6 +43,7 @@ public class QuanLi extends javax.swing.JFrame {
         this.maNV = maNV;
         initComponents();
         this.setLocationRelativeTo(null);
+        capNhatTTVeThang();
         layTT();
         layTTXe();
     }
@@ -115,6 +116,24 @@ public class QuanLi extends javax.swing.JFrame {
             ketNoi.close();
         } 
         catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //Lay nhung xe dang ky thang da het han
+    public void capNhatTTVeThang(){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select BIEN_SO_XE\n" +
+                    "FROM QL_VE_THANG\n" +
+                    "WHERE NGAY_HET_HAN < '" + java.sql.Date.valueOf(java.time.LocalDate.now()) +"'";
+        try {
+           PreparedStatement pr = ketNoi.prepareStatement(sql);
+           ResultSet rs = pr.executeQuery();
+           while(rs.next()){
+               QLXe.capNhatTTVeThang(rs.getString("BIEN_SO_XE"), "HẾT HẠN");
+           }
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -230,7 +249,6 @@ public class QuanLi extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         btn_DangXuat = new javax.swing.JButton();
 
         jDi_XNDKThang.setMinimumSize(new java.awt.Dimension(400, 400));
@@ -583,6 +601,8 @@ public class QuanLi extends javax.swing.JFrame {
 
         jTable_NV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jPan_Inf.setPreferredSize(new java.awt.Dimension(705, 499));
+
         jL_Tittle2.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jL_Tittle2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jL_Tittle2.setText("THÔNG TIN CÁ NHÂN");
@@ -776,7 +796,7 @@ public class QuanLi extends javax.swing.JFrame {
                         .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jC_Class, 0, 219, Short.MAX_VALUE)
                             .addComponent(jPass_Pass)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 34, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPan_InfLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -824,23 +844,19 @@ public class QuanLi extends javax.swing.JFrame {
                         .addComponent(jL_Sex))
                     .addComponent(jL_Phone)
                     .addComponent(jT_Phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPan_InfLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_ThemNV, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPan_InfLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30)
-                .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_SaveEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(btn_SaveAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_HuyBo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                    .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_ThemNV, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_xoa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btn_HuyBo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(btn_SaveEdit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_SaveAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         Connection ketNoi = KetNoiCSDL.ketNoi();
@@ -1076,18 +1092,17 @@ public class QuanLi extends javax.swing.JFrame {
 
     jTable_NV.addTab("Quản Lí Gửi Xe", jPan_GuiXe);
 
-    jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-    jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 623, Short.MAX_VALUE)
+        .addGap(0, 700, Short.MAX_VALUE)
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 496, Short.MAX_VALUE)
+        .addGap(0, 472, Short.MAX_VALUE)
     );
 
     jTabbedPane1.addTab("Doanh Thu", jPanel2);
@@ -1096,11 +1111,11 @@ public class QuanLi extends javax.swing.JFrame {
     jPanel3.setLayout(jPanel3Layout);
     jPanel3Layout.setHorizontalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 623, Short.MAX_VALUE)
+        .addGap(0, 700, Short.MAX_VALUE)
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 496, Short.MAX_VALUE)
+        .addGap(0, 472, Short.MAX_VALUE)
     );
 
     jTabbedPane1.addTab("Hiện Tại", jPanel3);
@@ -1109,27 +1124,14 @@ public class QuanLi extends javax.swing.JFrame {
     jPanel4.setLayout(jPanel4Layout);
     jPanel4Layout.setHorizontalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 623, Short.MAX_VALUE)
+        .addGap(0, 700, Short.MAX_VALUE)
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 496, Short.MAX_VALUE)
+        .addGap(0, 472, Short.MAX_VALUE)
     );
 
     jTabbedPane1.addTab("Vé tháng", jPanel4);
-
-    javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-    jPanel5.setLayout(jPanel5Layout);
-    jPanel5Layout.setHorizontalGroup(
-        jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 623, Short.MAX_VALUE)
-    );
-    jPanel5Layout.setVerticalGroup(
-        jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 496, Short.MAX_VALUE)
-    );
-
-    jTabbedPane1.addTab("tab4", jPanel5);
 
     javax.swing.GroupLayout jPan_ThongKeLayout = new javax.swing.GroupLayout(jPan_ThongKe);
     jPan_ThongKe.setLayout(jPan_ThongKeLayout);
@@ -1192,7 +1194,7 @@ public class QuanLi extends javax.swing.JFrame {
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, Short.MAX_VALUE)
     );
 
     pack();
@@ -1730,7 +1732,7 @@ public class QuanLi extends javax.swing.JFrame {
         java.sql.Date TGHH = null;
         try {
             java.util.Date tmp1 = new SimpleDateFormat("yyyy-MM-dd").parse(ngayDK);
-            java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngayDK);
+            java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngayHH);
             TGDK = new java.sql.Date(tmp1.getTime());
             TGHH = new java.sql.Date(tmp2.getTime());
         } 
@@ -1859,7 +1861,6 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPasswordField jPass_Pass;
     private javax.swing.JScrollPane jScrollPane2;
