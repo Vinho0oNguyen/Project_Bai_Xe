@@ -220,4 +220,24 @@ public class SeXe {
             e.printStackTrace();
         }
     }
+    
+    //Goi store procedure
+    public String maXe(){
+        String maXe = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "{call sp_VeXe_TuSinhID}";
+        try {
+            CallableStatement cs = ketNoi.prepareCall(sql);
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                maXe = rs.getString("sp_VeXe_TuSinhID");
+            }
+            
+                    
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maXe;
+    }
 }

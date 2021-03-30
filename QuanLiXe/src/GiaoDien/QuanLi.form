@@ -1205,15 +1205,17 @@
                                       <Component id="jSeparator8" min="-2" pref="650" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jSeparator11" alignment="0" min="-2" pref="10" max="-2" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jSeparator11" min="-2" pref="10" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jL_BienSo" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
-                                                      <Component id="jL_VeID" min="-2" pref="50" max="-2" attributes="0"/>
                                                       <Component id="jL_Hieuxe" min="-2" pref="50" max="-2" attributes="0"/>
                                                       <Component id="jL_Mauxe" min="-2" pref="50" max="-2" attributes="0"/>
                                                   </Group>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                                                  <Component id="jL_BienSo" min="-2" pref="50" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -1221,7 +1223,6 @@
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jT_BienSo" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                      <Component id="jT_VeID" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                                       <Component id="jT_HieuXe" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                                       <Component id="jT_MauXe" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                                   </Group>
@@ -1242,10 +1243,12 @@
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="btn_Vao" min="-2" pref="96" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                                   <Component id="btn_Ra" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="btn_Thang" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btn_Huy" min="-2" pref="94" max="-2" attributes="0"/>
                                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -1274,7 +1277,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jSeparator9" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" attributes="0">
@@ -1287,37 +1291,33 @@
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jL_VeID" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jT_VeID" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jL_Ngay" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jL_Hieuxe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jT_HieuXe" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="jDate_Ngay" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jL_Hieuxe" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jT_HieuXe" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jL_Mauxe1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jC_Loi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jL_Mauxe" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jT_MauXe" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="btn_Vao" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btn_Ra" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btn_Thang" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_Huy" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="jSeparator11" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="jSeparator9" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="jSeparator11" pref="200" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jSeparator10" min="-2" pref="20" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jSeparator10" min="-2" pref="13" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jT_FindVe" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btn_FindVe" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1325,7 +1325,7 @@
                               <Component id="btn_FindName" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="205" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="189" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1424,16 +1424,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jT_BienSo">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_VeID">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="M&#xe3; v&#xe9;:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_VeID">
                 </Component>
                 <Component class="javax.swing.JTextField" name="jT_HieuXe">
                 </Component>
@@ -1544,7 +1534,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_FindVe">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo v&#xe9;"/>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo hi&#x1ec7;u xe"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jT_FindName">
@@ -1553,6 +1543,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo bi&#x1ec3;n s&#x1ed1;"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_Huy">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_HuyActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

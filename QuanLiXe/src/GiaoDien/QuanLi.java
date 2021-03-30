@@ -225,8 +225,6 @@ public class QuanLi extends javax.swing.JFrame {
         jSeparator11 = new javax.swing.JSeparator();
         jL_BienSo = new javax.swing.JLabel();
         jT_BienSo = new javax.swing.JTextField();
-        jL_VeID = new javax.swing.JLabel();
-        jT_VeID = new javax.swing.JTextField();
         jT_HieuXe = new javax.swing.JTextField();
         jL_Hieuxe = new javax.swing.JLabel();
         jT_MauXe = new javax.swing.JTextField();
@@ -244,6 +242,7 @@ public class QuanLi extends javax.swing.JFrame {
         btn_FindVe = new javax.swing.JButton();
         jT_FindName = new javax.swing.JTextField();
         btn_FindName = new javax.swing.JButton();
+        btn_Huy = new javax.swing.JButton();
         jPan_ThongKe = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -907,9 +906,6 @@ public class QuanLi extends javax.swing.JFrame {
         jL_BienSo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_BienSo.setText("Biển số:");
 
-        jL_VeID.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jL_VeID.setText("Mã vé:");
-
         jL_Hieuxe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_Hieuxe.setText("Hiệu xe:");
 
@@ -953,9 +949,17 @@ public class QuanLi extends javax.swing.JFrame {
             }
         });
 
-        btn_FindVe.setText("Tìm kiếm theo vé");
+        btn_FindVe.setText("Tìm kiếm theo hiệu xe");
 
         btn_FindName.setText("Tìm kiếm theo biển số");
+
+        btn_Huy.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_Huy.setText("Hủy");
+        btn_Huy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_HuyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPan_GuiXeLayout = new javax.swing.GroupLayout(jPan_GuiXe);
         jPan_GuiXe.setLayout(jPan_GuiXeLayout);
@@ -969,20 +973,20 @@ public class QuanLi extends javax.swing.JFrame {
                             .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPan_GuiXeLayout.createSequentialGroup()
                                 .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPan_GuiXeLayout.createSequentialGroup()
+                                        .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jL_Hieuxe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jL_Mauxe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPan_GuiXeLayout.createSequentialGroup()
                                         .addGap(20, 20, 20)
-                                        .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jL_BienSo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jL_VeID, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jL_Hieuxe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jL_Mauxe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jL_BienSo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPan_GuiXeLayout.createSequentialGroup()
                                         .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jT_BienSo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jT_VeID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jT_HieuXe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jT_MauXe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -998,10 +1002,12 @@ public class QuanLi extends javax.swing.JFrame {
                                             .addComponent(jC_Loi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(jPan_GuiXeLayout.createSequentialGroup()
                                         .addComponent(btn_Vao, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(77, 77, 77)
+                                        .addGap(18, 18, 18)
                                         .addComponent(btn_Ra)
-                                        .addGap(65, 65, 65)
+                                        .addGap(18, 18, 18)
                                         .addComponent(btn_Thang)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn_Huy, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(18, 18, 18)))
                         .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1021,7 +1027,8 @@ public class QuanLi extends javax.swing.JFrame {
             jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPan_GuiXeLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparator9)
                     .addGroup(jPan_GuiXeLayout.createSequentialGroup()
                         .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPan_GuiXeLayout.createSequentialGroup()
@@ -1033,36 +1040,33 @@ public class QuanLi extends javax.swing.JFrame {
                                     .addComponent(jT_Time, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jL_VeID)
-                                    .addComponent(jT_VeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jL_Ngay)))
+                                    .addComponent(jL_Ngay)
+                                    .addComponent(jL_Hieuxe)
+                                    .addComponent(jT_HieuXe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jDate_Ngay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jL_Hieuxe)
-                            .addComponent(jT_HieuXe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jL_Mauxe1)
-                            .addComponent(jC_Loi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jC_Loi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jL_Mauxe)
                             .addComponent(jT_MauXe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(35, 35, 35)
                         .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_Vao)
                             .addComponent(btn_Ra)
-                            .addComponent(btn_Thang)))
-                    .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btn_Thang)
+                            .addComponent(btn_Huy)))
+                    .addComponent(jSeparator11, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jT_FindVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_FindVe)
                     .addComponent(jT_FindName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_FindName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1498,7 +1502,6 @@ public class QuanLi extends javax.swing.JFrame {
         String mauXe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 4);
         
         jT_BienSo.setText(bienSo);
-        jT_VeID.setText(maVe);
         jT_HieuXe.setText(hieuXe);
         jT_MauXe.setText(mauXe);
     }//GEN-LAST:event_jTable_GuiXeMousePressed
@@ -1507,7 +1510,7 @@ public class QuanLi extends javax.swing.JFrame {
         // TODO add your handling code here:
         //gan du lieu
         String bienSo = jT_BienSo.getText();
-        String maVe = jT_VeID.getText();
+        String maVe = QLXe.maXe();
         String hieuXe = jT_HieuXe.getText();
         String mauXe = jT_MauXe.getText();
         Time gioVao = Time.valueOf(LocalTime.now());
@@ -1523,16 +1526,13 @@ public class QuanLi extends javax.swing.JFrame {
         }
         
         
-        if(maVe.equals("") || bienSo.equals("")){
+        if(bienSo.equals("")){
             JOptionPane.showMessageDialog(null, "Xin nhập mã vé và biển số xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(QLXe.checkVeXe(maVe) == 1 ){
-            JOptionPane.showMessageDialog(null, "Mã vé đã tồn tại, không thể thêm vào.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         else if(QLXe.checkTinhTrangVe(bienSo).equals("CHƯA LẤY")){
             JOptionPane.showMessageDialog(null, "Xe này vần còn trong bãi, không thể thêm được.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        else if(QLXe.checkBienSo(bienSo) == 1 && QLXe.checkVeXe(maVe) == 0){
+        else if(QLXe.checkBienSo(bienSo) == 1){
             if(QLXe.checkBienSoInVX(bienSo) == 1){
                 if(QLXe.checkTinhTrangVe(bienSo).equals("ĐÃ LẤY")){
                     //Ve luot
@@ -1542,7 +1542,6 @@ public class QuanLi extends javax.swing.JFrame {
 
                         //set lai cai jT
                         jT_BienSo.setText("");
-                        jT_VeID.setText("");
                         jT_HieuXe.setText("");
                         jT_MauXe.setText("");
 
@@ -1555,7 +1554,6 @@ public class QuanLi extends javax.swing.JFrame {
 
                         //set lai cai jT
                         jT_BienSo.setText("");
-                        jT_VeID.setText("");
                         jT_HieuXe.setText("");
                         jT_MauXe.setText("");
 
@@ -1573,7 +1571,6 @@ public class QuanLi extends javax.swing.JFrame {
 
                     //set lai cai jT
                     jT_BienSo.setText("");
-                    jT_VeID.setText("");
                     jT_HieuXe.setText("");
                     jT_MauXe.setText("");
 
@@ -1586,7 +1583,6 @@ public class QuanLi extends javax.swing.JFrame {
 
                     //set lai cai jT
                     jT_BienSo.setText("");
-                    jT_VeID.setText("");
                     jT_HieuXe.setText("");
                     jT_MauXe.setText("");
 
@@ -1595,7 +1591,7 @@ public class QuanLi extends javax.swing.JFrame {
             }
             
         }
-        else if (QLXe.checkBienSo(bienSo) == 0 && QLXe.checkVeXe(maVe) == 0){
+        else if (QLXe.checkBienSo(bienSo) == 0){
             //them
             String maLoaiVe = "L";
             QLXe.themXe(bienSo, hieuXe, mauXe);
@@ -1603,7 +1599,6 @@ public class QuanLi extends javax.swing.JFrame {
                 
             //set lai cai jT
             jT_BienSo.setText("");
-            jT_VeID.setText("");
             jT_HieuXe.setText("");
             jT_MauXe.setText("");
             this.layTTXe();
@@ -1756,6 +1751,17 @@ public class QuanLi extends javax.swing.JFrame {
         jDi_XNDKThang.dispose();
     }//GEN-LAST:event_btn_XacNhanTienActionPerformed
 
+    private void btn_HuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuyActionPerformed
+        // TODO add your handling code here:
+        jT_BienSo.setText("");
+        jT_HieuXe.setText("");
+        jT_MauXe.setText("");
+        btn_Vao.setEnabled(true);
+        btn_Ra.setEnabled(false);
+        jC_Loi.setEnabled(false);
+        
+    }//GEN-LAST:event_btn_HuyActionPerformed
+
     
     public static void main(String args[]) {
         
@@ -1791,6 +1797,7 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JButton btn_Edit;
     private javax.swing.JButton btn_FindName;
     private javax.swing.JButton btn_FindVe;
+    private javax.swing.JButton btn_Huy;
     private javax.swing.JButton btn_HuyBo;
     private javax.swing.JButton btn_HuySV;
     private javax.swing.JButton btn_HuyTien;
@@ -1837,7 +1844,6 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jL_Time;
     private javax.swing.JLabel jL_Tittle;
     private javax.swing.JLabel jL_Tittle2;
-    private javax.swing.JLabel jL_VeID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1889,7 +1895,6 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JTextField jT_Phone;
     private javax.swing.JTextField jT_QueQuan;
     private javax.swing.JTextField jT_Time;
-    private javax.swing.JTextField jT_VeID;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable_GuiXe;
     private javax.swing.JTabbedPane jTable_NV;
