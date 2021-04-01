@@ -1497,6 +1497,9 @@
                     <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t b&#x1ebf;n"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RaActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jL_Mauxe1">
                   <Properties>
@@ -1516,6 +1519,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Connection ketNoi2 = KetNoiCSDL.ketNoi();&#xa;String sql2 = &quot;select TEN_SU_CO from SU_CO&quot;;&#xa;try{&#xa;    PreparedStatement pr = ketNoi2.prepareStatement(sql2);&#xa;    ResultSet rs = pr.executeQuery();&#xa;    while (rs.next()){&#xa;        jC_Loi.addItem(rs.getString(&quot;TEN_SU_CO&quot;));&#xa;    }&#xa;    rs.close();&#xa;    pr.close();&#xa;    ketNoi.close();&#xa;}&#xa;catch (Exception e){&#xa;    e.printStackTrace();&#xa;}"/>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>

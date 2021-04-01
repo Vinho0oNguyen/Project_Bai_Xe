@@ -934,6 +934,11 @@ public class QuanLi extends javax.swing.JFrame {
         btn_Ra.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_Ra.setText("Xuất bến");
         btn_Ra.setEnabled(false);
+        btn_Ra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RaActionPerformed(evt);
+            }
+        });
 
         jL_Mauxe1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_Mauxe1.setText("Lỗi:");
@@ -1093,6 +1098,21 @@ public class QuanLi extends javax.swing.JFrame {
             //});
     //t1.start();
     jDate_Ngay.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
+    Connection ketNoi2 = KetNoiCSDL.ketNoi();
+    String sql2 = "select TEN_SU_CO from SU_CO";
+    try{
+        PreparedStatement pr = ketNoi2.prepareStatement(sql2);
+        ResultSet rs = pr.executeQuery();
+        while (rs.next()){
+            jC_Loi.addItem(rs.getString("TEN_SU_CO"));
+        }
+        rs.close();
+        pr.close();
+        ketNoi.close();
+    }
+    catch (Exception e){
+        e.printStackTrace();
+    }
 
     jTable_NV.addTab("Quản Lí Gửi Xe", jPan_GuiXe);
 
@@ -1761,6 +1781,77 @@ public class QuanLi extends javax.swing.JFrame {
         jC_Loi.setEnabled(false);
         
     }//GEN-LAST:event_btn_HuyActionPerformed
+
+    private void btn_RaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RaActionPerformed
+        // TODO add your handling code here:
+        btn_Ra.setEnabled(false);
+        btn_Vao.setEnabled(true);
+        
+        //kiem tra ve
+        String maVe = JOptionPane.showInputDialog("Nhập mã vé: ");
+        String maLoaiVe = QLXe.layMaLoaiVe(maVe);
+        //tinh khung h ra
+        String maKhungGio ="";
+
+        //kiem tra h ra
+        Time gioRa = Time.valueOf(LocalTime.now());
+ 
+        if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
+            maKhungGio = "T";
+        }
+        else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
+            maKhungGio = "S";
+        }
+        else if (maLoaiVe.equals("T")){
+            maKhungGio = "A";
+        }
+        
+        //tinh ngay ra
+        java.sql.Date ngayRa = null;
+        java.sql.Date ngayVao = null;
+        try {
+            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
+            String ngay2 = new SimpleDateFormat("yyyy-MM-dd").format(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 5));
+            java.util.Date tmp1 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+            java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay2);
+            ngayVao = new java.sql.Date(tmp2.getTime());
+            ngayRa = new java.sql.Date(tmp1.getTime());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        long ngayVaoRa = (ngayRa.getTime()- ngayVao.getTime())/(24*3600*1000);
+        
+        
+        //xu li
+        int tinhTien = 0;
+        int loi = 0;
+        if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
+            JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
+            if (maLoaiVe.equals("L")){
+                if(ngayVaoRa == 0){
+                    tinhTien = QLXe.layTien(maLoaiVe, maKhungGio) + loi;
+                }
+                else if (ngayVaoRa != 0){
+                    if (maKhungGio.equals("S")){
+                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "S") + loi);
+                    }
+                    else  if (maKhungGio.equals("T")){
+                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "T") + loi);
+                    }
+                }
+            }
+            else if (maLoaiVe.equals("T")){
+                tinhTien = loi;
+            }
+            
+        }
+        System.out.print(tinhTien);
+        
+    }//GEN-LAST:event_btn_RaActionPerformed
 
     
     public static void main(String args[]) {

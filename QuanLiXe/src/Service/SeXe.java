@@ -10,7 +10,7 @@ public class SeXe {
     public int layTien(String maLoaiVe, String khungGio){
         int giaTien = 0;
         Connection ketNoi = KetNoiCSDL.ketNoi();
-        String sql = "SELECT GIA_TIEN FROM GIA_TIEN WHERE MA_LOAI_VE = N'" + maLoaiVe + "' AND MA_KHUNG_GIO = N'" +  khungGio + "'";
+        String sql = "SELECT GIA_TIEN FROM GIA_TIEN WHERE MA_LOAI_VE = '" + maLoaiVe + "' AND MA_KHUNG_GIO = '" +  khungGio + "'";
         try {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
@@ -21,6 +21,23 @@ public class SeXe {
         catch (Exception e) {
         }
         return giaTien;
+    }
+    
+    //2. lay ma loai ve tu bang VE_XE
+    public String layMaLoaiVe(String maVe){
+        String maLoaiVe = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT MA_LOAI_VE FROM VE_XE WHERE MA_VE = N'" + maVe + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                maLoaiVe = rs.getString("MA_LOAI_VE");
+            }
+        } 
+        catch (Exception e) {
+        }
+        return maLoaiVe;
     }
     
     
