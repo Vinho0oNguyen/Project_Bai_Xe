@@ -40,6 +40,41 @@ public class SeXe {
         return maLoaiVe;
     }
     
+    //3. tinh tien loi
+    public int layTienLoi(String tenSuCo){
+        int tien = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT XU_PHAT FROM SU_CO WHERE TEN_SU_CO = N'" + tenSuCo + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tien = rs.getInt("XU_PHAT");
+            }
+        } 
+        catch (Exception e) {
+        }
+        
+        
+        return tien;
+    }
+    
+    //4. lay ten khung h
+    public String layTenKhungH(String maKhungH){
+        String tenKH = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT TEN_KHUNG_GIO FROM KHUNG_GIO WHERE MA_KHUNG_GIO = '" + maKhungH + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tenKH = rs.getString("TEN_KHUNG_GIO");
+            }
+        } 
+        catch (Exception e) {
+        }
+        return tenKH;
+    }
     
     
     //Cac ham INSERT INTO-------------------------------------------------------
@@ -115,6 +150,23 @@ public class SeXe {
             e.printStackTrace();
         }
     }
+    
+    //5. Them su co
+    public void themSuCo(String maSuCo, String bienSoXe, Date ngayXayRa){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "insert into QL_SU_CO values (?, ?, ?)";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, maSuCo);
+            ps.setString(2, bienSoXe);
+            ps.setDate(3, ngayXayRa);
+            ps.executeUpdate();
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     
     //Cac ham CHECK-------------------------------------------------------------
     //1. Check ma ve xe
@@ -230,6 +282,26 @@ public class SeXe {
         try {
             PreparedStatement ps = ketNoi.prepareStatement(sql);
             ps.setString(1, trangThai);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //2. Cap nhat cac xe da xuat ben
+    public void capNhatXeXuatBen(String bienSo, String tenKhungGio, Date ngayRa, Time gioRa, String maNVRa, int giaTien, String tinhTrang){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "update VE_XE set MA_KHUNG_GIO = ?, NGAY_RA = ?, GIO_RA = ?, MA_NV_RA =?, GIA_TIEN =?, TINH_TRANG = ? where BIEN_SO_XE = '" + bienSo + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, tenKhungGio);
+            ps.setDate(2, ngayRa);
+            ps.setTime(3, gioRa);
+            ps.setString(4, maNVRa);
+            ps.setInt(5, giaTien);
+            ps.setString(6, tinhTrang);
             ps.executeUpdate();
             
         } 
