@@ -27,10 +27,11 @@ import java.util.logging.Logger;
     - Xoa thong tin nhan vien. (xong)
 2. Ql gui xe
     - Them CSDL vao chuong trinh. (xong)
-    - Cho xe vao.
-    - Lay xe ra.
-    - DK thang.
-    - Cap nhat lai du lieu khi cho xe vao hoac ra.
+    - Cho xe vao.(xong)
+    - Lay xe ra.(xong)
+    - DK thang.(xong)
+    - Cap nhat lai du lieu khi cho xe vao hoac ra.(xong)
+    - Tim kiem xe.
 3. Thong ke
 */
 
@@ -95,6 +96,72 @@ public class QuanLi extends javax.swing.JFrame {
         String sql =  "SELECT VX.MA_VE, LV.TEN_LOAI, VX.BIEN_SO_XE, X.HIEU_XE, X.MAU_XE, VX.NGAY_VAO, VX.GIO_VAO" 
                     + " FROM VE_XE AS VX, LOAI_VE AS LV, XE AS X" 
                     + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.BIEN_SO_XE = X.BIEN_SO_XE AND VX.TINH_TRANG = N'CHƯA LẤY'";
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("MA_VE"));
+                vt.add(rs.getString("TEN_LOAI"));
+                vt.add(rs.getString("BIEN_SO_XE"));
+                vt.add(rs.getString("HIEU_XE"));
+                vt.add(rs.getString("MAU_XE"));
+                vt.add(rs.getDate("NGAY_VAO"));
+                vt.add(rs.getTime("GIO_VAO"));
+                dtm1.addRow(vt);
+            }
+            jTable_GuiXe.setModel(dtm1);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //lay thong tin nhung xe trong o tim kiem hieu xe
+    public void layTTXeTimKiemHieu(String hieuXe){
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_GuiXe.getModel();
+        dtm1.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql =  "SELECT VX.MA_VE, LV.TEN_LOAI, VX.BIEN_SO_XE, X.HIEU_XE, X.MAU_XE, VX.NGAY_VAO, VX.GIO_VAO" 
+                    + " FROM VE_XE AS VX, LOAI_VE AS LV, XE AS X" 
+                    + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.BIEN_SO_XE = X.BIEN_SO_XE AND X.HIEU_XE LIKE '%" + hieuXe + "%' AND VX.TINH_TRANG = N'CHƯA LẤY'";
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("MA_VE"));
+                vt.add(rs.getString("TEN_LOAI"));
+                vt.add(rs.getString("BIEN_SO_XE"));
+                vt.add(rs.getString("HIEU_XE"));
+                vt.add(rs.getString("MAU_XE"));
+                vt.add(rs.getDate("NGAY_VAO"));
+                vt.add(rs.getTime("GIO_VAO"));
+                dtm1.addRow(vt);
+            }
+            jTable_GuiXe.setModel(dtm1);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //lay thong tin nhung xe trong o tim kiem hieu xe
+    public void layTTXeTimKiemSo(String bienSo){
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_GuiXe.getModel();
+        dtm1.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql =  "SELECT VX.MA_VE, LV.TEN_LOAI, VX.BIEN_SO_XE, X.HIEU_XE, X.MAU_XE, VX.NGAY_VAO, VX.GIO_VAO" 
+                    + " FROM VE_XE AS VX, LOAI_VE AS LV, XE AS X" 
+                    + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.BIEN_SO_XE = X.BIEN_SO_XE AND VX.BIEN_SO_XE LIKE '%" + bienSo + "%' AND VX.TINH_TRANG = N'CHƯA LẤY'";
         Vector vt;
         try {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
@@ -261,14 +328,15 @@ public class QuanLi extends javax.swing.JFrame {
         jL_Mauxe1 = new javax.swing.JLabel();
         jC_Loi = new javax.swing.JComboBox<>();
         btn_Thang = new javax.swing.JButton();
-        jT_FindVe = new javax.swing.JTextField();
+        jT_FindHieuXe = new javax.swing.JTextField();
         btn_FindVe = new javax.swing.JButton();
-        jT_FindName = new javax.swing.JTextField();
+        jT_FindBienSo = new javax.swing.JTextField();
         btn_FindName = new javax.swing.JButton();
         btn_Huy = new javax.swing.JButton();
         jPan_ThongKe = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btn_DangXuat = new javax.swing.JButton();
@@ -607,7 +675,6 @@ public class QuanLi extends javax.swing.JFrame {
         );
 
         jDi_ThanhTien.setMinimumSize(new java.awt.Dimension(320, 390));
-        jDi_ThanhTien.setPreferredSize(new java.awt.Dimension(320, 390));
         jDi_ThanhTien.getContentPane().setLayout(null);
 
         jPanel7.setBackground(new java.awt.Color(102, 102, 255));
@@ -827,6 +894,7 @@ public class QuanLi extends javax.swing.JFrame {
 
         jTable_NV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jPan_Inf.setBackground(new java.awt.Color(255, 255, 255));
         jPan_Inf.setPreferredSize(new java.awt.Dimension(705, 499));
 
         jL_Tittle2.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -1103,6 +1171,13 @@ public class QuanLi extends javax.swing.JFrame {
 
         jTable_NV.addTab("Thông Tin Cá Nhân", jPan_Inf);
 
+        jPan_GuiXe.setBackground(new java.awt.Color(255, 255, 255));
+        jPan_GuiXe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPan_GuiXeMousePressed(evt);
+            }
+        });
+
         jTable_GuiXe.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1119,12 +1194,17 @@ public class QuanLi extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_GuiXe.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTable_GuiXe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTable_GuiXeMousePressed(evt);
             }
         });
         jScrollPane2.setViewportView(jTable_GuiXe);
+        if (jTable_GuiXe.getColumnModel().getColumnCount() > 0) {
+            jTable_GuiXe.getColumnModel().getColumn(0).setMaxWidth(55);
+            jTable_GuiXe.getColumnModel().getColumn(1).setMaxWidth(65);
+        }
 
         jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -1181,7 +1261,19 @@ public class QuanLi extends javax.swing.JFrame {
             }
         });
 
+        jT_FindHieuXe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jT_FindHieuXeKeyReleased(evt);
+            }
+        });
+
         btn_FindVe.setText("Tìm kiếm theo hiệu xe");
+
+        jT_FindBienSo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jT_FindBienSoKeyReleased(evt);
+            }
+        });
 
         btn_FindName.setText("Tìm kiếm theo biển số");
 
@@ -1246,11 +1338,11 @@ public class QuanLi extends javax.swing.JFrame {
                     .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPan_GuiXeLayout.createSequentialGroup()
-                        .addComponent(jT_FindVe, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jT_FindHieuXe, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_FindVe)
                         .addGap(54, 54, 54)
-                        .addComponent(jT_FindName, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jT_FindBienSo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_FindName)))
                 .addGap(15, 15, 15))
@@ -1289,16 +1381,16 @@ public class QuanLi extends javax.swing.JFrame {
                             .addComponent(btn_Thang)
                             .addComponent(btn_Huy)))
                     .addComponent(jSeparator11, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(jPan_GuiXeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jT_FindVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jT_FindHieuXe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_FindVe)
-                    .addComponent(jT_FindName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jT_FindBienSo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_FindName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1343,17 +1435,30 @@ public class QuanLi extends javax.swing.JFrame {
 
     jTable_NV.addTab("Quản Lí Gửi Xe", jPan_GuiXe);
 
+    jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
     jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
+    jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+    jLabel19.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+    jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    jLabel19.setText("COMING SOON");
 
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 700, Short.MAX_VALUE)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+            .addContainerGap())
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 451, Short.MAX_VALUE)
+        .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(139, 139, 139)
+            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(210, Short.MAX_VALUE))
     );
 
     jTabbedPane1.addTab("Doanh Thu", jPanel2);
@@ -1366,7 +1471,7 @@ public class QuanLi extends javax.swing.JFrame {
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 451, Short.MAX_VALUE)
+        .addGap(0, 450, Short.MAX_VALUE)
     );
 
     jTabbedPane1.addTab("Hiện Tại", jPanel3);
@@ -1379,7 +1484,7 @@ public class QuanLi extends javax.swing.JFrame {
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 451, Short.MAX_VALUE)
+        .addGap(0, 450, Short.MAX_VALUE)
     );
 
     jTabbedPane1.addTab("Vé tháng", jPanel4);
@@ -1392,7 +1497,7 @@ public class QuanLi extends javax.swing.JFrame {
     );
     jPan_ThongKeLayout.setVerticalGroup(
         jPan_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+        .addComponent(jTabbedPane1)
     );
 
     jTable_NV.addTab("Thống Kê", jPan_ThongKe);
@@ -1433,8 +1538,7 @@ public class QuanLi extends javax.swing.JFrame {
                         .addComponent(jL_Icon2)
                         .addComponent(btn_DangXuat))))
             .addGap(18, 18, 18)
-            .addComponent(jTable_NV, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
+            .addComponent(jTable_NV, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1445,7 +1549,7 @@ public class QuanLi extends javax.swing.JFrame {
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, Short.MAX_VALUE)
+        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
 
     pack();
@@ -1961,7 +2065,6 @@ public class QuanLi extends javax.swing.JFrame {
             namSinh = new java.sql.Date(tmp.getTime());
         }
         catch (Exception e) {
-            e.printStackTrace();
         }
         //2. lay thong tin xe
         String bienSo = jT_BienSo.getText();
@@ -2063,6 +2166,7 @@ public class QuanLi extends javax.swing.JFrame {
         int tinhTien = 0;
         if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
             JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            
         }
         else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
             if (maLoaiVe.equals("L")){
@@ -2082,24 +2186,21 @@ public class QuanLi extends javax.swing.JFrame {
                 tinhTien = tienLoi;
             }
             
+            //them cac thong tin vao bang xac nhan tinh tien
+            jL_SoXe1.setText(jT_BienSo.getText());
+            jL_HieuXe2.setText(jT_HieuXe.getText());
+            jL_MauXeT1.setText(jT_MauXe.getText());
+            jL_NgayVao.setText(String.valueOf(ngayVao));
+            jL_GioVao.setText(String.valueOf(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 6)));
+            jL_Tien1.setText(String.valueOf(tinhTien));
+            jL_NgayRA.setText(String.valueOf(ngayRa));
+            jL_GioRa.setText(String.valueOf(gioRa));
+            jL_Loi.setText((String) jC_Loi.getSelectedItem());
+            
+            
+            jDi_ThanhTien.setLocationRelativeTo(null);
+            jDi_ThanhTien.setVisible(true);
         }
-        System.out.print(tinhTien);
-        
-        
-        //them cac thong tin vao bang xac nhan tinh tien
-        jL_SoXe1.setText(jT_BienSo.getText());
-        jL_HieuXe2.setText(jT_HieuXe.getText());
-        jL_MauXeT1.setText(jT_MauXe.getText());
-        jL_NgayVao.setText(String.valueOf(ngayVao));
-        jL_GioVao.setText(String.valueOf(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 6)));
-        jL_Tien1.setText(String.valueOf(tinhTien));
-        jL_NgayRA.setText(String.valueOf(ngayRa));
-        jL_GioRa.setText(String.valueOf(gioRa));
-        jL_Loi.setText((String) jC_Loi.getSelectedItem());
-        
-        
-        jDi_ThanhTien.setLocationRelativeTo(null);
-        jDi_ThanhTien.setVisible(true);
         
     }//GEN-LAST:event_btn_RaActionPerformed
 
@@ -2107,7 +2208,7 @@ public class QuanLi extends javax.swing.JFrame {
         // TODO add your handling code here:
         //lay du lieu de update
         String maLoaiVe = QLXe.layMaLoaiVe((String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0));
-        
+        String bienSo = jT_BienSo.getText();
         //tinh khung h ra
         String maKhungGio ="";
         Time gioRa = Time.valueOf(LocalTime.now());
@@ -2144,8 +2245,17 @@ public class QuanLi extends javax.swing.JFrame {
         //lay ten khung h
         String tenKhungGio = QLXe.layTenKhungH(maKhungGio);
         
-            
+        //xu li
+        if(String.valueOf(jC_Loi.getSelectedItem()).equals("Không")){
+            QLXe.capNhatXeXuatBen(bienSo, maKhungGio, ngayRa, gioRa, maNV, giaTien, tinhTrang);
+        }
+        else{
+            QLXe.themSuCo(QLXe.layMaLoi(String.valueOf(jC_Loi.getSelectedItem())), bienSo, ngayRa);
+            QLXe.capNhatXeXuatBen(bienSo, maKhungGio, ngayRa, gioRa, maNV, giaTien, tinhTrang);
+        }
         
+        layTTXe();
+        jDi_ThanhTien.dispose();
         
     }//GEN-LAST:event_btn_XacNhanThanhTienActionPerformed
 
@@ -2153,6 +2263,37 @@ public class QuanLi extends javax.swing.JFrame {
         // TODO add your handling code here:
         jDi_ThanhTien.dispose();
     }//GEN-LAST:event_btn_HuyThanhTienActionPerformed
+
+    private void jPan_GuiXeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPan_GuiXeMousePressed
+        // TODO add your handling code here:
+        btn_Vao.setEnabled(true);
+        btn_Ra.setEnabled(false);
+        jT_BienSo.setText("");
+        jT_HieuXe.setText("");
+        jT_MauXe.setText("");
+    }//GEN-LAST:event_jPan_GuiXeMousePressed
+
+    private void jT_FindHieuXeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindHieuXeKeyReleased
+        // TODO add your handling code here:
+        String hieuXe = jT_FindHieuXe.getText();
+        if (hieuXe.equals("")){
+            layTTXe();
+        }
+        else if (!hieuXe.equals("")){
+            layTTXeTimKiemHieu(hieuXe);
+        }
+    }//GEN-LAST:event_jT_FindHieuXeKeyReleased
+
+    private void jT_FindBienSoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindBienSoKeyReleased
+        // TODO add your handling code here:
+        String bienSo = jT_FindBienSo.getText();
+        if (bienSo.equals("")){
+            layTTXe();
+        }
+        else if (!bienSo.equals("")){
+            layTTXeTimKiemSo(bienSo);
+        }
+    }//GEN-LAST:event_jT_FindBienSoKeyReleased
 
     
     public static void main(String args[]) {
@@ -2258,6 +2399,7 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -2298,8 +2440,8 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTextField jT_BienSo;
     private javax.swing.JTextField jT_DiaChi;
-    private javax.swing.JTextField jT_FindName;
-    private javax.swing.JTextField jT_FindVe;
+    private javax.swing.JTextField jT_FindBienSo;
+    private javax.swing.JTextField jT_FindHieuXe;
     private javax.swing.JTextField jT_HieuXe;
     private javax.swing.JTextField jT_HoTen;
     private javax.swing.JTextField jT_ID;

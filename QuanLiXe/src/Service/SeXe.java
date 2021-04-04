@@ -76,6 +76,24 @@ public class SeXe {
         return tenKH;
     }
     
+    //5. lay ma loi
+    public String layMaLoi(String tenLoi){
+        String maLoi = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT MA_SU_CO FROM SU_CO WHERE TEN_SU_CO = N'" + tenLoi + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                maLoi = rs.getString("MA_SU_CO");
+            }
+        } 
+        catch (Exception e) {
+        }
+        return maLoi;
+    }
+    
+    
     
     //Cac ham INSERT INTO-------------------------------------------------------
     //1. Them xe moi vao ql xe
@@ -321,7 +339,6 @@ public class SeXe {
             while(rs.next()){
                 maXe = rs.getString("sp_VeXe_TuSinhID");
             }
-            
                     
         } 
         catch (Exception e) {
@@ -329,4 +346,6 @@ public class SeXe {
         }
         return maXe;
     }
+    
+    
 }
