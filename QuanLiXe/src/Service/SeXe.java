@@ -347,5 +347,109 @@ public class SeXe {
         return maXe;
     }
     
+    //Cac ham THONG KE----------------------------------------------------------
+    //1. Tinh tien 
+    public String tinhTien(){
+        int tinhTien = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tinhTien = rs.getInt("GIA_TIEN");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tinhTien);
+    }
+    
+    //2. Tinh tien luot
+    public String tinhTienLuot(){
+        int tinhTien = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tinhTien = rs.getInt("GIA_TIEN");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tinhTien);
+    }
+    
+    //3. Tinh tien thang
+    public String tinhTienThang(){
+        int tinhTien = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tinhTien = rs.getInt("GIA_TIEN");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tinhTien);
+    }
+    
+    //4. tinh tong so xe
+    public String tongXe(){
+        int tongXe = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select count(MA_VE) as TONG_XE\n" +
+                    "from VE_XE";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tongXe = rs.getInt("TONG_XE");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tongXe);
+    }
+    
+    //4. tinh tong so xe
+    public String tienSuCo(){
+        int tienSuCo = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select sum(SC.XU_PHAT) as XU_PHAT\n" +
+                    "from SU_CO as SC, QL_SU_CO as QL\n" +
+                    "where QL.MA_SU_CO = SC.MA_SU_CO";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tienSuCo = rs.getInt("XU_PHAT");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tienSuCo);
+    }
     
 }
