@@ -985,6 +985,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[710, 650]"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -1032,7 +1035,7 @@
                   <Component id="jL_Tittle" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
                   <Component id="jL_Icon2" min="-2" pref="110" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="btn_DangXuat" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -1049,12 +1052,12 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jL_Tittle" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jL_Icon2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_DangXuat" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="btn_DangXuat" alignment="1" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jTable_NV" pref="508" max="32767" attributes="0"/>
+                  <Component id="jTable_NV" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1101,6 +1104,399 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
+            <Container class="javax.swing.JPanel" name="jPan_GuiXe">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPan_GuiXeMousePressed"/>
+              </Events>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="Qu&#x1ea3;n L&#xed; G&#x1eed;i Xe">
+                    <Property name="tabTitle" type="java.lang.String" value="Qu&#x1ea3;n L&#xed; G&#x1eed;i Xe"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jSeparator8" min="-2" pref="650" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jSeparator11" min="-2" pref="10" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="jL_Hieuxe" min="-2" pref="50" max="-2" attributes="0"/>
+                                                      <Component id="jL_Mauxe" min="-2" pref="50" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                                                  <Component id="jL_BienSo" min="-2" pref="50" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="jT_BienSo" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                                      <Component id="jT_HieuXe" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                                      <Component id="jT_MauXe" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="jL_Ngay" max="32767" attributes="0"/>
+                                                          <Component id="jL_Time" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="jL_Mauxe1" min="-2" pref="50" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Component id="jT_Time" pref="200" max="32767" attributes="0"/>
+                                                      <Component id="jDate_Ngay" max="32767" attributes="0"/>
+                                                      <Component id="jC_Loi" max="32767" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="btn_Vao" min="-2" pref="96" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                                  <Component id="btn_Ra" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btn_Thang" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btn_Huy" min="-2" pref="94" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jSeparator9" min="-2" pref="10" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jSeparator10" min="-2" pref="650" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="650" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jT_FindHieuXe" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btn_FindVe" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                                  <Component id="jT_FindBienSo" min="-2" pref="146" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btn_FindName" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jSeparator9" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jSeparator8" min="-2" pref="20" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jL_BienSo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jT_BienSo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jL_Time" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jT_Time" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jL_Ngay" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jL_Hieuxe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jT_HieuXe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="jDate_Ngay" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jL_Mauxe1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jC_Loi" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jL_Mauxe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jT_MauXe" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="btn_Vao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_Ra" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_Thang" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_Huy" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="jSeparator11" pref="200" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <Component id="jSeparator10" min="-2" pref="13" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jT_FindHieuXe" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_FindVe" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jT_FindBienSo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_FindName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" pref="225" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="jTable_GuiXe">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="7" rowCount="0">
+                            <Column editable="false" title="V&#xe9;" type="java.lang.Object"/>
+                            <Column editable="false" title="Lo&#x1ea1;i v&#xe9;" type="java.lang.Object"/>
+                            <Column editable="false" title="Bi&#x1ec3;n s&#x1ed1;" type="java.lang.Object"/>
+                            <Column editable="false" title="Hi&#x1ec7;u xe" type="java.lang.Object"/>
+                            <Column editable="false" title="M&#xe0;u xe" type="java.lang.Object"/>
+                            <Column editable="false" title="Ng&#xe0;y v&#xe0;o" type="java.lang.Object"/>
+                            <Column editable="false" title="Gi&#x1edd; v&#xe0;o" type="java.lang.Object"/>
+                          </Table>
+                        </Property>
+                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                          <TableColumnModel selectionModel="0">
+                            <Column maxWidth="55" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="65" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                          </TableColumnModel>
+                        </Property>
+                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                          <Color id="Default Cursor"/>
+                        </Property>
+                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable_GuiXeMousePressed"/>
+                      </Events>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JSeparator" name="jSeparator8">
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator9">
+                  <Properties>
+                    <Property name="orientation" type="int" value="1"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator10">
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator11">
+                  <Properties>
+                    <Property name="orientation" type="int" value="1"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jL_BienSo">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Bi&#x1ec3;n s&#x1ed1;:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jT_BienSo">
+                </Component>
+                <Component class="javax.swing.JTextField" name="jT_HieuXe">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jL_Hieuxe">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Hi&#x1ec7;u xe:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jT_MauXe">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jL_Mauxe">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="M&#xe0;u xe:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jL_Time">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Gi&#x1edd; v&#xe0;o b&#x1ebf;n:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jT_Time">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Thread t = new Thread(new Runnable() {&#xa;    @Override&#xa;    public void run(){&#xa;        while(true){&#xa;            LocalTime LD = LocalTime.now();&#xa;            &#xa;            DateTimeFormatter format = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);&#xa;            String tmp = LD.format(format);&#xa;            jT_Time.setText(tmp);&#xa;        }&#xa;    }&#xa;});&#xa;t.start();"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jL_Ngay">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Ng&#xe0;y v&#xe0;o b&#x1ebf;n:"/>
+                  </Properties>
+                </Component>
+                <Component class="com.toedter.calendar.JDateChooser" name="jDate_Ngay">
+                  <Properties>
+                    <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="//Thread t1 = new Thread(new Runnable() {&#xa;//    @Override&#xa;//    public void run(){&#xa;//        while(true){&#xa;//            jDate_Ngay.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));&#xa;//        }&#xa;//    }&#xa;//});&#xa;//t1.start();&#xa;jDate_Ngay.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_Vao">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="V&#xe0;o b&#x1ebf;n"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_VaoActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_Ra">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t b&#x1ebf;n"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RaActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jL_Mauxe1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="L&#x1ed7;i:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="jC_Loi">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value="Kh&#xf4;ng"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Connection ketNoi2 = KetNoiCSDL.ketNoi();&#xa;String sql2 = &quot;select TEN_SU_CO from SU_CO&quot;;&#xa;try{&#xa;    PreparedStatement pr = ketNoi2.prepareStatement(sql2);&#xa;    ResultSet rs = pr.executeQuery();&#xa;    while (rs.next()){&#xa;        jC_Loi.addItem(rs.getString(&quot;TEN_SU_CO&quot;));&#xa;    }&#xa;    rs.close();&#xa;    pr.close();&#xa;    ketNoi2.close();&#xa;}&#xa;catch (Exception e){&#xa;    e.printStackTrace();&#xa;}"/>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_Thang">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd; th&#xe1;ng"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ThangActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jT_FindHieuXe">
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_FindHieuXeKeyReleased"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_FindVe">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo hi&#x1ec7;u xe"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="jT_FindBienSo">
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_FindBienSoKeyReleased"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_FindName">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo bi&#x1ec3;n s&#x1ed1;"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="btn_Huy">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_HuyActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
             <Container class="javax.swing.JPanel" name="jPan_Inf">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1265,9 +1661,9 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btn_Edit" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="btn_ThemNV" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="btn_xoa" min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="btn_Edit" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="btn_ThemNV" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="btn_xoa" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -1277,7 +1673,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane3" min="-2" pref="102" max="-2" attributes="0"/>
-                          <EmptySpace pref="32" max="32767" attributes="0"/>
+                          <EmptySpace pref="76" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1598,399 +1994,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPan_GuiXe">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPan_GuiXeMousePressed"/>
-              </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Qu&#x1ea3;n L&#xed; G&#x1eed;i Xe">
-                    <Property name="tabTitle" type="java.lang.String" value="Qu&#x1ea3;n L&#xed; G&#x1eed;i Xe"/>
-                  </JTabbedPaneConstraints>
-                </Constraint>
-              </Constraints>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jSeparator8" min="-2" pref="650" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jSeparator11" min="-2" pref="10" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jL_Hieuxe" min="-2" pref="50" max="-2" attributes="0"/>
-                                                      <Component id="jL_Mauxe" min="-2" pref="50" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <Group type="102" attributes="0">
-                                                  <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                                                  <Component id="jL_BienSo" min="-2" pref="50" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jT_BienSo" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                      <Component id="jT_HieuXe" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                      <Component id="jT_MauXe" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace max="32767" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="jL_Ngay" max="32767" attributes="0"/>
-                                                          <Component id="jL_Time" max="32767" attributes="0"/>
-                                                      </Group>
-                                                      <Component id="jL_Mauxe1" min="-2" pref="50" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="jT_Time" pref="200" max="32767" attributes="0"/>
-                                                      <Component id="jDate_Ngay" max="32767" attributes="0"/>
-                                                      <Component id="jC_Loi" max="32767" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="btn_Vao" min="-2" pref="96" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                                  <Component id="btn_Ra" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btn_Thang" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btn_Huy" min="-2" pref="94" max="-2" attributes="0"/>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Component id="jSeparator9" min="-2" pref="10" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jSeparator10" min="-2" pref="650" max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" min="-2" pref="650" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jT_FindHieuXe" min="-2" pref="145" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btn_FindVe" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                                  <Component id="jT_FindBienSo" min="-2" pref="146" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btn_FindName" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jSeparator9" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="jSeparator8" min="-2" pref="20" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jL_BienSo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jT_BienSo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jL_Time" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jT_Time" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jL_Ngay" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jL_Hieuxe" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jT_HieuXe" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Component id="jDate_Ngay" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jL_Mauxe1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jC_Loi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jL_Mauxe" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jT_MauXe" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="btn_Vao" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btn_Ra" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btn_Thang" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btn_Huy" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Component id="jSeparator11" pref="200" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          <Component id="jSeparator10" min="-2" pref="13" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jT_FindHieuXe" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btn_FindVe" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jT_FindBienSo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btn_FindName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="179" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
-                  <AuxValues>
-                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                  </AuxValues>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                  <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable_GuiXe">
-                      <Properties>
-                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="7" rowCount="0">
-                            <Column editable="false" title="V&#xe9;" type="java.lang.Object"/>
-                            <Column editable="false" title="Lo&#x1ea1;i v&#xe9;" type="java.lang.Object"/>
-                            <Column editable="false" title="Bi&#x1ec3;n s&#x1ed1;" type="java.lang.Object"/>
-                            <Column editable="false" title="Hi&#x1ec7;u xe" type="java.lang.Object"/>
-                            <Column editable="false" title="M&#xe0;u xe" type="java.lang.Object"/>
-                            <Column editable="false" title="Ng&#xe0;y v&#xe0;o" type="java.lang.Object"/>
-                            <Column editable="false" title="Gi&#x1edd; v&#xe0;o" type="java.lang.Object"/>
-                          </Table>
-                        </Property>
-                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                          <TableColumnModel selectionModel="0">
-                            <Column maxWidth="55" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="65" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                          </TableColumnModel>
-                        </Property>
-                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Default Cursor"/>
-                        </Property>
-                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable_GuiXeMousePressed"/>
-                      </Events>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Component class="javax.swing.JSeparator" name="jSeparator8">
-                </Component>
-                <Component class="javax.swing.JSeparator" name="jSeparator9">
-                  <Properties>
-                    <Property name="orientation" type="int" value="1"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JSeparator" name="jSeparator10">
-                </Component>
-                <Component class="javax.swing.JSeparator" name="jSeparator11">
-                  <Properties>
-                    <Property name="orientation" type="int" value="1"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_BienSo">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Bi&#x1ec3;n s&#x1ed1;:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_BienSo">
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_HieuXe">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_Hieuxe">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Hi&#x1ec7;u xe:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_MauXe">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_Mauxe">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="M&#xe0;u xe:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_Time">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Gi&#x1edd; v&#xe0;o b&#x1ebf;n:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_Time">
-                  <Properties>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Thread t = new Thread(new Runnable() {&#xa;    @Override&#xa;    public void run(){&#xa;        while(true){&#xa;            LocalTime LD = LocalTime.now();&#xa;            &#xa;            DateTimeFormatter format = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);&#xa;            String tmp = LD.format(format);&#xa;            jT_Time.setText(tmp);&#xa;        }&#xa;    }&#xa;});&#xa;t.start();"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_Ngay">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Ng&#xe0;y v&#xe0;o b&#x1ebf;n:"/>
-                  </Properties>
-                </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="jDate_Ngay">
-                  <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="//Thread t1 = new Thread(new Runnable() {&#xa;//    @Override&#xa;//    public void run(){&#xa;//        while(true){&#xa;//            jDate_Ngay.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));&#xa;//        }&#xa;//    }&#xa;//});&#xa;//t1.start();&#xa;jDate_Ngay.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_Vao">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="V&#xe0;o b&#x1ebf;n"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_VaoActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_Ra">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t b&#x1ebf;n"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RaActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jL_Mauxe1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="L&#x1ed7;i:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jC_Loi">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="1">
-                        <StringItem index="0" value="Kh&#xf4;ng"/>
-                      </StringArray>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Connection ketNoi2 = KetNoiCSDL.ketNoi();&#xa;String sql2 = &quot;select TEN_SU_CO from SU_CO&quot;;&#xa;try{&#xa;    PreparedStatement pr = ketNoi2.prepareStatement(sql2);&#xa;    ResultSet rs = pr.executeQuery();&#xa;    while (rs.next()){&#xa;        jC_Loi.addItem(rs.getString(&quot;TEN_SU_CO&quot;));&#xa;    }&#xa;    rs.close();&#xa;    pr.close();&#xa;    ketNoi.close();&#xa;}&#xa;catch (Exception e){&#xa;    e.printStackTrace();&#xa;}"/>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_Thang">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd; th&#xe1;ng"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ThangActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_FindHieuXe">
-                  <Events>
-                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_FindHieuXeKeyReleased"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_FindVe">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo hi&#x1ec7;u xe"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jT_FindBienSo">
-                  <Events>
-                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_FindBienSoKeyReleased"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_FindName">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m theo bi&#x1ec3;n s&#x1ed1;"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="btn_Huy">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_HuyActionPerformed"/>
-                  </Events>
-                </Component>
-              </SubComponents>
-            </Container>
             <Container class="javax.swing.JPanel" name="jPan_ThongKe">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2032,7 +2035,7 @@
                           <Component id="btn_VeThang" min="-2" pref="41" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btn_SuCo" min="-2" pref="41" max="-2" attributes="0"/>
-                          <EmptySpace pref="193" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLayeredPane1" min="-2" pref="479" max="-2" attributes="0"/>
