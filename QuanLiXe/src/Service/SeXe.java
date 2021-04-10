@@ -349,12 +349,10 @@ public class SeXe {
     
     //Cac ham THONG KE----------------------------------------------------------
     //1. Tinh tien 
-    public String tinhTien(){
+    public String tinhTien(String sql){
         int tinhTien = 0;
         Connection ketNoi = KetNoiCSDL.ketNoi();
-        String sql = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY'";
+        
         try {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
