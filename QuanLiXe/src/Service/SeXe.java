@@ -93,6 +93,39 @@ public class SeXe {
         return maLoi;
     }
     
+    //6. lay hieu xe
+    public String layHieuXe(String bienSo){
+        String hieuXe = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT HIEU_XE FROM XE WHERE BIEN_SO_XE = '" + bienSo + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                hieuXe = rs.getString("HIEU_XE");
+            }
+        } 
+        catch (Exception e) {
+        }
+        return hieuXe;
+    }
+    
+    //76. lay mauXe
+    public String layMauXe(String bienSo){
+        String mauXe = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT MAU_XE FROM XE WHERE BIEN_SO_XE = '" + bienSo + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                mauXe = rs.getString("MAU_XE");
+            }
+        } 
+        catch (Exception e) {
+        }
+        return mauXe;
+    }
     
     
     //Cac ham INSERT INTO-------------------------------------------------------
@@ -347,7 +380,71 @@ public class SeXe {
         return maXe;
     }
     
+    //goi function
+    public String maKhungGio(Time gio){
+        String maKH = "";
+        
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "{? = call dbo.KT_KH(?)}";
+        try {
+            CallableStatement cs = ketNoi.prepareCall(sql);
+            cs.registerOutParameter(1, java.sql.Types.NVARCHAR);
+            cs.setTime(2, gio);
+            cs.execute();
+            maKH = cs.getString(1);
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return maKH;
+    }
+    
+    //3. Cap nhat khung gio
+    public void capNhatKhungGio(String tenKH, Time gioBD, Time gioKT){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "update KHUNG_GIO set GIO_BAT_DAU = ?, GIO_KET_THUC = ? where TEN_KHUNG_GIO = N'" + tenKH + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setTime(1, gioBD);
+            ps.setTime(2, gioKT);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //4. Cap nhat gia tien khung gio
+    public void capNhatGiaTienKhungGio(String tenLoaiVe, String tenKH, int giaTien){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "Update GIA_TIEN set GIA_TIEN = ?\n" +
+"where MA_LOAI_VE = (\n" +
+"						select MA_LOAI_VE\n" +
+"						from LOAI_VE \n" +
+"						where TEN_LOAI = N'" + tenLoaiVe + "'\n" +
+"						) and\n" +
+"      MA_KHUNG_GIO = (\n" +
+"						select MA_KHUNG_GIO\n" +
+"						from KHUNG_GIO\n" +
+"						where TEN_KHUNG_GIO = N'" + tenKH + "'\n" +
+"						)";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setInt(1, giaTien);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     //Cac ham THONG KE----------------------------------------------------------
+    //I. Bang doanh thu
     //1. Tinh tien 
     public String tinhTien(String sql){
         int tinhTien = 0;
@@ -357,6 +454,7 @@ public class SeXe {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
             while (rs.next()){
+                
                 tinhTien = rs.getInt("GIA_TIEN");
             }
         } 
@@ -368,12 +466,10 @@ public class SeXe {
     }
     
     //2. Tinh tien luot
-    public String tinhTienLuot(){
+    public String tinhTienLuot(String sql){
         int tinhTien = 0;
         Connection ketNoi = KetNoiCSDL.ketNoi();
-        String sql = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L'";
+
         try {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
@@ -389,12 +485,10 @@ public class SeXe {
     }
     
     //3. Tinh tien thang
-    public String tinhTienThang(){
+    public String tinhTienThang(String sql){
         int tinhTien = 0;
         Connection ketNoi = KetNoiCSDL.ketNoi();
-        String sql = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T'";
+        
         try {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
@@ -429,13 +523,11 @@ public class SeXe {
         return String.valueOf(tongXe);
     }
     
-    //4. tinh tong so xe
-    public String tienSuCo(){
+    //II. Bang su co
+    //5. tinh tong tien xu phat
+    public String tienSuCo(String sql){
         int tienSuCo = 0;
         Connection ketNoi = KetNoiCSDL.ketNoi();
-        String sql = "select sum(SC.XU_PHAT) as XU_PHAT\n" +
-                    "from SU_CO as SC, QL_SU_CO as QL\n" +
-                    "where QL.MA_SU_CO = SC.MA_SU_CO";
         try {
             PreparedStatement pr = ketNoi.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
@@ -450,4 +542,40 @@ public class SeXe {
         return String.valueOf(tienSuCo);
     }
     
+    //6. tinh tong so su co
+    public String tongSuCo(String sql){
+        int tienSuCo = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tienSuCo = rs.getInt("SU_CO");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tienSuCo);
+    }
+    
+    //III. Bang Ve thang
+    //7. Tinh tong xe DK thang
+    public String tongXeDKT(String sql){
+        int tienSuCo = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tienSuCo = rs.getInt("VE_THANG");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tienSuCo);
+    }
 }

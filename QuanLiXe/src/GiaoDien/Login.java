@@ -33,6 +33,8 @@ public class Login extends javax.swing.JFrame {
         return chucVu; 
     }
     
+   
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -63,6 +65,18 @@ public class Login extends javax.swing.JFrame {
         jL_Pss.setForeground(new java.awt.Color(255, 255, 255));
         jL_Pss.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jL_Pss.setText("Mật khẩu");
+
+        jT_Acc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jT_AccKeyPressed(evt);
+            }
+        });
+
+        jPass_Pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPass_PassKeyPressed(evt);
+            }
+        });
 
         jL_Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8_garage_48px.png"))); // NOI18N
 
@@ -183,21 +197,26 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String TK = jT_Acc.getText();
         String MK = jPass_Pass.getText();
+        
+        
+        
         if (TK.equals("") || MK.equals("")){
+            
             JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
         }
         else{
             TK = TK.toUpperCase();
             MK = MK.toUpperCase();
             if (this.kiemTraTK(TK, MK).equals("QL")){
-                new QuanLi(TK).setVisible(true);
                 this.dispose();
+                new QuanLi(TK).setVisible(true);
             }
             else if(this.kiemTraTK(TK, MK).equals("TT")){
-                new NhanVien(TK).setVisible(true);
                 this.dispose();
+                new NhanVien(TK).setVisible(true);
             }
             else{
+               
                 JOptionPane.showMessageDialog(null, "Tai khoang khong ton tai.", "", JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -208,6 +227,68 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jT_AccKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_AccKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == evt.VK_ENTER){
+            String TK = jT_Acc.getText();
+            String MK = jPass_Pass.getText();
+
+
+
+            if (TK.equals("") || MK.equals("")){
+
+                JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                TK = TK.toUpperCase();
+                MK = MK.toUpperCase();
+                if (this.kiemTraTK(TK, MK).equals("QL")){
+                    this.dispose();
+                    new QuanLi(TK).setVisible(true);
+                }
+                else if(this.kiemTraTK(TK, MK).equals("TT")){
+                    this.dispose();
+                    new NhanVien(TK).setVisible(true);
+                }
+                else{
+
+                    JOptionPane.showMessageDialog(null, "Tai khoang khong ton tai.", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jT_AccKeyPressed
+
+    private void jPass_PassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPass_PassKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == evt.VK_ENTER){
+            String TK = jT_Acc.getText();
+            String MK = jPass_Pass.getText();
+
+
+
+            if (TK.equals("") || MK.equals("")){
+
+                JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                TK = TK.toUpperCase();
+                MK = MK.toUpperCase();
+                if (this.kiemTraTK(TK, MK).equals("QL")){
+                    this.dispose();
+                    new QuanLi(TK).setVisible(true);
+                }
+                else if(this.kiemTraTK(TK, MK).equals("TT")){
+                    this.dispose();
+                    new NhanVien(TK).setVisible(true);
+                }
+                else{
+
+                    JOptionPane.showMessageDialog(null, "Tai khoang khong ton tai.", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jPass_PassKeyPressed
 
     
     public static void main(String args[]) {
@@ -240,6 +321,8 @@ public class Login extends javax.swing.JFrame {
                 new Login().setVisible(true);
             }
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

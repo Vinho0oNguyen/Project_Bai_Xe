@@ -47,6 +47,7 @@ public class QuanLi extends javax.swing.JFrame {
         capNhatTTVeThang();
         layTT();
         layTTXe();
+        layKhungGio();
     }
 
     private QuanLi() {
@@ -54,7 +55,7 @@ public class QuanLi extends javax.swing.JFrame {
     }
 
     
-    //Lay thong tin nhan vien
+    //Lay thong tin nhan vien===================================================
     public void layTT(){
         DefaultTableModel dtm = (DefaultTableModel) jTable_NhanVien.getModel();
         dtm.setNumRows(0);
@@ -88,7 +89,7 @@ public class QuanLi extends javax.swing.JFrame {
         }
    }
 
-    //lay thong tin nhung xe con gui
+    //lay thong tin nhung xe con gui============================================
     public void layTTXe(){
         DefaultTableModel dtm1 = (DefaultTableModel) jTable_GuiXe.getModel();
         dtm1.setNumRows(0);
@@ -121,7 +122,7 @@ public class QuanLi extends javax.swing.JFrame {
         }
     }
     
-    //lay thong tin nhung xe trong o tim kiem hieu xe
+    //lay thong tin nhung xe trong o tim kiem hieu xe===========================
     public void layTTXeTimKiemHieu(String hieuXe){
         DefaultTableModel dtm1 = (DefaultTableModel) jTable_GuiXe.getModel();
         dtm1.setNumRows(0);
@@ -154,7 +155,7 @@ public class QuanLi extends javax.swing.JFrame {
         }
     }
     
-    //lay thong tin nhung xe trong o tim kiem hieu xe
+    //lay thong tin nhung xe trong o tim kiem hieu xe===========================
     public void layTTXeTimKiemSo(String bienSo){
         DefaultTableModel dtm1 = (DefaultTableModel) jTable_GuiXe.getModel();
         dtm1.setNumRows(0);
@@ -186,9 +187,9 @@ public class QuanLi extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    //lay thong tin nhung xe trong o tim kiem DOANH THU
+    //lay thong tin nhung xe trong o tim kiem DOANH THU=========================
     public void timKiemXe(String bienSo){
-        DefaultTableModel dtm1 = (DefaultTableModel) jTable_DoanhThu.getModel();
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_TKDoanhThu.getModel();
         dtm1.setNumRows(0);
         Connection ketNoi = KetNoiCSDL.ketNoi();
         String sql =  "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN, VX.TINH_TRANG" 
@@ -210,7 +211,7 @@ public class QuanLi extends javax.swing.JFrame {
                 vt.add(rs.getString("TINH_TRANG"));
                 dtm1.addRow(vt);
             }
-            jTable_DoanhThu.setModel(dtm1);
+            jTable_TKDoanhThu.setModel(dtm1);
             rs.close();
             pr.close();
             ketNoi.close();
@@ -220,7 +221,7 @@ public class QuanLi extends javax.swing.JFrame {
         }
     }
     
-    //Lay nhung xe dang ky thang da het han
+    //Lay nhung xe dang ky thang da het han=====================================
     public void capNhatTTVeThang(){
         Connection ketNoi = KetNoiCSDL.ketNoi();
         String sql = "select BIEN_SO_XE\n" +
@@ -238,10 +239,10 @@ public class QuanLi extends javax.swing.JFrame {
         }
     }
     
-    
+    //Lay thong ke==============================================================
     //lay thong tin xe cho doanh thu
     public void layDoanhThu(String sql){
-        DefaultTableModel dtm1 = (DefaultTableModel) jTable_DoanhThu.getModel();
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_TKDoanhThu.getModel();
         dtm1.setNumRows(0);
         Connection ketNoi = KetNoiCSDL.ketNoi();
         Vector vt;
@@ -259,7 +260,7 @@ public class QuanLi extends javax.swing.JFrame {
                 vt.add(rs.getInt("GIA_TIEN"));
                 dtm1.addRow(vt);
             }
-            jTable_DoanhThu.setModel(dtm1);
+            jTable_TKDoanhThu.setModel(dtm1);
             rs.close();
             pr.close();
             ketNoi.close();
@@ -268,6 +269,125 @@ public class QuanLi extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    //lay cac xe dang gui trong bang Hien Tai
+    public void layHT(String sql){
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_TKHienTai.getModel();
+        dtm1.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("BIEN_SO_XE"));
+                vt.add(rs.getString("TEN_LOAI"));
+                vt.add(rs.getDate("NGAY_VAO"));
+                vt.add(rs.getTime("GIO_VAO"));
+                vt.add(rs.getDate("NGAY_RA"));
+                vt.add(rs.getTime("GIO_RA"));
+                vt.add(rs.getString("MA_NV_VAO"));
+                vt.add(rs.getString("MA_NV_RA"));
+                dtm1.addRow(vt);
+            }
+            jTable_TKHienTai.setModel(dtm1);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //Thong ke ve thang
+    public void layVeThang(String sql){
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_TKVeThang.getModel();
+        dtm1.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("BIEN_SO_XE"));
+                vt.add(rs.getString("MA_SINH_VIEN"));
+                vt.add(rs.getDate("NGAY_LAM_VE"));
+                vt.add(rs.getDate("NGAY_HET_HAN"));
+                dtm1.addRow(vt);
+            }
+            jTable_TKVeThang.setModel(dtm1);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //Thong ke su co
+    public void laySuCo(String sql){
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_TKSuCo.getModel();
+        dtm1.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("BIEN_SO_XE"));
+                vt.add(rs.getString("TEN_SU_CO"));
+                vt.add(rs.getDate("NGAY_XAY_RA"));
+                vt.add(rs.getInt("XU_PHAT"));
+                dtm1.addRow(vt);
+            }
+            jTable_TKSuCo.setModel(dtm1);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    //lay khung h gui xe
+    public void layKhungGio(){
+        DefaultTableModel dtm = (DefaultTableModel) jTable_KhungGio.getModel();
+        dtm.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select LV.TEN_LOAI, KG.TEN_KHUNG_GIO, KG.GIO_BAT_DAU, KG.GIO_KET_THUC, GT.GIA_TIEN\n" +
+                    "from LOAI_VE as LV, GIA_TIEN as GT, KHUNG_GIO as KG\n" +
+                    "where LV.MA_LOAI_VE = GT.MA_LOAI_VE AND GT.MA_KHUNG_GIO = KG.MA_KHUNG_GIO";
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("TEN_LOAI"));
+                vt.add(rs.getString("TEN_KHUNG_GIO"));
+                vt.add(rs.getTime("GIO_BAT_DAU"));
+                vt.add(rs.getTime("GIO_KET_THUC"));
+                vt.add(rs.getInt("GIA_TIEN"));
+                dtm.addRow(vt);
+            }
+            jTable_KhungGio.setModel(dtm);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+   }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -410,13 +530,11 @@ public class QuanLi extends javax.swing.JFrame {
         jL_TongTienLuot = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_DoanhThu = new javax.swing.JTable();
+        jTable_TKDoanhThu = new javax.swing.JTable();
         jL_TongTienThang = new javax.swing.JLabel();
-        jL_SuCo = new javax.swing.JLabel();
         jL_TongTien = new javax.swing.JLabel();
         jT_TimXe = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jL_TienPaht1 = new javax.swing.JLabel();
         jP_HienTai = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jSeparator15 = new javax.swing.JSeparator();
@@ -438,9 +556,11 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable_HienTai = new javax.swing.JTable();
+        jTable_TKHienTai = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel54 = new javax.swing.JLabel();
+        jC_TinhTrangGui = new javax.swing.JComboBox<>();
         jP_VeThang = new javax.swing.JPanel();
         jLabel47 = new javax.swing.JLabel();
         jSeparator19 = new javax.swing.JSeparator();
@@ -456,7 +576,7 @@ public class QuanLi extends javax.swing.JFrame {
         jL_XeDKT = new javax.swing.JLabel();
         jSeparator22 = new javax.swing.JSeparator();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_TKVeThang = new javax.swing.JTable();
         jP_SuCo = new javax.swing.JPanel();
         jLabel55 = new javax.swing.JLabel();
         jSeparator23 = new javax.swing.JSeparator();
@@ -465,10 +585,12 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel56 = new javax.swing.JLabel();
         jC_SuCo = new javax.swing.JComboBox<>();
         jLabel60 = new javax.swing.JLabel();
-        jLabel62 = new javax.swing.JLabel();
+        jL_TongSC = new javax.swing.JLabel();
         jSeparator26 = new javax.swing.JSeparator();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable_TKSuCo = new javax.swing.JTable();
+        jL_SuCo = new javax.swing.JLabel();
+        jL_TienPaht1 = new javax.swing.JLabel();
         btn_HienTai = new javax.swing.JButton();
         btn_VeThang = new javax.swing.JButton();
         btn_SuCo = new javax.swing.JButton();
@@ -481,6 +603,21 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel53 = new javax.swing.JLabel();
         jC_Quy = new javax.swing.JComboBox<>();
         jSeparator27 = new javax.swing.JSeparator();
+        jPan_ChinhSuaTTVe = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable_KhungGio = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        jT_GioBD = new javax.swing.JTextField();
+        jT_GioKT = new javax.swing.JTextField();
+        jLabel61 = new javax.swing.JLabel();
+        jT_TienKhungGio = new javax.swing.JTextField();
+        jT_KhungGio = new javax.swing.JTextField();
+        btn_HuyDatLai = new javax.swing.JButton();
+        btn_DatLaiVe = new javax.swing.JButton();
+        btn_LuuVe = new javax.swing.JButton();
         btn_DangXuat = new javax.swing.JButton();
 
         jDi_XNDKThang.setMinimumSize(new java.awt.Dimension(400, 400));
@@ -722,7 +859,20 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel16.setText("Giới tính:");
 
+        jT_MaSV.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jT_MaSVKeyPressed(evt);
+            }
+        });
+
+        jT_HoTen.setEditable(false);
+
+        jT_Lop.setEditable(false);
+
+        jT_QueQuan.setEditable(false);
+
         jC_GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
+        jC_GioiTinh.setEnabled(false);
 
         btn_XNSV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_XNSV.setText("Xác nhận");
@@ -739,6 +889,8 @@ public class QuanLi extends javax.swing.JFrame {
                 btn_HuySVActionPerformed(evt);
             }
         });
+
+        jDate_NgaySV.setEnabled(false);
 
         javax.swing.GroupLayout jDi_SinhVienLayout = new javax.swing.GroupLayout(jDi_SinhVien.getContentPane());
         jDi_SinhVien.getContentPane().setLayout(jDi_SinhVienLayout);
@@ -1020,7 +1172,6 @@ public class QuanLi extends javax.swing.JFrame {
         jPanel7.setBounds(0, 0, 320, 390);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(710, 650));
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
 
@@ -1079,8 +1230,18 @@ public class QuanLi extends javax.swing.JFrame {
         jL_BienSo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_BienSo.setText("Biển số:");
 
+        jT_BienSo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jT_BienSoKeyPressed(evt);
+            }
+        });
+
+        jT_HieuXe.setEditable(false);
+
         jL_Hieuxe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_Hieuxe.setText("Hiệu xe:");
+
+        jT_MauXe.setEditable(false);
 
         jL_Mauxe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_Mauxe.setText("Màu xe:");
@@ -1376,6 +1537,9 @@ public class QuanLi extends javax.swing.JFrame {
         }
     });
 
+    jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
     jTable_NhanVien.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
 
@@ -1398,6 +1562,12 @@ public class QuanLi extends javax.swing.JFrame {
         }
     });
     jScrollPane3.setViewportView(jTable_NhanVien);
+    if (jTable_NhanVien.getColumnModel().getColumnCount() > 0) {
+        jTable_NhanVien.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jTable_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTable_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(150);
+    }
+    jTable_NhanVien.setAutoResizeMode(jTable_NhanVien.AUTO_RESIZE_OFF);
 
     btn_ThemNV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     btn_ThemNV.setText("Thêm thông tin");
@@ -1497,7 +1667,7 @@ public class QuanLi extends javax.swing.JFrame {
                         .addComponent(jC_Class, 0, 219, Short.MAX_VALUE)
                         .addComponent(jPass_Pass)))
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(28, 34, Short.MAX_VALUE))
+            .addGap(28, 35, Short.MAX_VALUE))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPan_InfLayout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1555,8 +1725,8 @@ public class QuanLi extends javax.swing.JFrame {
                 .addComponent(btn_SaveEdit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_SaveAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(89, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+            .addContainerGap())
     );
 
     jT_ID.setEditable(false);
@@ -1622,26 +1792,26 @@ public class QuanLi extends javax.swing.JFrame {
     jLabel29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel29.setText("Tổng số tiền vé lượt thu được: ");
     jP_DoanhThu.add(jLabel29);
-    jLabel29.setBounds(60, 110, 190, 15);
+    jLabel29.setBounds(60, 120, 190, 15);
 
     jLabel34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel34.setText("Tổng số tiền thu được: ");
     jP_DoanhThu.add(jLabel34);
-    jLabel34.setBounds(30, 90, 140, 15);
+    jLabel34.setBounds(30, 100, 140, 15);
 
     jL_TongTienLuot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_TongTienLuot.setText("0");
     jP_DoanhThu.add(jL_TongTienLuot);
-    jL_TongTienLuot.setBounds(260, 110, 70, 15);
+    jL_TongTienLuot.setBounds(260, 120, 70, 15);
 
     jLabel36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel36.setText("Tổng số tiền vé tháng thu được:");
     jP_DoanhThu.add(jLabel36);
-    jLabel36.setBounds(60, 130, 201, 15);
+    jLabel36.setBounds(60, 140, 201, 15);
 
     jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-    jTable_DoanhThu.setModel(new javax.swing.table.DefaultTableModel(
+    jTable_TKDoanhThu.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
 
         },
@@ -1657,10 +1827,10 @@ public class QuanLi extends javax.swing.JFrame {
             return canEdit [columnIndex];
         }
     });
-    jTable_DoanhThu.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-    jTable_DoanhThu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    jScrollPane1.setViewportView(jTable_DoanhThu);
-    jTable_DoanhThu.setAutoResizeMode(jTable_DoanhThu.AUTO_RESIZE_OFF);
+    jTable_TKDoanhThu.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+    jTable_TKDoanhThu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    jScrollPane1.setViewportView(jTable_TKDoanhThu);
+    jTable_TKDoanhThu.setAutoResizeMode(jTable_TKDoanhThu.AUTO_RESIZE_OFF);
 
     jP_DoanhThu.add(jScrollPane1);
     jScrollPane1.setBounds(10, 270, 500, 190);
@@ -1668,17 +1838,12 @@ public class QuanLi extends javax.swing.JFrame {
     jL_TongTienThang.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_TongTienThang.setText("0");
     jP_DoanhThu.add(jL_TongTienThang);
-    jL_TongTienThang.setBounds(260, 130, 70, 15);
-
-    jL_SuCo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jL_SuCo.setText("0");
-    jP_DoanhThu.add(jL_SuCo);
-    jL_SuCo.setBounds(260, 150, 70, 15);
+    jL_TongTienThang.setBounds(260, 140, 70, 15);
 
     jL_TongTien.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_TongTien.setText("0");
     jP_DoanhThu.add(jL_TongTien);
-    jL_TongTien.setBounds(260, 90, 70, 15);
+    jL_TongTien.setBounds(260, 100, 70, 15);
 
     jT_TimXe.addKeyListener(new java.awt.event.KeyAdapter() {
         public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -1692,11 +1857,6 @@ public class QuanLi extends javax.swing.JFrame {
     jP_DoanhThu.add(jButton4);
     jButton4.setBounds(160, 240, 140, 23);
 
-    jL_TienPaht1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jL_TienPaht1.setText("Tổng số tiền phạt:");
-    jP_DoanhThu.add(jL_TienPaht1);
-    jL_TienPaht1.setBounds(60, 150, 140, 15);
-
     jLayeredPane1.add(jP_DoanhThu);
     jP_DoanhThu.setBounds(1, -2, 530, 480);
     jP_DoanhThu.setVisible(false);
@@ -1707,7 +1867,7 @@ public class QuanLi extends javax.swing.JFrame {
 
     jLabel28.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
     jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel28.setText("XE ĐANG GỬI TRONG BÃI");
+    jLabel28.setText("THỐNG KÊ XE");
     jP_HienTai.add(jLabel28);
     jLabel28.setBounds(10, 11, 510, 29);
     jP_HienTai.add(jSeparator15);
@@ -1759,9 +1919,9 @@ public class QuanLi extends javax.swing.JFrame {
     jSeparator18.setBounds(20, 230, 490, 10);
 
     jLabel33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel33.setText("Tổng số xe:");
+    jLabel33.setText("Tình trạng gửi:");
     jP_HienTai.add(jLabel33);
-    jLabel33.setBounds(50, 70, 130, 15);
+    jLabel33.setBounds(350, 70, 100, 15);
 
     jLabel41.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel41.setText("0");
@@ -1793,33 +1953,42 @@ public class QuanLi extends javax.swing.JFrame {
     jP_HienTai.add(jLabel46);
     jLabel46.setBounds(260, 190, 40, 15);
 
-    jTable_HienTai.setModel(new javax.swing.table.DefaultTableModel(
+    jTable_TKHienTai.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
 
         },
         new String [] {
-            "Biển số xe", "Loại vé", "Ngày vào", "Giờ vào", "Ngày ra", "Giờ ra", "NV QL Vào", "NV QL Ra", "Tình trạng"
+            "Biển số xe", "Loại vé", "Ngày vào", "Giờ vào", "Ngày ra", "Giờ ra", "NV QL Vào", "NV QL Ra"
         }
     ) {
         boolean[] canEdit = new boolean [] {
-            false, false, false, false, false, false, false, false, false
+            false, false, false, false, false, false, false, false
         };
 
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return canEdit [columnIndex];
         }
     });
-    jScrollPane4.setViewportView(jTable_HienTai);
-    jTable_HienTai.setAutoResizeMode(jTable_HienTai.AUTO_RESIZE_OFF);
+    jScrollPane4.setViewportView(jTable_TKHienTai);
+    jTable_TKHienTai.setAutoResizeMode(jTable_TKHienTai.AUTO_RESIZE_OFF);
 
     jP_HienTai.add(jScrollPane4);
     jScrollPane4.setBounds(20, 290, 490, 160);
     jP_HienTai.add(jTextField1);
-    jTextField1.setBounds(20, 250, 150, 30);
+    jTextField1.setBounds(20, 260, 150, 20);
 
     jButton1.setText("Tìm kiếm theo tên xe");
     jP_HienTai.add(jButton1);
     jButton1.setBounds(180, 260, 140, 23);
+
+    jLabel54.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jLabel54.setText("Tổng số xe:");
+    jP_HienTai.add(jLabel54);
+    jLabel54.setBounds(50, 70, 130, 15);
+
+    jC_TinhTrangGui.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TẤT CẢ", "ĐÃ LẤY", "CHƯA LẤY" }));
+    jP_HienTai.add(jC_TinhTrangGui);
+    jC_TinhTrangGui.setBounds(350, 90, 140, 20);
 
     jLayeredPane1.add(jP_HienTai);
     jP_HienTai.setBounds(0, 0, 530, 480);
@@ -1851,6 +2020,11 @@ public class QuanLi extends javax.swing.JFrame {
     jLabel48.setBounds(30, 80, 60, 15);
 
     jC_TinhTrangDKT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TẤT CẢ", "CÒN HẠN", "HẾT HẠN" }));
+    jC_TinhTrangDKT.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jC_TinhTrangDKTActionPerformed(evt);
+        }
+    });
     jP_VeThang.add(jC_TinhTrangDKT);
     jC_TinhTrangDKT.setBounds(100, 80, 200, 20);
 
@@ -1862,7 +2036,7 @@ public class QuanLi extends javax.swing.JFrame {
     jL_XeCH.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_XeCH.setText("0");
     jP_VeThang.add(jL_XeCH);
-    jL_XeCH.setBounds(190, 160, 20, 15);
+    jL_XeCH.setBounds(190, 160, 120, 15);
 
     jLabel51.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel51.setText("Còn hạn:");
@@ -1877,16 +2051,16 @@ public class QuanLi extends javax.swing.JFrame {
     jL_XeHH.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_XeHH.setText("0");
     jP_VeThang.add(jL_XeHH);
-    jL_XeHH.setBounds(190, 180, 20, 15);
+    jL_XeHH.setBounds(190, 180, 110, 15);
 
     jL_XeDKT.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_XeDKT.setText("0");
     jP_VeThang.add(jL_XeDKT);
-    jL_XeDKT.setBounds(190, 140, 20, 15);
+    jL_XeDKT.setBounds(190, 140, 110, 15);
     jP_VeThang.add(jSeparator22);
     jSeparator22.setBounds(10, 210, 510, 2);
 
-    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+    jTable_TKVeThang.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
 
         },
@@ -1894,7 +2068,7 @@ public class QuanLi extends javax.swing.JFrame {
             "Biển số xe", "Mã sinh viên đăng kí", "Ngày làm vé", "Ngày hết hạn"
         }
     ));
-    jScrollPane5.setViewportView(jTable1);
+    jScrollPane5.setViewportView(jTable_TKVeThang);
 
     jP_VeThang.add(jScrollPane5);
     jScrollPane5.setBounds(10, 250, 510, 210);
@@ -1929,6 +2103,11 @@ public class QuanLi extends javax.swing.JFrame {
     jLabel56.setBounds(30, 80, 60, 15);
 
     jC_SuCo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TẤT CẢ" }));
+    jC_SuCo.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jC_SuCoActionPerformed(evt);
+        }
+    });
     jP_SuCo.add(jC_SuCo);
     jC_SuCo.setBounds(100, 80, 200, 20);
     Connection ketNoi3 = KetNoiCSDL.ketNoi();
@@ -1952,14 +2131,14 @@ public class QuanLi extends javax.swing.JFrame {
     jP_SuCo.add(jLabel60);
     jLabel60.setBounds(30, 140, 120, 15);
 
-    jLabel62.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel62.setText("0");
-    jP_SuCo.add(jLabel62);
-    jLabel62.setBounds(190, 140, 20, 15);
+    jL_TongSC.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_TongSC.setText("0");
+    jP_SuCo.add(jL_TongSC);
+    jL_TongSC.setBounds(190, 140, 110, 15);
     jP_SuCo.add(jSeparator26);
     jSeparator26.setBounds(10, 210, 510, 2);
 
-    jTable2.setModel(new javax.swing.table.DefaultTableModel(
+    jTable_TKSuCo.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
 
         },
@@ -1967,10 +2146,20 @@ public class QuanLi extends javax.swing.JFrame {
             "Biển số xe", "Tên sự cố", "Ngày xảy ra", "Xử phạt"
         }
     ));
-    jScrollPane6.setViewportView(jTable2);
+    jScrollPane6.setViewportView(jTable_TKSuCo);
 
     jP_SuCo.add(jScrollPane6);
     jScrollPane6.setBounds(10, 250, 510, 210);
+
+    jL_SuCo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_SuCo.setText("0");
+    jP_SuCo.add(jL_SuCo);
+    jL_SuCo.setBounds(190, 160, 110, 15);
+
+    jL_TienPaht1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_TienPaht1.setText("Tổng số tiền phạt:");
+    jP_SuCo.add(jL_TienPaht1);
+    jL_TienPaht1.setBounds(30, 160, 140, 15);
 
     jLayeredPane1.add(jP_SuCo);
     jP_SuCo.setBounds(0, 0, 530, 480);
@@ -2097,6 +2286,134 @@ public class QuanLi extends javax.swing.JFrame {
     );
 
     jTable_NV.addTab("Thống Kê", jPan_ThongKe);
+
+    jPan_ChinhSuaTTVe.setBackground(new java.awt.Color(255, 255, 255));
+    jPan_ChinhSuaTTVe.setLayout(null);
+
+    jTable_KhungGio.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+
+        },
+        new String [] {
+            "Loại vé", "Khung giờ", "Giờ bắt đầu", "Giờ kết thúc", "Giá tiền"
+        }
+    ));
+    jTable_KhungGio.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            jTable_KhungGioMousePressed(evt);
+        }
+    });
+    jScrollPane7.setViewportView(jTable_KhungGio);
+
+    jPan_ChinhSuaTTVe.add(jScrollPane7);
+    jScrollPane7.setBounds(30, 330, 650, 190);
+
+    jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+    jLabel57.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jLabel57.setText("Khung giờ");
+
+    jLabel58.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jLabel58.setText("Giờ bắt đầu:");
+
+    jLabel59.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jLabel59.setText("Giờ kết thúc:");
+
+    jT_GioBD.setEditable(false);
+
+    jT_GioKT.setEditable(false);
+
+    jLabel61.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jLabel61.setText("Giá tiền:");
+
+    jT_TienKhungGio.setEditable(false);
+
+    jT_KhungGio.setEditable(false);
+
+    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+    jPanel2.setLayout(jPanel2Layout);
+    jPanel2Layout.setHorizontalGroup(
+        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(136, 136, 136)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jT_GioBD)
+                            .addComponent(jT_KhungGio, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(jLabel59)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jT_TienKhungGio)
+                        .addComponent(jT_GioKT, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addContainerGap(172, Short.MAX_VALUE))
+    );
+    jPanel2Layout.setVerticalGroup(
+        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(24, 24, 24)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel57)
+                .addComponent(jT_KhungGio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel58)
+                .addComponent(jT_GioBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel59)
+                .addComponent(jT_GioKT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel61)
+                .addComponent(jT_TienKhungGio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(57, Short.MAX_VALUE))
+    );
+
+    jPan_ChinhSuaTTVe.add(jPanel2);
+    jPanel2.setBounds(50, 40, 600, 210);
+
+    btn_HuyDatLai.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_HuyDatLai.setText("Hủy");
+    btn_HuyDatLai.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_HuyDatLaiActionPerformed(evt);
+        }
+    });
+    jPan_ChinhSuaTTVe.add(btn_HuyDatLai);
+    btn_HuyDatLai.setBounds(560, 270, 80, 30);
+
+    btn_DatLaiVe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_DatLaiVe.setText("Đặt lại");
+    btn_DatLaiVe.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_DatLaiVeActionPerformed(evt);
+        }
+    });
+    jPan_ChinhSuaTTVe.add(btn_DatLaiVe);
+    btn_DatLaiVe.setBounds(340, 270, 90, 30);
+
+    btn_LuuVe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_LuuVe.setText("Lưu");
+    btn_LuuVe.setEnabled(false);
+    btn_LuuVe.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_LuuVeActionPerformed(evt);
+        }
+    });
+    jPan_ChinhSuaTTVe.add(btn_LuuVe);
+    btn_LuuVe.setBounds(450, 270, 90, 30);
+
+    jTable_NV.addTab("Chỉnh Sửa Thông Tin Vé", jPan_ChinhSuaTTVe);
 
     btn_DangXuat.setBackground(new java.awt.Color(255, 255, 255));
     btn_DangXuat.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -2734,18 +3051,12 @@ public class QuanLi extends javax.swing.JFrame {
         String maVe = JOptionPane.showInputDialog("Nhập mã vé: ");
         String maLoaiVe = QLXe.layMaLoaiVe(maVe);
         //tinh khung h ra
-        String maKhungGio ="";
+        String maKhungGio = "";
 
         //kiem tra h ra
         Time gioRa = Time.valueOf(LocalTime.now());
- 
-        if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
-            maKhungGio = "T";
-        }
-        else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
-            maKhungGio = "S";
-        }
-        else if (maLoaiVe.equals("T")){
+        maKhungGio = QLXe.maKhungGio(gioRa);
+        if (maLoaiVe.equals("T")){
             maKhungGio = "A";
         }
         
@@ -2925,8 +3236,18 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                                 "from VE_XE\n" +
                                 "where TINH_TRANG = N'ĐÃ LẤY'";
+            //Tinh tien luot
+            String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L'";
+            //Tinh tien thang
+            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T'";
             //them du lieu
-            QLXe.tinhTien(sqlTongTien);
+            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
+            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
         }
         else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
@@ -2948,8 +3269,18 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                                 "from VE_XE\n" +
                                 "where TINH_TRANG = N'ĐÃ LẤY' AND NGAY_RA = '" + ngayRa + "'";
+            //Tinh tien luot theo NGAY
+            String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L' AND NGAY_RA = '" + ngayRa + "'";
+            //Tinh tien thang
+            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T' AND NGAY_RA = '" + ngayRa + "'";
             //them du lieu
-            QLXe.tinhTien(sqlTongTien);
+            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
+            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
             
         }
@@ -2963,8 +3294,18 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                                 "from VE_XE\n" +
                                 "where TINH_TRANG = N'ĐÃ LẤY' AND MONTH(NGAY_RA) = '" + thang + "'";
+            //Tinh tien luot theo THANG
+            String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L' AND MONTH(NGAY_RA) = '" + thang + "'";
+            //Tinh tien thang
+            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T' AND MONTH(NGAY_RA) = '" + thang + "'";
             //them du lieu
-            QLXe.tinhTien(sqlTongTien);
+            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
+            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
             
         }
@@ -2993,9 +3334,19 @@ public class QuanLi extends javax.swing.JFrame {
             //Tinh tien theo QUY
             String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                                 "from VE_XE\n" +
-                                "where TINH_TRANG = N'ĐÃ LẤY' AND MONTH(VX.NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+                                "where TINH_TRANG = N'ĐÃ LẤY' AND MONTH(NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            //Tinh tien luot theo QUY
+            String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L' AND MONTH(NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            //Tinh tien thang
+            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
+                    "from VE_XE\n" +
+                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T' AND MONTH(NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
             //them du lieu
-            QLXe.tinhTien(sqlTongTien);
+            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
+            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
         }
     }//GEN-LAST:event_btn_DoanhThuActionPerformed
@@ -3019,10 +3370,10 @@ public class QuanLi extends javax.swing.JFrame {
             jDate_NgayThongKe.setDate(null);
             
             jC_Thang.setEnabled(false);
-            jC_Thang.setSelectedIndex(-1);
+            jC_Thang.setSelectedIndex(0);
             
             jC_Quy.setEnabled(false);
-            jC_Quy.setSelectedIndex(-1);
+            jC_Quy.setSelectedIndex(0);
             
             
         }
@@ -3032,10 +3383,10 @@ public class QuanLi extends javax.swing.JFrame {
             
             
             jC_Thang.setEnabled(false);
-            jC_Thang.setSelectedIndex(-1);
+            jC_Thang.setSelectedIndex(0);
             
             jC_Quy.setEnabled(false);
-            jC_Quy.setSelectedIndex(-1);
+            jC_Quy.setSelectedIndex(0);
             
         }
         else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
@@ -3047,7 +3398,7 @@ public class QuanLi extends javax.swing.JFrame {
             
             
             jC_Quy.setEnabled(false);
-            jC_Quy.setSelectedIndex(-1);
+            jC_Quy.setSelectedIndex(0);
             
             
         }
@@ -3057,7 +3408,7 @@ public class QuanLi extends javax.swing.JFrame {
             jDate_NgayThongKe.setDate(null);
             
             jC_Thang.setEnabled(false);
-            jC_Thang.setSelectedIndex(-1);
+            jC_Thang.setSelectedIndex(0);
             
             jC_Quy.setEnabled(true);
             
@@ -3071,6 +3422,73 @@ public class QuanLi extends javax.swing.JFrame {
         jP_DoanhThu.setVisible(false);
         jP_VeThang.setVisible(false);
         jP_SuCo.setVisible(false);
+        
+        //chuc nang
+        if(jC_ThongKe.getSelectedItem().equals("TẤT CẢ")){
+            //lay thong tin cho bang Thong ke hien tai
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE";
+            
+            //Them du lieu
+            this.layHT(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
+            //lay ngay ra
+            java.sql.Date ngayRa = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayThongKe.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngayRa = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+                ngayRa = java.sql.Date.valueOf(java.time.LocalDate.now());
+            }
+            //lay thong tin cho bang thong ke hien tai theo ngay
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.NGAY_VAO ='" + ngayRa + "'";
+            
+            //lay du lieu
+            this.layHT(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
+            String thang = (String) jC_Thang.getSelectedItem();
+            //lay thong tin cho bang thong ke hien tai theo ngay
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND MONTH(VX.NGAY_VAO) ='" + thang + "'";
+            
+            //lay du lieu
+            this.layHT(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
+            String thangBD = "", thangKT = "";
+            if (jC_Quy.getSelectedItem().equals("1")){
+                thangBD = "1";
+                thangKT = "3";
+            }
+            else if (jC_Quy.getSelectedItem().equals("2")){
+                thangBD = "4";
+                thangKT = "6";
+            }
+            else if (jC_Quy.getSelectedItem().equals("3")){
+                thangBD = "7";
+                thangKT = "9";
+            }
+            else if (jC_Quy.getSelectedItem().equals("4")){
+                thangBD = "10";
+                thangKT = "12";
+            }
+            
+            //lay thong tin cho bang thong ke hien tai theo ngay
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND MONTH(VX.NGAY_VAO) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //lay du lieu
+            this.layHT(sqlTable);
+        }
     }//GEN-LAST:event_btn_HienTaiActionPerformed
 
     private void btn_VeThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeThangActionPerformed
@@ -3079,6 +3497,146 @@ public class QuanLi extends javax.swing.JFrame {
         jP_HienTai.setVisible(false);
         jP_DoanhThu.setVisible(false);
         jP_SuCo.setVisible(false);
+        
+        //chuc nang
+        if(jC_ThongKe.getSelectedItem().equals("TẤT CẢ")){
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG";
+            
+            //Tinh tong xe dang ki thang
+            String sqlTongDKT = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG";
+            
+            //Tinh tong xe dang ki thang con han
+            String sqlTongDKT_CH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'CÒN HẠN'";
+            
+            //Tinh tong xe dang ki thang het han
+            String sqlTongDKT_HH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'HẾT HẠN'";
+            
+            //lay du lieu
+            this.layVeThang(sqlTable);
+            jL_XeDKT.setText(QLXe.tongXeDKT(sqlTongDKT));
+            jL_XeCH.setText(QLXe.tongXeDKT(sqlTongDKT_CH));
+            jL_XeHH.setText(QLXe.tongXeDKT(sqlTongDKT_HH));
+            
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
+            //lay ngay ra
+            java.sql.Date ngayRa = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayThongKe.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngayRa = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+                ngayRa = java.sql.Date.valueOf(java.time.LocalDate.now());
+            }
+            
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE NGAY_LAM_VE = '" + ngayRa + "'";
+            
+            //Tinh tong xe dang ki thang
+            String sqlTongDKT = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where NGAY_LAM_VE = '" + ngayRa + "'";
+            
+            //Tinh tong xe dang ki thang con han
+            String sqlTongDKT_CH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'CÒN HẠN' AND NGAY_LAM_VE = '" + ngayRa + "'";
+            
+            //Tinh tong xe dang ki thang het han
+            String sqlTongDKT_HH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'HẾT HẠN' AND NGAY_LAM_VE = '" + ngayRa + "'";
+            
+            //lay du lieu
+            this.layVeThang(sqlTable);
+            jL_XeDKT.setText(QLXe.tongXeDKT(sqlTongDKT));
+            jL_XeCH.setText(QLXe.tongXeDKT(sqlTongDKT_CH));
+            jL_XeHH.setText(QLXe.tongXeDKT(sqlTongDKT_HH));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
+            String thang = (String) jC_Thang.getSelectedItem();
+            
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE MONTH(NGAY_LAM_VE) = '" + thang + "'";
+            
+            //Tinh tong xe dang ki thang
+            String sqlTongDKT = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where MONTH(NGAY_LAM_VE) = '" + thang + "'";
+            
+            //Tinh tong xe dang ki thang con han
+            String sqlTongDKT_CH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'CÒN HẠN' AND MONTH(NGAY_LAM_VE) = '" + thang + "'";
+            
+            //Tinh tong xe dang ki thang het han
+            String sqlTongDKT_HH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'HẾT HẠN' AND MONTH(NGAY_LAM_VE) = '" + thang + "'";
+            
+            //lay du lieu
+            this.layVeThang(sqlTable);
+            jL_XeDKT.setText(QLXe.tongXeDKT(sqlTongDKT));
+            jL_XeCH.setText(QLXe.tongXeDKT(sqlTongDKT_CH));
+            jL_XeHH.setText(QLXe.tongXeDKT(sqlTongDKT_HH));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
+            String thangBD = "", thangKT = "";
+            if (jC_Quy.getSelectedItem().equals("1")){
+                thangBD = "1";
+                thangKT = "3";
+            }
+            else if (jC_Quy.getSelectedItem().equals("2")){
+                thangBD = "4";
+                thangKT = "6";
+            }
+            else if (jC_Quy.getSelectedItem().equals("3")){
+                thangBD = "7";
+                thangKT = "9";
+            }
+            else if (jC_Quy.getSelectedItem().equals("4")){
+                thangBD = "10";
+                thangKT = "12";
+            }
+            
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE MONTH(NGAY_LAM_VE) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //Tinh tong xe dang ki thang
+            String sqlTongDKT = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where MONTH(NGAY_LAM_VE) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //Tinh tong xe dang ki thang con han
+            String sqlTongDKT_CH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'CÒN HẠN' AND MONTH(NGAY_LAM_VE) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //Tinh tong xe dang ki thang het han
+            String sqlTongDKT_HH = "select COUNT(BIEN_SO_XE) as VE_THANG\n" +
+                                "from QL_VE_THANG\n" +
+                                "where TRANG_THAI = N'HẾT HẠN' AND MONTH(NGAY_LAM_VE) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //lay du lieu
+            this.layVeThang(sqlTable);
+            jL_XeDKT.setText(QLXe.tongXeDKT(sqlTongDKT));
+            jL_XeCH.setText(QLXe.tongXeDKT(sqlTongDKT_CH));
+            jL_XeHH.setText(QLXe.tongXeDKT(sqlTongDKT_HH));
+        }
     }//GEN-LAST:event_btn_VeThangActionPerformed
 
     private void btn_SuCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuCoActionPerformed
@@ -3087,7 +3645,465 @@ public class QuanLi extends javax.swing.JFrame {
         jP_VeThang.setVisible(false);
         jP_HienTai.setVisible(false);
         jP_DoanhThu.setVisible(false);
+        
+        //chuc nang
+        if(jC_ThongKe.getSelectedItem().equals("TẤT CẢ")){
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO";
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO";
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO";
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
+            //lay ngay ra
+            java.sql.Date ngayRa = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayThongKe.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngayRa = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+                ngayRa = java.sql.Date.valueOf(java.time.LocalDate.now());
+            }
+            
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND NGAY_XAY_RA = '" + ngayRa + "'";
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND QL.NGAY_XAY_RA = '" + ngayRa + "'";
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "where NGAY_XAY_RA = '" + ngayRa + "'";
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
+            String thang = (String) jC_Thang.getSelectedItem();
+            
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND MONTH(NGAY_XAY_RA) = '" + thang + "'";
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND MONTH(QL.NGAY_XAY_RA) = '" + thang + "'";
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "where MONTH(NGAY_XAY_RA) = '" + thang + "'";
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
+            String thangBD = "", thangKT = "";
+            if (jC_Quy.getSelectedItem().equals("1")){
+                thangBD = "1";
+                thangKT = "3";
+            }
+            else if (jC_Quy.getSelectedItem().equals("2")){
+                thangBD = "4";
+                thangKT = "6";
+            }
+            else if (jC_Quy.getSelectedItem().equals("3")){
+                thangBD = "7";
+                thangKT = "9";
+            }
+            else if (jC_Quy.getSelectedItem().equals("4")){
+                thangBD = "10";
+                thangKT = "12";
+            }
+            
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND MONTH(NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND MONTH(QL.NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "where MONTH(NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
     }//GEN-LAST:event_btn_SuCoActionPerformed
+
+    private void jC_SuCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jC_SuCoActionPerformed
+        // TODO add your handling code here:
+        String luaChon = (String) jC_SuCo.getSelectedItem();
+        String maSC = QLXe.layMaLoi(luaChon);
+        if(luaChon.equals("TẤT CẢ")){
+            maSC = "in (select MA_SU_CO from SU_CO)";
+        }
+        else{
+            maSC = "='" + maSC + "'";
+        }
+        //chuc nang
+        if(jC_ThongKe.getSelectedItem().equals("TẤT CẢ")){
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND QLSC.MA_SU_CO " + maSC;
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND QL.MA_SU_CO " + maSC;
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "WHERE MA_SU_CO " + maSC;
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
+            //lay ngay ra
+            java.sql.Date ngayRa = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayThongKe.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngayRa = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+                ngayRa = java.sql.Date.valueOf(java.time.LocalDate.now());
+            }
+            
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND NGAY_XAY_RA = '" + ngayRa + "' AND QLSC.MA_SU_CO " + maSC;
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND QL.NGAY_XAY_RA = '" + ngayRa + "'AND QL.MA_SU_CO " + maSC;
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "where NGAY_XAY_RA = '" + ngayRa + "' AND MA_SU_CO " + maSC;
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
+            String thang = (String) jC_Thang.getSelectedItem();
+            
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND MONTH(NGAY_XAY_RA) = '" + thang + "' AND QLSC.MA_SU_CO " + maSC;
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND MONTH(QL.NGAY_XAY_RA) = '" + thang + "' AND QL.MA_SU_CO " + maSC;
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "where MONTH(NGAY_XAY_RA) = '" + thang + "' AND MA_SU_CO " + maSC;
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
+            String thangBD = "", thangKT = "";
+            if (jC_Quy.getSelectedItem().equals("1")){
+                thangBD = "1";
+                thangKT = "3";
+            }
+            else if (jC_Quy.getSelectedItem().equals("2")){
+                thangBD = "4";
+                thangKT = "6";
+            }
+            else if (jC_Quy.getSelectedItem().equals("3")){
+                thangBD = "7";
+                thangKT = "9";
+            }
+            else if (jC_Quy.getSelectedItem().equals("4")){
+                thangBD = "10";
+                thangKT = "12";
+            }
+            
+            //lay thong tin cho cot thong ke
+            String sqlTable = "select QLSC.BIEN_SO_XE, SC.TEN_SU_CO, QLSC.NGAY_XAY_RA, SC.XU_PHAT\n" +
+                            "from QL_SU_CO as QLSC, SU_CO as SC\n" +
+                            "WHERE QLSC.MA_SU_CO = SC.MA_SU_CO AND MONTH(NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT + " AND QLSC.MA_SU_CO " + maSC;
+            
+            //lay thong ke tien su co
+            String sqlTienSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO AND MONTH(QL.NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT + " AND QL.MA_SU_CO " + maSC;
+            
+            //lay thong ke tong so su cco da xay ra
+            String sqltongSC = "select COUNT(MA_SU_CO) as SU_CO\n" +
+                            "from QL_SU_CO\n" +
+                            "where MONTH(NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT + " AND MA_SU_CO " + maSC;
+            
+            //lay du lieu
+            this.laySuCo(sqlTable);
+            jL_SuCo.setText(QLXe.tienSuCo(sqlTienSC));
+            jL_TongSC.setText(QLXe.tongSuCo(sqltongSC));
+        }
+    }//GEN-LAST:event_jC_SuCoActionPerformed
+
+    private void jC_TinhTrangDKTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jC_TinhTrangDKTActionPerformed
+        // TODO add your handling code here:
+        String trangThai = (String) jC_TinhTrangDKT.getSelectedItem();
+        if(trangThai.equals("TẤT CẢ")){
+            trangThai = "CÒN HẠN' OR TRANG_THAI = N'HẾT HẠN";
+        }
+                
+        //chuc nang
+        if(jC_ThongKe.getSelectedItem().equals("TẤT CẢ")){
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE TRANG_THAI =N'" + trangThai + "'";
+
+            //lay du lieu
+            this.layVeThang(sqlTable); 
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
+            //lay ngay ra
+            java.sql.Date ngayRa = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayThongKe.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngayRa = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+                ngayRa = java.sql.Date.valueOf(java.time.LocalDate.now());
+            }
+            
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE NGAY_LAM_VE = '" + ngayRa + "' AND TRANG_THAI = N'" + trangThai + "'";
+
+            //lay du lieu
+            this.layVeThang(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
+            String thang = (String) jC_Thang.getSelectedItem();
+            
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE MONTH(NGAY_LAM_VE) = '" + thang + "' AND TRANG_THAI = N'" + trangThai + "'";
+            
+            //lay du lieu
+            this.layVeThang(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
+            String thangBD = "", thangKT = "";
+            if (jC_Quy.getSelectedItem().equals("1")){
+                thangBD = "1";
+                thangKT = "3";
+            }
+            else if (jC_Quy.getSelectedItem().equals("2")){
+                thangBD = "4";
+                thangKT = "6";
+            }
+            else if (jC_Quy.getSelectedItem().equals("3")){
+                thangBD = "7";
+                thangKT = "9";
+            }
+            else if (jC_Quy.getSelectedItem().equals("4")){
+                thangBD = "10";
+                thangKT = "12";
+            }
+            
+            //lay thong tin cho bagn thong ke
+            String sqlTable = "select BIEN_SO_XE, MA_SINH_VIEN, NGAY_LAM_VE, NGAY_HET_HAN\n" +
+                            "from QL_VE_THANG\n" +
+                            "WHERE MONTH(NGAY_LAM_VE) BETWEEN " + thangBD + " AND " + thangKT + " AND TRANG_THAI = N'" + trangThai + "'";
+            
+            //lay du lieu
+            this.layVeThang(sqlTable);
+        }
+    }//GEN-LAST:event_jC_TinhTrangDKTActionPerformed
+
+    private void jT_BienSoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_BienSoKeyPressed
+        // TODO add your handling code here:
+        String bienSo = jT_BienSo.getText();
+        if (evt.getKeyCode() == evt.VK_ENTER){
+            if (QLXe.checkBienSo(bienSo) == 1){
+                jT_HieuXe.setEditable(false);
+                jT_MauXe.setEditable(false);
+                jT_HieuXe.setText(QLXe.layHieuXe(bienSo));
+                jT_MauXe.setText(QLXe.layMauXe(bienSo));
+            }
+            else if (QLXe.checkBienSo(bienSo) == 0){
+                jT_HieuXe.setText("");
+                jT_MauXe.setText("");
+                jT_HieuXe.setEditable(true);
+                jT_MauXe.setEditable(true);
+            }
+                
+        }
+    }//GEN-LAST:event_jT_BienSoKeyPressed
+
+    private void jT_MaSVKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_MaSVKeyPressed
+        // TODO add your handling code here:
+        String maSV = jT_MaSV.getText();
+        String hoTen = "";
+        String lop = "";
+        Date namSinh = null;
+        String queQuan = "";
+        String gioiTinh = "";
+        if(evt.getKeyCode() == evt.VK_ENTER){
+            if(QLXe.checkSV(maSV) == 1){
+                Connection ketNoi = KetNoiCSDL.ketNoi();
+                String sql = "SELECT HO_TEN, LOP, NAM_SINH, QUE_QUAN, GIOI_TINH FROM SINH_VIEN WHERE MA_SINH_VIEN = '" + maSV + "'";
+                try {
+                    PreparedStatement pr = ketNoi.prepareStatement(sql);
+                    ResultSet rs = pr.executeQuery();
+                    while (rs.next()){
+                        hoTen = rs.getString("HO_TEN");
+                        lop = (rs.getString("LOP"));
+                        namSinh = rs.getDate("NAM_SINH");
+                        queQuan = rs.getString("QUE_QUAN");
+                        gioiTinh = rs.getString("GIOI_TINH");
+                    }
+                } 
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                jT_HoTen.setText(hoTen);
+                jT_Lop.setText(lop);
+                jDate_NgaySV.setDate(namSinh);
+                jT_QueQuan.setText(queQuan);
+                jC_GioiTinh.setSelectedItem(gioiTinh);
+            }
+            else{
+                jT_HoTen.setText("");
+                jT_Lop.setText("");
+                jDate_NgaySV.setDate(null);
+                jT_QueQuan.setText("");
+                jC_GioiTinh.setSelectedItem(0);
+                jT_HoTen.setEditable(true);
+                jT_Lop.setEditable(true);
+                jDate_NgaySV.setEnabled(true);
+                jT_QueQuan.setEditable(true);
+                jC_GioiTinh.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_jT_MaSVKeyPressed
+
+    private void jTable_KhungGioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_KhungGioMousePressed
+        // TODO add your handling code here:
+        String khungGio = (String) jTable_KhungGio.getValueAt(jTable_KhungGio.getSelectedRow(), 1);
+        Time gioBD = (Time) jTable_KhungGio.getValueAt(jTable_KhungGio.getSelectedRow(), 2);
+        Time gioKT = (Time) jTable_KhungGio.getValueAt(jTable_KhungGio.getSelectedRow(), 3);
+        int giaTien = (int) jTable_KhungGio.getValueAt(jTable_KhungGio.getSelectedRow(), 4);
+        
+        jT_KhungGio.setText(khungGio);
+        jT_GioBD.setText(String.valueOf(gioBD));
+        jT_GioKT.setText(String.valueOf(gioKT));
+        jT_TienKhungGio.setText(String.valueOf(giaTien));
+        
+    }//GEN-LAST:event_jTable_KhungGioMousePressed
+
+    private void btn_DatLaiVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DatLaiVeActionPerformed
+        // TODO add your handling code here:
+        
+        
+        String khungGio = jT_KhungGio.getText();
+        if(khungGio.equals("")){
+            JOptionPane.showMessageDialog(null, "Chưa lụa chọn khung giờ để sửa. Xin vui lòng chọn khung giờ bên dưới bảng.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            btn_DatLaiVe.setEnabled(true);
+            btn_LuuVe.setEnabled(false);
+
+            jT_GioBD.setEditable(false);
+            jT_GioKT.setEditable(false);
+            jT_TienKhungGio.setEditable(false);
+        }
+        else{
+            btn_DatLaiVe.setEnabled(false);
+            btn_LuuVe.setEnabled(true);
+
+            jT_GioBD.setEditable(true);
+            jT_GioKT.setEditable(true);
+            jT_TienKhungGio.setEditable(true);
+        }
+    }//GEN-LAST:event_btn_DatLaiVeActionPerformed
+
+    private void btn_LuuVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LuuVeActionPerformed
+        // TODO add your handling code here:
+        btn_DatLaiVe.setEnabled(true);
+        btn_LuuVe.setEnabled(false);
+        
+            String tenKH = jT_KhungGio.getText();
+            String loaiVe = (String) jTable_KhungGio.getValueAt(jTable_KhungGio.getSelectedRow(), 0);
+            String giaTienString = jT_TienKhungGio.getText();
+            int giaTien = Integer.parseInt(giaTienString);
+            Time gioBD = Time.valueOf(jT_GioBD.getText());
+            Time gioKT = Time.valueOf(jT_GioKT.getText());
+            QLXe.capNhatKhungGio(tenKH, gioBD, gioKT);
+            QLXe.capNhatGiaTienKhungGio(loaiVe, tenKH, giaTien);
+            JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            this.layKhungGio();
+    }//GEN-LAST:event_btn_LuuVeActionPerformed
+
+    private void btn_HuyDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuyDatLaiActionPerformed
+        // TODO add your handling code here:
+        btn_DatLaiVe.setEnabled(true);
+        btn_LuuVe.setEnabled(false);
+        
+        jT_GioBD.setEditable(false);
+        jT_GioKT.setEditable(false);
+        jT_TienKhungGio.setEditable(false);
+        
+        jT_KhungGio.setText("");
+        jT_GioBD.setText(null);
+        jT_GioKT.setText(null);
+        jT_TienKhungGio.setText("");
+    }//GEN-LAST:event_btn_HuyDatLaiActionPerformed
 
     
     public static void main(String args[]) {
@@ -3121,6 +4137,7 @@ public class QuanLi extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_DangXuat;
+    private javax.swing.JButton btn_DatLaiVe;
     private javax.swing.JButton btn_DoanhThu;
     private javax.swing.JButton btn_Edit;
     private javax.swing.JButton btn_FindName;
@@ -3128,9 +4145,11 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JButton btn_HienTai;
     private javax.swing.JButton btn_Huy;
     private javax.swing.JButton btn_HuyBo;
+    private javax.swing.JButton btn_HuyDatLai;
     private javax.swing.JButton btn_HuySV;
     private javax.swing.JButton btn_HuyThanhTien;
     private javax.swing.JButton btn_HuyTien;
+    private javax.swing.JButton btn_LuuVe;
     private javax.swing.JButton btn_Ra;
     private javax.swing.JButton btn_SaveAdd;
     private javax.swing.JButton btn_SaveEdit;
@@ -3154,6 +4173,7 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jC_Thang;
     private javax.swing.JComboBox<String> jC_ThongKe;
     private javax.swing.JComboBox<String> jC_TinhTrangDKT;
+    private javax.swing.JComboBox<String> jC_TinhTrangGui;
     private com.toedter.calendar.JDateChooser jDate_Date;
     private com.toedter.calendar.JDateChooser jDate_Ngay;
     private com.toedter.calendar.JDateChooser jDate_NgaySV;
@@ -3198,6 +4218,7 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jL_Time;
     private javax.swing.JLabel jL_Tittle;
     private javax.swing.JLabel jL_Tittle2;
+    private javax.swing.JLabel jL_TongSC;
     private javax.swing.JLabel jL_TongTien;
     private javax.swing.JLabel jL_TongTienLuot;
     private javax.swing.JLabel jL_TongTienThang;
@@ -3253,11 +4274,15 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -3266,10 +4291,12 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JPanel jP_HienTai;
     private javax.swing.JPanel jP_SuCo;
     private javax.swing.JPanel jP_VeThang;
+    private javax.swing.JPanel jPan_ChinhSuaTTVe;
     private javax.swing.JPanel jPan_GuiXe;
     private javax.swing.JPanel jPan_Inf;
     private javax.swing.JPanel jPan_ThongKe;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPasswordField jPass_Pass;
@@ -3279,6 +4306,7 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -3310,24 +4338,29 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JTextField jT_DiaChi;
     private javax.swing.JTextField jT_FindBienSo;
     private javax.swing.JTextField jT_FindHieuXe;
+    private javax.swing.JTextField jT_GioBD;
+    private javax.swing.JTextField jT_GioKT;
     private javax.swing.JTextField jT_HieuXe;
     private javax.swing.JTextField jT_HoTen;
     private javax.swing.JTextField jT_ID;
+    private javax.swing.JTextField jT_KhungGio;
     private javax.swing.JTextField jT_Lop;
     private javax.swing.JTextField jT_MaSV;
     private javax.swing.JTextField jT_MauXe;
     private javax.swing.JTextField jT_Name;
     private javax.swing.JTextField jT_Phone;
     private javax.swing.JTextField jT_QueQuan;
+    private javax.swing.JTextField jT_TienKhungGio;
     private javax.swing.JTextField jT_TimXe;
     private javax.swing.JTextField jT_Time;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable_DoanhThu;
     private javax.swing.JTable jTable_GuiXe;
-    private javax.swing.JTable jTable_HienTai;
+    private javax.swing.JTable jTable_KhungGio;
     private javax.swing.JTabbedPane jTable_NV;
     private javax.swing.JTable jTable_NhanVien;
+    private javax.swing.JTable jTable_TKDoanhThu;
+    private javax.swing.JTable jTable_TKHienTai;
+    private javax.swing.JTable jTable_TKSuCo;
+    private javax.swing.JTable jTable_TKVeThang;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
