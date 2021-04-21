@@ -442,6 +442,22 @@ public class SeXe {
         }
     }
     
+    //5. cap nhat khung gio ca truc
+    public void capNhatKhungGioCaTruc(String tenCa, Time gioBD, Time gioKT){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "update CA_TRUC set GIO_BAT_DAU = ?, GIO_KET_THUC = ? where TEN_CA = N'" + tenCa+"'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setTime(1, gioBD);
+            ps.setTime(2, gioKT);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     
     //Cac ham THONG KE----------------------------------------------------------
     //I. Bang doanh thu
