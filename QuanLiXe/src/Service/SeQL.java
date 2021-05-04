@@ -24,6 +24,24 @@ public class SeQL {
         return maCV;
     }
     
+    //2. lay ten nv
+    public String layTenNV(String maNV){
+        String tenNV = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT HO_TEN FROM NHAN_VIEN WHERE MA_NV = '" + maNV + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tenNV = rs.getString("HO_TEN");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tenNV;
+    }
+    
     //Cac ham UPDATE------------------------------------------------------------
     //1. Sua thong tin nhan vien
     public void suaNV(String maNV, String tenNV, Date namSinh, String diaChi, String SDT, String gioiTinh){
@@ -130,6 +148,7 @@ public class SeQL {
             ps.executeUpdate();
         } 
         catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -144,6 +163,20 @@ public class SeQL {
             ps.executeUpdate();
         } 
         catch (Exception e) {
+        }
+    }
+    
+    //3. Xoa thong ca truc ma nhan vien nghi viec
+    public void xoaTTCaMaNVNghi(String maNV){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "DELETE FROM PHAN_CONG_TRUC WHERE MA_NHAN_VIEN = ?";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, maNV);
+            ps.executeUpdate();
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
     

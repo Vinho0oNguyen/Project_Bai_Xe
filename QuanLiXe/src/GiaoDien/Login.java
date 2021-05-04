@@ -13,6 +13,7 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
+        this.setTitle("Đăng nhập");
         this.setLocationRelativeTo(null);
     }
 
@@ -217,7 +218,7 @@ public class Login extends javax.swing.JFrame {
             }
             else{
                
-                JOptionPane.showMessageDialog(null, "Tai khoang khong ton tai.", "", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
             }
         }
         
@@ -253,7 +254,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 else{
 
-                    JOptionPane.showMessageDialog(null, "Tai khoang khong ton tai.", "", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -284,7 +285,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 else{
 
-                    JOptionPane.showMessageDialog(null, "Tai khoang khong ton tai.", "", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
                 }
             }
         }

@@ -10,12 +10,27 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import Service.*;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import org.apache.poi.sl.usermodel.Sheet;
+import org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 
@@ -27,6 +42,7 @@ public class QuanLi extends javax.swing.JFrame {
     public QuanLi(String maNV) {
         this.maNV = maNV;
         initComponents();
+        this.setTitle("Quản lí");
         this.setLocationRelativeTo(null);
         capNhatTTVeThang();
         layTT();
@@ -406,6 +422,47 @@ public class QuanLi extends javax.swing.JFrame {
         }
     }
     
+    //lay thong tin ca truc theo yc loc
+    public void layTTCaTrucTheoYC(String sql){
+        DefaultTableModel dtm = (DefaultTableModel) jTable_PhanCongTruc.getModel();
+        dtm.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        Vector vt;
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("TEN_CA"));
+                vt.add(rs.getString("MA_NV"));
+                vt.add(rs.getString("HO_TEN"));
+                vt.add(rs.getDate("NGAY_LAM"));
+                vt.add(rs.getTime("GIO_BAT_DAU"));
+                vt.add(rs.getTime("GIO_KET_THUC"));
+                dtm.addRow(vt);
+            }
+            jTable_PhanCongTruc.setModel(dtm);
+            rs.close();
+            pr.close();
+            ketNoi.close();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //xuat data ra excel
+    //mo file
+    public void openFile(String file){
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -548,33 +605,27 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel36 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_TKDoanhThu = new javax.swing.JTable();
-        jL_TongTienThang = new javax.swing.JLabel();
+        jL_TongTienSC = new javax.swing.JLabel();
         jL_TongTien = new javax.swing.JLabel();
-        jT_TimXe = new javax.swing.JTextField();
+        jT_DT_TimXe = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jLabel39 = new javax.swing.JLabel();
+        jL_TongTienThang = new javax.swing.JLabel();
         jP_HienTai = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jSeparator15 = new javax.swing.JSeparator();
         jSeparator16 = new javax.swing.JSeparator();
         jSeparator17 = new javax.swing.JSeparator();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
+        jL_ThongKeTongSoXe = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
         jSeparator18 = new javax.swing.JSeparator();
         jLabel33 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
+        jL_ThongKeXeChuaLay = new javax.swing.JLabel();
+        jL_ThongKeXeDaLay = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable_TKHienTai = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        jT_HT_TimKiem = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel54 = new javax.swing.JLabel();
         jC_TinhTrangGui = new javax.swing.JComboBox<>();
@@ -620,6 +671,7 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel53 = new javax.swing.JLabel();
         jC_Quy = new javax.swing.JComboBox<>();
         jSeparator27 = new javax.swing.JSeparator();
+        btn_DT_EXtoExcel = new javax.swing.JButton();
         jPan_ChinhSuaTTVe = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable_KhungGio = new javax.swing.JTable();
@@ -642,17 +694,16 @@ public class QuanLi extends javax.swing.JFrame {
         jLabel62 = new javax.swing.JLabel();
         jC_CaTruc = new javax.swing.JComboBox<>();
         jLabel63 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jT_MaNVTruc = new javax.swing.JTextField();
         jLabel64 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jT_TenNVTruc = new javax.swing.JTextField();
         jLabel65 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        jDate_NgayTruc = new com.toedter.calendar.JDateChooser();
+        btn_ThemCaTruc = new javax.swing.JButton();
+        btn_XoaCaTruc = new javax.swing.JButton();
+        btn_XacNhanThemCT = new javax.swing.JButton();
         jLabel66 = new javax.swing.JLabel();
+        btn_HuyThaoTac_CT = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
@@ -664,6 +715,11 @@ public class QuanLi extends javax.swing.JFrame {
         btn_SuaCaTruc1 = new javax.swing.JButton();
         btn_LuuCaTruc1 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jC_LocCaTruc = new javax.swing.JComboBox<>();
+        jLabel32 = new javax.swing.JLabel();
+        jC_LocNgayLam = new javax.swing.JComboBox<>();
+        jLabel37 = new javax.swing.JLabel();
+        btn_LocTheoYC = new javax.swing.JButton();
         btn_DangXuat = new javax.swing.JButton();
 
         jDi_XNDKThang.setMinimumSize(new java.awt.Dimension(400, 400));
@@ -1519,18 +1575,15 @@ public class QuanLi extends javax.swing.JFrame {
     jL_ID.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jL_ID.setText("Mã nhân viên:");
 
-    jT_ID.setBackground(new java.awt.Color(240, 240, 240));
-
     jL_Name.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     jL_Name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jL_Name.setText("Tên nhân viên:");
-
-    jT_Name.setBackground(new java.awt.Color(240, 240, 240));
 
     jL_Date.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     jL_Date.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jL_Date.setText("Ngày sinh:");
 
+    jDate_Date.setBackground(new java.awt.Color(255, 255, 255));
     jDate_Date.setDateFormatString("yyyy-MM-dd");
     jDate_Date.setEnabled(false);
     jDate_Date.setMinSelectableDate(new java.util.Date(-62135791109000L));
@@ -1552,19 +1605,13 @@ public class QuanLi extends javax.swing.JFrame {
     jL_Add.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jL_Add.setText("Địa chỉ:");
 
-    jT_DiaChi.setBackground(new java.awt.Color(240, 240, 240));
-
     jL_Pass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     jL_Pass.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jL_Pass.setText("Mật khẩu:");
 
-    jPass_Pass.setBackground(new java.awt.Color(240, 240, 240));
-
     jL_Phone.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     jL_Phone.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jL_Phone.setText("Số điện thoại:");
-
-    jT_Phone.setBackground(new java.awt.Color(240, 240, 240));
 
     btn_Edit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     btn_Edit.setText("Sửa thông tin");
@@ -1851,9 +1898,9 @@ public class QuanLi extends javax.swing.JFrame {
     jL_TongTienLuot.setBounds(260, 120, 70, 15);
 
     jLabel36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel36.setText("Tổng số tiền vé tháng thu được:");
+    jLabel36.setText("Tổng số tiền sự cố thu được:");
     jP_DoanhThu.add(jLabel36);
-    jLabel36.setBounds(60, 140, 201, 15);
+    jLabel36.setBounds(60, 160, 201, 15);
 
     jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
@@ -1881,27 +1928,37 @@ public class QuanLi extends javax.swing.JFrame {
     jP_DoanhThu.add(jScrollPane1);
     jScrollPane1.setBounds(10, 270, 500, 190);
 
-    jL_TongTienThang.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jL_TongTienThang.setText("0");
-    jP_DoanhThu.add(jL_TongTienThang);
-    jL_TongTienThang.setBounds(260, 140, 70, 15);
+    jL_TongTienSC.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_TongTienSC.setText("0");
+    jP_DoanhThu.add(jL_TongTienSC);
+    jL_TongTienSC.setBounds(260, 160, 70, 15);
 
     jL_TongTien.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jL_TongTien.setText("0");
     jP_DoanhThu.add(jL_TongTien);
     jL_TongTien.setBounds(260, 100, 70, 15);
 
-    jT_TimXe.addKeyListener(new java.awt.event.KeyAdapter() {
+    jT_DT_TimXe.addKeyListener(new java.awt.event.KeyAdapter() {
         public void keyReleased(java.awt.event.KeyEvent evt) {
-            jT_TimXeKeyReleased(evt);
+            jT_DT_TimXeKeyReleased(evt);
         }
     });
-    jP_DoanhThu.add(jT_TimXe);
-    jT_TimXe.setBounds(10, 240, 140, 20);
+    jP_DoanhThu.add(jT_DT_TimXe);
+    jT_DT_TimXe.setBounds(10, 230, 160, 30);
 
     jButton4.setText("Tìm kiếm theo số xe");
     jP_DoanhThu.add(jButton4);
-    jButton4.setBounds(160, 240, 140, 23);
+    jButton4.setBounds(180, 240, 140, 23);
+
+    jLabel39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jLabel39.setText("Tổng số tiền vé tháng thu được:");
+    jP_DoanhThu.add(jLabel39);
+    jLabel39.setBounds(60, 140, 201, 15);
+
+    jL_TongTienThang.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_TongTienThang.setText("0");
+    jP_DoanhThu.add(jL_TongTienThang);
+    jL_TongTienThang.setBounds(260, 140, 70, 15);
 
     jLayeredPane1.add(jP_DoanhThu);
     jP_DoanhThu.setBounds(1, -2, 530, 480);
@@ -1927,40 +1984,20 @@ public class QuanLi extends javax.swing.JFrame {
     jP_HienTai.add(jSeparator17);
     jSeparator17.setBounds(20, 49, 10, 180);
 
-    jLabel31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel31.setText("Tổng số xe tháng:");
-    jP_HienTai.add(jLabel31);
-    jLabel31.setBounds(110, 130, 110, 15);
-
-    jLabel32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel32.setText("0");
-    jP_HienTai.add(jLabel32);
-    jLabel32.setBounds(260, 70, 40, 15);
+    jL_ThongKeTongSoXe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_ThongKeTongSoXe.setText("0");
+    jP_HienTai.add(jL_ThongKeTongSoXe);
+    jL_ThongKeTongSoXe.setBounds(260, 70, 40, 15);
 
     jLabel35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel35.setText("Tổng số xe chưa lấy:");
     jP_HienTai.add(jLabel35);
-    jLabel35.setBounds(80, 150, 130, 15);
-
-    jLabel37.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel37.setText("Tổng số xe lượt:");
-    jP_HienTai.add(jLabel37);
-    jLabel37.setBounds(110, 110, 100, 15);
+    jLabel35.setBounds(80, 130, 130, 15);
 
     jLabel38.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel38.setText("Tổng số xe đã lấy:");
     jP_HienTai.add(jLabel38);
-    jLabel38.setBounds(80, 90, 110, 15);
-
-    jLabel39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel39.setText("Tổng số xe lượt:");
-    jP_HienTai.add(jLabel39);
-    jLabel39.setBounds(110, 170, 100, 15);
-
-    jLabel40.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel40.setText("Tổng số xe tháng:");
-    jP_HienTai.add(jLabel40);
-    jLabel40.setBounds(110, 190, 110, 15);
+    jLabel38.setBounds(80, 100, 110, 15);
     jP_HienTai.add(jSeparator18);
     jSeparator18.setBounds(20, 230, 490, 10);
 
@@ -1969,35 +2006,15 @@ public class QuanLi extends javax.swing.JFrame {
     jP_HienTai.add(jLabel33);
     jLabel33.setBounds(350, 70, 100, 15);
 
-    jLabel41.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel41.setText("0");
-    jP_HienTai.add(jLabel41);
-    jLabel41.setBounds(260, 110, 40, 15);
+    jL_ThongKeXeChuaLay.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_ThongKeXeChuaLay.setText("0");
+    jP_HienTai.add(jL_ThongKeXeChuaLay);
+    jL_ThongKeXeChuaLay.setBounds(260, 130, 40, 15);
 
-    jLabel42.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel42.setText("0");
-    jP_HienTai.add(jLabel42);
-    jLabel42.setBounds(260, 130, 40, 15);
-
-    jLabel43.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel43.setText("0");
-    jP_HienTai.add(jLabel43);
-    jLabel43.setBounds(260, 150, 40, 15);
-
-    jLabel44.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel44.setText("0");
-    jP_HienTai.add(jLabel44);
-    jLabel44.setBounds(260, 170, 40, 15);
-
-    jLabel45.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel45.setText("0");
-    jP_HienTai.add(jLabel45);
-    jLabel45.setBounds(260, 90, 40, 15);
-
-    jLabel46.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel46.setText("0");
-    jP_HienTai.add(jLabel46);
-    jLabel46.setBounds(260, 190, 40, 15);
+    jL_ThongKeXeDaLay.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    jL_ThongKeXeDaLay.setText("0");
+    jP_HienTai.add(jL_ThongKeXeDaLay);
+    jL_ThongKeXeDaLay.setBounds(260, 100, 40, 15);
 
     jTable_TKHienTai.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
@@ -2020,12 +2037,18 @@ public class QuanLi extends javax.swing.JFrame {
 
     jP_HienTai.add(jScrollPane4);
     jScrollPane4.setBounds(20, 290, 490, 160);
-    jP_HienTai.add(jTextField1);
-    jTextField1.setBounds(20, 260, 150, 20);
 
-    jButton1.setText("Tìm kiếm theo tên xe");
+    jT_HT_TimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            jT_HT_TimKiemKeyReleased(evt);
+        }
+    });
+    jP_HienTai.add(jT_HT_TimKiem);
+    jT_HT_TimKiem.setBounds(20, 250, 170, 30);
+
+    jButton1.setText("Tìm kiếm theo số xe");
     jP_HienTai.add(jButton1);
-    jButton1.setBounds(180, 260, 140, 23);
+    jButton1.setBounds(210, 260, 140, 23);
 
     jLabel54.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel54.setText("Tổng số xe:");
@@ -2033,6 +2056,11 @@ public class QuanLi extends javax.swing.JFrame {
     jLabel54.setBounds(50, 70, 130, 15);
 
     jC_TinhTrangGui.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TẤT CẢ", "ĐÃ LẤY", "CHƯA LẤY" }));
+    jC_TinhTrangGui.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jC_TinhTrangGuiActionPerformed(evt);
+        }
+    });
     jP_HienTai.add(jC_TinhTrangGui);
     jC_TinhTrangGui.setBounds(350, 90, 140, 20);
 
@@ -2274,28 +2302,41 @@ public class QuanLi extends javax.swing.JFrame {
     jC_Quy.setEnabled(false);
     jC_Quy.setPreferredSize(new java.awt.Dimension(32, 23));
 
+    btn_DT_EXtoExcel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+    btn_DT_EXtoExcel.setText("Export to Excel");
+    btn_DT_EXtoExcel.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_DT_EXtoExcelActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPan_ThongKeLayout = new javax.swing.GroupLayout(jPan_ThongKe);
     jPan_ThongKe.setLayout(jPan_ThongKeLayout);
     jPan_ThongKeLayout.setHorizontalGroup(
         jPan_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPan_ThongKeLayout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(jPan_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(btn_DoanhThu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_HienTai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_VeThang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_SuCo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jL_ThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jC_ThongKe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jDate_NgayThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jC_Thang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jC_Quy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator27))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPan_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPan_ThongKeLayout.createSequentialGroup()
+                    .addGroup(jPan_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_DoanhThu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_HienTai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_VeThang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_SuCo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jL_ThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jC_ThongKe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDate_NgayThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jC_Thang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jC_Quy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator27))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPan_ThongKeLayout.createSequentialGroup()
+                    .addComponent(btn_DT_EXtoExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())))
     );
     jPan_ThongKeLayout.setVerticalGroup(
         jPan_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2328,7 +2369,9 @@ public class QuanLi extends javax.swing.JFrame {
                     .addGap(18, 18, 18)
                     .addComponent(btn_SuCo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(0, 65, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(btn_DT_EXtoExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 22, Short.MAX_VALUE))
     );
 
     jTable_NV.addTab("Thống Kê", jPan_ThongKe);
@@ -2470,7 +2513,20 @@ public class QuanLi extends javax.swing.JFrame {
         new String [] {
             "Ca trực", "Mã nhân viên", "Tên nhân viên", "Ngày trực", "Giờ bắt đầu", "Giờ kết thúc"
         }
-    ));
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false, false
+        };
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    jTable_PhanCongTruc.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            jTable_PhanCongTrucMousePressed(evt);
+        }
+    });
     jScrollPane8.setViewportView(jTable_PhanCongTruc);
 
     jLabel62.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -2481,39 +2537,64 @@ public class QuanLi extends javax.swing.JFrame {
     jLabel63.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jLabel63.setText("Mã nhân viên:");
 
-    jTextField2.setEditable(false);
+    jT_MaNVTruc.setEditable(false);
+    jT_MaNVTruc.setToolTipText("Enter để xem tên nhân viên");
+    jT_MaNVTruc.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            jT_MaNVTrucKeyPressed(evt);
+        }
+    });
 
     jLabel64.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel64.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jLabel64.setText("Tên nhân viên:");
 
-    jTextField3.setEditable(false);
+    jT_TenNVTruc.setEditable(false);
 
     jLabel65.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     jLabel65.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jLabel65.setText("Ngày trực:");
 
-    jDateChooser1.setDateFormatString("yyyy-MM-dd");
-    jDateChooser1.setEnabled(false);
+    jDate_NgayTruc.setDateFormatString("yyyy-MM-dd");
+    jDate_NgayTruc.setEnabled(false);
 
-    jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jButton2.setText("Thêm");
+    btn_ThemCaTruc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_ThemCaTruc.setText("Thêm");
+    btn_ThemCaTruc.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_ThemCaTrucActionPerformed(evt);
+        }
+    });
 
-    jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jButton3.setText("Sửa");
+    btn_XoaCaTruc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_XoaCaTruc.setText("Xóa");
+    btn_XoaCaTruc.setEnabled(false);
+    btn_XoaCaTruc.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_XoaCaTrucActionPerformed(evt);
+        }
+    });
 
-    jButton5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jButton5.setText("Xóa");
-
-    jButton6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jButton6.setText("Xác nhận thêm");
-
-    jButton7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jButton7.setText("Xác nhận sửa");
+    btn_XacNhanThemCT.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_XacNhanThemCT.setText("Xác nhận thêm");
+    btn_XacNhanThemCT.setEnabled(false);
+    btn_XacNhanThemCT.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_XacNhanThemCTActionPerformed(evt);
+        }
+    });
 
     jLabel66.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
     jLabel66.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel66.setText("THÔNG TIN CA TRỰC CỦA NHÂN VIÊN");
+
+    btn_HuyThaoTac_CT.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_HuyThaoTac_CT.setText("Hủy");
+    btn_HuyThaoTac_CT.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_HuyThaoTac_CTActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
     jPanel4.setLayout(jPanel4Layout);
@@ -2525,10 +2606,6 @@ public class QuanLi extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel62)
                                 .addComponent(jLabel63)
@@ -2536,21 +2613,23 @@ public class QuanLi extends javax.swing.JFrame {
                                 .addComponent(jLabel65))
                             .addGap(50, 50, 50)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
                                 .addComponent(jC_CaTruc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField2)
-                                .addComponent(jTextField3)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jT_MaNVTruc)
+                                .addComponent(jT_TenNVTruc)
+                                .addComponent(jDate_NgayTruc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addComponent(jButton6)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButton7)
-                            .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGap(44, 44, 44)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btn_XacNhanThemCT)
+                                .addComponent(btn_ThemCaTruc, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btn_HuyThaoTac_CT, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                                .addComponent(btn_XoaCaTruc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(22, 22, 22)))
                     .addGap(28, 28, 28))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                    .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap())))
     );
     jPanel4Layout.setVerticalGroup(
@@ -2565,25 +2644,24 @@ public class QuanLi extends javax.swing.JFrame {
             .addGap(27, 27, 27)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel63)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jT_MaNVTruc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(27, 27, 27)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel64)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jT_TenNVTruc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(22, 22, 22)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(jLabel65)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jDate_NgayTruc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(18, 18, 18)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton2)
-                .addComponent(jButton3)
-                .addComponent(jButton5))
+                .addComponent(btn_ThemCaTruc)
+                .addComponent(btn_XoaCaTruc))
             .addGap(18, 18, 18)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton6)
-                .addComponent(jButton7))
-            .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(btn_XacNhanThemCT)
+                .addComponent(btn_HuyThaoTac_CT))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     Connection ketNoi4 = KetNoiCSDL.ketNoi();
@@ -2719,6 +2797,22 @@ public class QuanLi extends javax.swing.JFrame {
         e.printStackTrace();
     }
 
+    jC_LocCaTruc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TẤT CẢ" }));
+
+    jLabel32.setText("Ca trực");
+
+    jC_LocNgayLam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TẤT CẢ", "ĐÃ LÀM", "CHƯA LÀM" }));
+
+    jLabel37.setText("Ngày làm");
+
+    btn_LocTheoYC.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    btn_LocTheoYC.setText("Lọc");
+    btn_LocTheoYC.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btn_LocTheoYCActionPerformed(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPan_PhanCongLayout = new javax.swing.GroupLayout(jPan_PhanCong);
     jPan_PhanCong.setLayout(jPan_PhanCongLayout);
     jPan_PhanCongLayout.setHorizontalGroup(
@@ -2726,24 +2820,57 @@ public class QuanLi extends javax.swing.JFrame {
         .addGroup(jPan_PhanCongLayout.createSequentialGroup()
             .addGap(23, 23, 23)
             .addGroup(jPan_PhanCongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPan_PhanCongLayout.createSequentialGroup()
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPan_PhanCongLayout.createSequentialGroup()
+                    .addComponent(jC_LocCaTruc, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(41, 41, 41)
+                    .addComponent(jC_LocNgayLam, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel37)
+                    .addGap(30, 30, 30)
+                    .addComponent(btn_LocTheoYC, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap(23, Short.MAX_VALUE))
     );
     jPan_PhanCongLayout.setVerticalGroup(
         jPan_PhanCongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPan_PhanCongLayout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(jPan_PhanCongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPan_PhanCongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPan_PhanCongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jC_LocCaTruc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel32)
+                .addComponent(jC_LocNgayLam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel37)
+                .addComponent(btn_LocTheoYC))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
     );
+
+    Connection ketNoi7 = KetNoiCSDL.ketNoi();
+    String sql7 = "select TEN_CA from CA_TRUC";
+    try{
+        PreparedStatement pr = ketNoi7.prepareStatement(sql7);
+        ResultSet rs = pr.executeQuery();
+        while (rs.next()){
+            jC_LocCaTruc.addItem(rs.getString("TEN_CA"));
+        }
+        rs.close();
+        pr.close();
+        ketNoi7.close();
+    }
+    catch (Exception e){
+        e.printStackTrace();
+    }
 
     jTable_NV.addTab("Phân Công Trực", jPan_PhanCong);
 
@@ -2905,7 +3032,8 @@ public class QuanLi extends javax.swing.JFrame {
                     String maCV = thaoTac.maCV(chucVu);
                     thaoTac.themTK(maNV.toUpperCase(), MK, maCV);
                     thaoTac.themNV(maNV.toUpperCase(), tenNV.toUpperCase(), ngaySinh, diaChi.toUpperCase(), SDT, gioiTinh);
-
+                    
+                    this.layTTCaTruc();
                     layTT();
                 }
             }
@@ -2928,6 +3056,7 @@ public class QuanLi extends javax.swing.JFrame {
             if (thaoTac.checkIDNV(maNV) == 1){
                 int check = JOptionPane.showConfirmDialog(null, "Xác nhận muốn xóa", "", JOptionPane.YES_NO_OPTION);
                 if (check == JOptionPane.YES_OPTION){
+                    thaoTac.xoaTTCaMaNVNghi(maNV);
                     thaoTac.xoaNV(maNV);
                     thaoTac.xoaDangNhap(maNV);
 
@@ -2946,6 +3075,7 @@ public class QuanLi extends javax.swing.JFrame {
 
                     //vẽ lại bảng thông tin
                     this.layTT();
+                    this.layTTCaTruc();
                 }
             }
             else{
@@ -3045,6 +3175,7 @@ public class QuanLi extends javax.swing.JFrame {
                 String maCV = thaoTac.maCV(chucVu);
                 thaoTac.suaDN(maNV, MK, maCV);
                 thaoTac.suaNV(maNV, tenNV, ngaySinh, diaChi, SDT, gioiTinh);
+                this.layTTCaTruc();
                 layTT();
             }
 
@@ -3234,7 +3365,7 @@ public class QuanLi extends javax.swing.JFrame {
         String ngayHH = df.format(cal.getTime());
         //
         
-        if (!bienSo.equals("") && (QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN") || QLXe.checkTinhTrangVeThang(bienSo).equals(""))){
+        if (!bienSo.equals("") && QLXe.checkTinhTrangVeThang(bienSo).equals("")){
             //hien thong tin nhap dialog sv
             jL_SoXe.setText(bienSo);
             jL_HieuXe1.setText(hieuXe);
@@ -3244,7 +3375,10 @@ public class QuanLi extends javax.swing.JFrame {
             jL_Tien.setText(giaTien);
             jDi_SinhVien.setLocationRelativeTo(null);
             jDi_SinhVien.setVisible(true);
-            
+        }
+        else if(QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN")){
+            JOptionPane.showMessageDialog(null, "Cập nhật lại thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            QLXe.capNhatLaiTTVeThang(bienSo,Date.valueOf(ngayDK), Date.valueOf(ngayHH) ,"CÒN HẠN");
         }
         else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
             JOptionPane.showMessageDialog(null, "Xe vẫn còn hạn, không thể thêm được nữa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -3564,21 +3698,34 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN" 
                     + " FROM VE_XE AS VX, LOAI_VE AS LV" 
                     + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.TINH_TRANG = N'ĐÃ LẤY'";
-            //Tinh tong tien thu duoc
-            String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                                "from VE_XE\n" +
-                                "where TINH_TRANG = N'ĐÃ LẤY'";
+            
             //Tinh tien luot
             String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L'";
-            //Tinh tien thang
-            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T'";
+                            "from VE_XE\n" +
+                            "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L'";
+            
+            String sqlSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                        "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                        "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and vx.MA_LOAI_VE = 'L'";
+            int tienLuot = Integer.parseInt(QLXe.tinhTienLuot(sqlLuot)) - Integer.parseInt(QLXe.tienSuCo(sqlSC));
+            
+            //tinh tong tien su co
+            String sqlTongSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                        "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                        "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE ";
+            
+            //tinh tong tien thang
+            String sqlThang = "select count(QLVT.BIEN_SO_XE)*GT.GIA_TIEN as GIA_TIEN\n" +
+                            "from QL_VE_THANG as QLVT, GIA_TIEN as GT\n" +
+                            "where GT.MA_LOAI_VE = 'T'\n" +
+                            "GROUP BY QLVT.TRANG_THAI, GT.GIA_TIEN";
+            //tinh tong so tien thu dc
+            int tongTien = Integer.parseInt(QLXe.tienSuCo(sqlTongSC)) + Integer.parseInt(QLXe.tinhTienThang(sqlThang)) + tienLuot;
+                    
             //them du lieu
-            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
-            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTien.setText(String.valueOf(tongTien));
+            jL_TongTienLuot.setText(String.valueOf(tienLuot));
+            jL_TongTienSC.setText(QLXe.tienSuCo(sqlTongSC));
             jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
         }
@@ -3597,21 +3744,33 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN" 
                     + " FROM VE_XE AS VX, LOAI_VE AS LV" 
                     + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.TINH_TRANG = N'ĐÃ LẤY' AND VX.NGAY_RA = '" + ngayRa +"'";
-            //Tinh tien theo Ngay
-            String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                                "from VE_XE\n" +
-                                "where TINH_TRANG = N'ĐÃ LẤY' AND NGAY_RA = '" + ngayRa + "'";
+            
             //Tinh tien luot theo NGAY
             String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                     "from VE_XE\n" +
                     "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L' AND NGAY_RA = '" + ngayRa + "'";
-            //Tinh tien thang
-            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T' AND NGAY_RA = '" + ngayRa + "'";
+            String sqlSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                        "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                        "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and vx.MA_LOAI_VE = 'L' AND QL.NGAY_XAY_RA = '" + ngayRa + "'";
+            int tienLuot = Integer.parseInt(QLXe.tinhTienLuot(sqlLuot)) - Integer.parseInt(QLXe.tienSuCo(sqlSC));
+            
+            //tinh tong tien su co
+            String sqlTongSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                        "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                        "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and QL.NGAY_XAY_RA = '" + ngayRa + "'";
+            
+            //tinh tong tien thang
+            String sqlThang = "select count(QLVT.BIEN_SO_XE)*GT.GIA_TIEN as GIA_TIEN\n" +
+                            "from QL_VE_THANG as QLVT, GIA_TIEN as GT\n" +
+                            "where GT.MA_LOAI_VE = 'T' and QLVT.NGAY_LAM_VE = '" + ngayRa + "'\n" +
+                            "GROUP BY QLVT.TRANG_THAI, GT.GIA_TIEN";
+            //tinh tong so tien thu dc
+            int tongTien = Integer.parseInt(QLXe.tienSuCo(sqlTongSC)) + Integer.parseInt(QLXe.tinhTienThang(sqlThang)) + tienLuot;
+            
             //them du lieu
-            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
-            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTien.setText(String.valueOf(tongTien));
+            jL_TongTienLuot.setText(String.valueOf(tienLuot));
+            jL_TongTienSC.setText(QLXe.tienSuCo(sqlTongSC));
             jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
             
@@ -3622,21 +3781,33 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN" 
                     + " FROM VE_XE AS VX, LOAI_VE AS LV" 
                     + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.TINH_TRANG = N'ĐÃ LẤY' AND MONTH(VX.NGAY_RA) = '" + thang +"'";
-            //Tinh tien theo THANG
-            String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                                "from VE_XE\n" +
-                                "where TINH_TRANG = N'ĐÃ LẤY' AND MONTH(NGAY_RA) = '" + thang + "'";
+            
             //Tinh tien luot theo THANG
             String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                     "from VE_XE\n" +
                     "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L' AND MONTH(NGAY_RA) = '" + thang + "'";
-            //Tinh tien thang
-            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T' AND MONTH(NGAY_RA) = '" + thang + "'";
+            String sqlSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and vx.MA_LOAI_VE = 'L' AND MONTH(QL.NGAY_XAY_RA) = '" + thang + "'";
+            int tienLuot = Integer.parseInt(QLXe.tinhTienLuot(sqlLuot)) - Integer.parseInt(QLXe.tienSuCo(sqlSC));
+            
+            //tinh tong tien su co
+            String sqlTongSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                        "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                        "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and MONTH(QL.NGAY_XAY_RA) = '" + thang + "'";
+            
+            //tinh tong tien thang
+            String sqlThang = "select count(QLVT.BIEN_SO_XE)*GT.GIA_TIEN as GIA_TIEN\n" +
+                            "from QL_VE_THANG as QLVT, GIA_TIEN as GT\n" +
+                            "where GT.MA_LOAI_VE = 'T' and MONTH(QLVT.NGAY_LAM_VE) = '" + thang + "'\n" +
+                            "GROUP BY QLVT.TRANG_THAI, GT.GIA_TIEN";
+            //tinh tong so tien thu dc
+            int tongTien = Integer.parseInt(QLXe.tienSuCo(sqlTongSC)) + Integer.parseInt(QLXe.tinhTienThang(sqlThang)) + tienLuot;
+            
             //them du lieu
-            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
-            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTien.setText(String.valueOf(tongTien));
+            jL_TongTienLuot.setText(String.valueOf(tienLuot));
+            jL_TongTienSC.setText(QLXe.tienSuCo(sqlTongSC));
             jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
             
@@ -3663,36 +3834,54 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN" 
                     + " FROM VE_XE AS VX, LOAI_VE AS LV" 
                     + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.TINH_TRANG = N'ĐÃ LẤY' AND MONTH(VX.NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
-            //Tinh tien theo QUY
-            String sqlTongTien = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                                "from VE_XE\n" +
-                                "where TINH_TRANG = N'ĐÃ LẤY' AND MONTH(NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+           
             //Tinh tien luot theo QUY
             String sqlLuot = "select sum(GIA_TIEN) as GIA_TIEN\n" +
                     "from VE_XE\n" +
                     "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'L' AND MONTH(NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
-            //Tinh tien thang
-            String sqlThang = "select sum(GIA_TIEN) as GIA_TIEN\n" +
-                    "from VE_XE\n" +
-                    "where TINH_TRANG = N'ĐÃ LẤY' AND MA_LOAI_VE = 'T' AND MONTH(NGAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            String sqlSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                            "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                            "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and vx.MA_LOAI_VE = 'L' AND MONTH(QL.NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            int tienLuot = Integer.parseInt(QLXe.tinhTienLuot(sqlLuot)) - Integer.parseInt(QLXe.tienSuCo(sqlSC));
+            
+            //tinh tong tien thang
+            String sqlTongSC = "select sum(XU_PHAT) as XU_PHAT\n" +
+                        "from SU_CO as SC, QL_SU_CO as QL, VE_XE as VX\n" +
+                        "where QL.MA_SU_CO = SC.MA_SU_CO and QL.BIEN_SO_XE = VX.BIEN_SO_XE and MONTH(QL.NGAY_XAY_RA) BETWEEN " + thangBD + " AND " + thangKT;
+            
+            //tinh tong tien thang
+            String sqlThang = "select count(QLVT.BIEN_SO_XE)*GT.GIA_TIEN as GIA_TIEN\n" +
+                            "from QL_VE_THANG as QLVT, GIA_TIEN as GT\n" +
+                            "where GT.MA_LOAI_VE = 'T' and MONTH(QLVT.NGAY_LAM_VE) BETWEEN " + thangBD + " AND " + thangKT + "\n" +
+                            "GROUP BY QLVT.TRANG_THAI, GT.GIA_TIEN";
+            //tinh tong so tien thu dc
+            int tongTien = Integer.parseInt(QLXe.tienSuCo(sqlTongSC)) + Integer.parseInt(QLXe.tinhTienThang(sqlThang)) + tienLuot;
+            
             //them du lieu
-            jL_TongTien.setText(QLXe.tinhTien(sqlTongTien));
-            jL_TongTienLuot.setText(QLXe.tinhTienLuot(sqlLuot));
+            jL_TongTien.setText(String.valueOf(tongTien));
+            jL_TongTienLuot.setText(String.valueOf(tienLuot));
+            jL_TongTienSC.setText(QLXe.tienSuCo(sqlTongSC));
             jL_TongTienThang.setText(QLXe.tinhTienThang(sqlThang));
             this.layDoanhThu(sqlTable);
         }
     }//GEN-LAST:event_btn_DoanhThuActionPerformed
 
-    private void jT_TimXeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_TimXeKeyReleased
+    private void jT_DT_TimXeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_DT_TimXeKeyReleased
         // TODO add your handling code here:
-//        String bienSo = jT_TimXe.getText();
-//        if (bienSo.equals("")){
-//            
-//        }
-//        else if (!bienSo.equals("")){
-//            timKiemXe(bienSo);
-//        }
-    }//GEN-LAST:event_jT_TimXeKeyReleased
+        String bienSo = jT_DT_TimXe.getText();
+        if (bienSo.equals("")){
+            String sql = "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN" 
+                    + " FROM VE_XE AS VX, LOAI_VE AS LV" 
+                    + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.TINH_TRANG = N'ĐÃ LẤY'";
+            this.layDoanhThu(sql);
+        }
+        else if (!bienSo.equals("")){
+            String sql = "SELECT LV.TEN_LOAI, VX.BIEN_SO_XE, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.GIA_TIEN" 
+                    + " FROM VE_XE AS VX, LOAI_VE AS LV" 
+                    + " WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.TINH_TRANG = N'ĐÃ LẤY' AND VX.BIEN_SO_XE LIKE '%" + bienSo +"%'";
+            this.layDoanhThu(sql);
+        }
+    }//GEN-LAST:event_jT_DT_TimXeKeyReleased
 
     private void jC_ThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jC_ThongKeActionPerformed
         // TODO add your handling code here:
@@ -3761,8 +3950,21 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
                             "from VE_XE as VX, LOAI_VE as LV\n" +
                             "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE";
-            
+            //lay tong so xe gui trong bai
+            String sqlTongXe = "select count(MA_VE) as XE\n" +
+                            "from VE_XE";
+            //lay tong so xe da lay trong bai
+            String sqlXeDaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'ĐÃ LẤY'";
+            //lay tong so xe chua lay trong bai
+            String sqlXeChuaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'CHƯA LẤY'";
             //Them du lieu
+            jL_ThongKeTongSoXe.setText(QLXe.tongSoXeTrongBai(sqlTongXe));
+            jL_ThongKeXeDaLay.setText(QLXe.tongSoXeTrongBai(sqlXeDaLay));
+            jL_ThongKeXeChuaLay.setText(QLXe.tongSoXeTrongBai(sqlXeChuaLay));
             this.layHT(sqlTable);
         }
         else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
@@ -3780,8 +3982,23 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
                             "from VE_XE as VX, LOAI_VE as LV\n" +
                             "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.NGAY_VAO ='" + ngayRa + "'";
+            //lay tong so xe gui trong bai
+            String sqlTongXe = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE NGAY_VAO = '" + ngayRa + "'";
+            //lay tong so xe da lay trong bai
+            String sqlXeDaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'ĐÃ LẤY' AND NGAY_VAO = '" + ngayRa + "'";
+            //lay tong so xe chua lay trong bai
+            String sqlXeChuaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'CHƯA LẤY' AND NGAY_VAO = '" + ngayRa + "'";
             
             //lay du lieu
+            jL_ThongKeTongSoXe.setText(QLXe.tongSoXeTrongBai(sqlTongXe));
+            jL_ThongKeXeDaLay.setText(QLXe.tongSoXeTrongBai(sqlXeDaLay));
+            jL_ThongKeXeChuaLay.setText(QLXe.tongSoXeTrongBai(sqlXeChuaLay));
             this.layHT(sqlTable);
         }
         else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
@@ -3790,8 +4007,23 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
                             "from VE_XE as VX, LOAI_VE as LV\n" +
                             "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND MONTH(VX.NGAY_VAO) ='" + thang + "'";
+            //lay tong so xe gui trong bai
+            String sqlTongXe = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE MONTH(NGAY_VAO) = '" + thang + "'";
+            //lay tong so xe da lay trong bai
+            String sqlXeDaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'ĐÃ LẤY' AND MONTH(NGAY_VAO) = '" + thang + "'";
+            //lay tong so xe chua lay trong bai
+            String sqlXeChuaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'CHƯA LẤY' AND MONTH(NGAY_VAO) = '" + thang + "'";
             
             //lay du lieu
+            jL_ThongKeTongSoXe.setText(QLXe.tongSoXeTrongBai(sqlTongXe));
+            jL_ThongKeXeDaLay.setText(QLXe.tongSoXeTrongBai(sqlXeDaLay));
+            jL_ThongKeXeChuaLay.setText(QLXe.tongSoXeTrongBai(sqlXeChuaLay));
             this.layHT(sqlTable);
         }
         else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
@@ -3817,8 +4049,23 @@ public class QuanLi extends javax.swing.JFrame {
             String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
                             "from VE_XE as VX, LOAI_VE as LV\n" +
                             "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND MONTH(VX.NGAY_VAO) BETWEEN " + thangBD + " AND " + thangKT;
+            //lay tong so xe gui trong bai
+            String sqlTongXe = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE MONTH(NGAY_VAO) BETWEEN " + thangBD + " AND " + thangKT;
+            //lay tong so xe da lay trong bai
+            String sqlXeDaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'ĐÃ LẤY' AND MONTH(NGAY_VAO) BETWEEN " + thangBD + " AND " + thangKT;
+            //lay tong so xe chua lay trong bai
+            String sqlXeChuaLay = "select count(MA_VE) as XE\n" +
+                            "from VE_XE\n" +
+                            "WHERE TINH_TRANG = N'CHƯA LẤY' AND MONTH(NGAY_VAO) BETWEEN " + thangBD + " AND " + thangKT;
             
             //lay du lieu
+            jL_ThongKeTongSoXe.setText(QLXe.tongSoXeTrongBai(sqlTongXe));
+            jL_ThongKeXeDaLay.setText(QLXe.tongSoXeTrongBai(sqlXeDaLay));
+            jL_ThongKeXeChuaLay.setText(QLXe.tongSoXeTrongBai(sqlXeChuaLay));
             this.layHT(sqlTable);
         }
     }//GEN-LAST:event_btn_HienTaiActionPerformed
@@ -4500,6 +4747,393 @@ public class QuanLi extends javax.swing.JFrame {
         jT_CT_KT.setEditable(false);
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    private void jTable_PhanCongTrucMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PhanCongTrucMousePressed
+        // TODO add your handling code here:
+        String caTruc = (String) jTable_PhanCongTruc.getValueAt(jTable_PhanCongTruc.getSelectedRow(), 0);
+        String maNV = (String) jTable_PhanCongTruc.getValueAt(jTable_PhanCongTruc.getSelectedRow(), 1);
+        String tenNV = (String) jTable_PhanCongTruc.getValueAt(jTable_PhanCongTruc.getSelectedRow(), 2);
+        java.sql.Date ngayLam = null;
+        try {
+            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jTable_PhanCongTruc.getValueAt(jTable_PhanCongTruc.getSelectedRow(), 3));
+            java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+            ngayLam = new java.sql.Date(tmp.getTime());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        jC_CaTruc.setSelectedItem(caTruc);
+        jT_MaNVTruc.setText(maNV);
+        jT_TenNVTruc.setText(tenNV);
+        jDate_NgayTruc.setDate(ngayLam);
+        
+        btn_XoaCaTruc.setEnabled(true);
+        btn_ThemCaTruc.setEnabled(false);
+    }//GEN-LAST:event_jTable_PhanCongTrucMousePressed
+
+    private void btn_XoaCaTrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaCaTrucActionPerformed
+        // TODO add your handling code here:
+        String tenCaTruc = (String) jC_CaTruc.getSelectedItem();
+        String maNV = jT_MaNVTruc.getText();
+        java.sql.Date ngayLam = null;
+        try {
+            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayTruc.getDate());
+            java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+            ngayLam = new java.sql.Date(tmp.getTime());
+        }
+        catch (Exception e) {
+        }
+        String maCa = QLXe.layMaCaTruc(maNV, ngayLam);
+        
+        if (maNV.equals("")){
+            JOptionPane.showMessageDialog(null, "Không tồn tại mã nhân viên muốn xóa.", "", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            int check = JOptionPane.showConfirmDialog(null, "Xác nhận muốn xóa?", "Thông báo", JOptionPane.YES_NO_OPTION);
+            if (check == JOptionPane.YES_OPTION){
+                QLXe.xoaCaTruc(maCa, ngayLam);
+                JOptionPane.showMessageDialog(null, "Xóa thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                this.layTTCaTruc();
+                btn_XoaCaTruc.setEnabled(false);
+                btn_ThemCaTruc.setEnabled(true);
+                
+                jC_CaTruc.setSelectedIndex(0);
+                jT_MaNVTruc.setText("");
+                jT_TenNVTruc.setText("");
+                jDate_NgayTruc.setDate(null);
+                
+                jT_MaNVTruc.setEditable(false);
+                jT_TenNVTruc.setEditable(false);
+                jDate_NgayTruc.setEnabled(false);
+            }
+            else if (check == JOptionPane.NO_OPTION){
+                btn_XoaCaTruc.setEnabled(true);
+                btn_ThemCaTruc.setEnabled(false);
+            } 
+        }
+        
+    }//GEN-LAST:event_btn_XoaCaTrucActionPerformed
+
+    private void btn_ThemCaTrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemCaTrucActionPerformed
+        // TODO add your handling code here:
+        btn_ThemCaTruc.setEnabled(false);
+        btn_XacNhanThemCT.setEnabled(true);
+        jC_CaTruc.setSelectedIndex(0);
+        jT_MaNVTruc.setText("");
+        jT_TenNVTruc.setText("");
+        jDate_NgayTruc.setDate(null);
+        
+        jT_MaNVTruc.setEditable(true);
+        jT_TenNVTruc.setEditable(false);
+        jDate_NgayTruc.setEnabled(true);
+        
+    }//GEN-LAST:event_btn_ThemCaTrucActionPerformed
+
+    private void btn_HuyThaoTac_CTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuyThaoTac_CTActionPerformed
+        // TODO add your handling code here:
+        jC_CaTruc.setSelectedIndex(0);
+        jT_MaNVTruc.setText("");
+        jT_TenNVTruc.setText("");
+        jDate_NgayTruc.setDate(null);
+        
+        jT_MaNVTruc.setEditable(false);
+        jT_TenNVTruc.setEditable(false);
+        jDate_NgayTruc.setEnabled(false);
+        
+        btn_XoaCaTruc.setEnabled(false);
+        btn_ThemCaTruc.setEnabled(true);
+        btn_XacNhanThemCT.setEnabled(false);
+    }//GEN-LAST:event_btn_HuyThaoTac_CTActionPerformed
+
+    private void btn_XacNhanThemCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XacNhanThemCTActionPerformed
+        // TODO add your handling code here:
+        //lay du lieu
+        String maNV = jT_MaNVTruc.getText();
+        java.sql.Date ngayLam = null;
+        try {
+            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayTruc.getDate());
+            java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+            ngayLam = new java.sql.Date(tmp.getTime());
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ngày làm không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        //chuc nang
+        if(maNV.equals("")){
+            JOptionPane.showMessageDialog(null, "Mã nhân viên không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            String tenCa = (String) jC_CaTruc.getSelectedItem();
+            String maCa = QLXe.layMaCaTrucTuTenCa(tenCa);
+            QLXe.themCaTruc(maCa, ngayLam, maNV);
+            JOptionPane.showMessageDialog(null, "Thêm thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            this.layTTCaTruc();
+            
+            //set su kien
+            jC_CaTruc.setSelectedIndex(0);
+            jT_MaNVTruc.setText("");
+            jT_TenNVTruc.setText("");
+            jDate_NgayTruc.setDate(null);
+
+            btn_XacNhanThemCT.setEnabled(false);
+            btn_ThemCaTruc.setEnabled(true);
+            jT_MaNVTruc.setEditable(false);
+            jT_TenNVTruc.setEditable(false);
+            jDate_NgayTruc.setEnabled(false);
+        }
+        
+    }//GEN-LAST:event_btn_XacNhanThemCTActionPerformed
+
+    private void jT_MaNVTrucKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_MaNVTrucKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == evt.VK_ENTER){
+            String maNV = jT_MaNVTruc.getText();
+            int check = thaoTac.checkIDNV(maNV);
+            if(check == 1){
+                jT_TenNVTruc.setText(thaoTac.layTenNV(maNV));
+            }
+            else if (check == 0){
+                JOptionPane.showMessageDialog(null, "Nhân viên này không tồn tại. Xin nhập lại mã nhân viên.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        }
+    }//GEN-LAST:event_jT_MaNVTrucKeyPressed
+
+    private void jC_TinhTrangGuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jC_TinhTrangGuiActionPerformed
+        // TODO add your handling code here:
+        String trangThai = (String) jC_TinhTrangGui.getSelectedItem();
+        if(trangThai.equals("TẤT CẢ")){
+            trangThai = "ĐÃ LẤY' OR TINH_TRANG = N'CHƯA LẤY";
+        }
+        if(jC_ThongKe.getSelectedItem().equals("TẤT CẢ")){
+            //lay thong tin cho bang Thong ke hien tai
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND TINH_TRANG =N'" + trangThai + "'";
+            
+            //Them du lieu
+            this.layHT(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
+            //lay ngay ra
+            java.sql.Date ngayRa = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayThongKe.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngayRa = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+                ngayRa = java.sql.Date.valueOf(java.time.LocalDate.now());
+            }
+            //lay thong tin cho bang thong ke hien tai theo ngay
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.NGAY_VAO ='" + ngayRa + "' AND TINH_TRANG =N'" + trangThai + "'";
+            
+            //lay du lieu
+            this.layHT(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("THÁNG")){
+            String thang = (String) jC_Thang.getSelectedItem();
+            //lay thong tin cho bang thong ke hien tai theo ngay
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND MONTH(VX.NGAY_VAO) ='" + thang + "' AND TINH_TRANG =N'" + trangThai + "'";
+            
+            //lay du lieu
+            this.layHT(sqlTable);
+        }
+        else if(jC_ThongKe.getSelectedItem().equals("QUÝ")){
+            String thangBD = "", thangKT = "";
+            if (jC_Quy.getSelectedItem().equals("1")){
+                thangBD = "1";
+                thangKT = "3";
+            }
+            else if (jC_Quy.getSelectedItem().equals("2")){
+                thangBD = "4";
+                thangKT = "6";
+            }
+            else if (jC_Quy.getSelectedItem().equals("3")){
+                thangBD = "7";
+                thangKT = "9";
+            }
+            else if (jC_Quy.getSelectedItem().equals("4")){
+                thangBD = "10";
+                thangKT = "12";
+            }
+            
+            //lay thong tin cho bang thong ke hien tai theo ngay
+            String sqlTable = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                            "from VE_XE as VX, LOAI_VE as LV\n" +
+                            "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND MONTH(VX.NGAY_VAO) BETWEEN " + thangBD + " AND " + thangKT + " AND TINH_TRANG =N'" + trangThai + "'";
+            
+            //lay du lieu
+            this.layHT(sqlTable);
+        }
+    }//GEN-LAST:event_jC_TinhTrangGuiActionPerformed
+
+    private void btn_LocTheoYCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LocTheoYCActionPerformed
+        // TODO add your handling code here:
+        String YCCaTruc = (String) jC_LocCaTruc.getSelectedItem();
+        String YCNgay = (String) jC_LocNgayLam.getSelectedItem();
+        Date ngayHT = Date.valueOf(LocalDate.now());
+        if (YCCaTruc.equals("TẤT CẢ")){
+            if(YCNgay.equals("TẤT CẢ")){
+                this.layTTCaTruc();
+            }
+            else if(YCNgay.equals("ĐÃ LÀM")){
+                String sql = "select CT.TEN_CA, NV.MA_NV, NV.HO_TEN, PC.NGAY_LAM, CT.GIO_BAT_DAU, CT.GIO_KET_THUC\n" +
+                    "from CA_TRUC as CT, PHAN_CONG_TRUC as PC, NHAN_VIEN as NV\n" +
+                    "where NV.MA_NV = PC.MA_NHAN_VIEN AND PC.MA_CA = CT.MA_CA AND PC.NGAY_LAM < '" + ngayHT + "'";
+                this.layTTCaTrucTheoYC(sql);
+            }
+            else if(YCNgay.equals("CHƯA LÀM")){
+                String sql = "select CT.TEN_CA, NV.MA_NV, NV.HO_TEN, PC.NGAY_LAM, CT.GIO_BAT_DAU, CT.GIO_KET_THUC\n" +
+                    "from CA_TRUC as CT, PHAN_CONG_TRUC as PC, NHAN_VIEN as NV\n" +
+                    "where NV.MA_NV = PC.MA_NHAN_VIEN AND PC.MA_CA = CT.MA_CA AND PC.NGAY_LAM >= '" + ngayHT + "'";
+                this.layTTCaTrucTheoYC(sql);
+            }
+        }
+        else{
+            if(YCNgay.equals("TẤT CẢ")){
+                String sql = "select CT.TEN_CA, NV.MA_NV, NV.HO_TEN, PC.NGAY_LAM, CT.GIO_BAT_DAU, CT.GIO_KET_THUC\n" +
+                    "from CA_TRUC as CT, PHAN_CONG_TRUC as PC, NHAN_VIEN as NV\n" +
+                    "where NV.MA_NV = PC.MA_NHAN_VIEN AND PC.MA_CA = CT.MA_CA AND CT.TEN_CA = '" + YCCaTruc + "'";
+                this.layTTCaTrucTheoYC(sql);
+            }
+            else if(YCNgay.equals("ĐÃ LÀM")){
+                String sql = "select CT.TEN_CA, NV.MA_NV, NV.HO_TEN, PC.NGAY_LAM, CT.GIO_BAT_DAU, CT.GIO_KET_THUC\n" +
+                    "from CA_TRUC as CT, PHAN_CONG_TRUC as PC, NHAN_VIEN as NV\n" +
+                    "where NV.MA_NV = PC.MA_NHAN_VIEN AND PC.MA_CA = CT.MA_CA AND PC.NGAY_LAM < '" + ngayHT + "' AND CT.TEN_CA = '" + YCCaTruc + "'";
+                this.layTTCaTrucTheoYC(sql);
+            }
+            else if(YCNgay.equals("CHƯA LÀM")){
+                String sql = "select CT.TEN_CA, NV.MA_NV, NV.HO_TEN, PC.NGAY_LAM, CT.GIO_BAT_DAU, CT.GIO_KET_THUC\n" +
+                    "from CA_TRUC as CT, PHAN_CONG_TRUC as PC, NHAN_VIEN as NV\n" +
+                    "where NV.MA_NV = PC.MA_NHAN_VIEN AND PC.MA_CA = CT.MA_CA AND PC.NGAY_LAM >= '" + ngayHT + "' AND CT.TEN_CA = '" + YCCaTruc + "'";
+                this.layTTCaTrucTheoYC(sql);
+            }
+        }
+    }//GEN-LAST:event_btn_LocTheoYCActionPerformed
+
+    private void jT_HT_TimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_HT_TimKiemKeyReleased
+        // TODO add your handling code here:
+        String bienSo = jT_HT_TimKiem.getText();
+        if (bienSo.equals("")){
+            String sql = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                        "from VE_XE as VX, LOAI_VE as LV\n" +
+                        "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE";
+            this.layHT(sql);
+        }
+        else if (!bienSo.equals("")){
+            String sql = "select VX.BIEN_SO_XE, LV.TEN_LOAI, VX.NGAY_VAO, VX.GIO_VAO, VX.NGAY_RA, VX.GIO_RA, VX.MA_NV_VAO, VX.MA_NV_RA\n" +
+                        "from VE_XE as VX, LOAI_VE as LV\n" +
+                        "WHERE VX.MA_LOAI_VE = LV.MA_LOAI_VE AND VX.BIEN_SO_XE LIKE '%" + bienSo +"%'";
+            this.layHT(sql);
+        }
+    }//GEN-LAST:event_jT_HT_TimKiemKeyReleased
+
+    private void btn_DT_EXtoExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DT_EXtoExcelActionPerformed
+        // TODO add your handling code here:
+        Date ngayHT = Date.valueOf(LocalDate.now());
+        try {
+            JFileChooser jFile = new JFileChooser();
+            jFile.showSaveDialog(this);
+            File saveFile = jFile.getSelectedFile();
+            if(saveFile != null){
+                saveFile = new File(saveFile.toString()+"_DoanhThu.xlsx");
+                Workbook wb = new XSSFWorkbook();
+                //xuat bang doanh tu
+                org.apache.poi.ss.usermodel.Sheet sheetDoanhThu = wb.createSheet("DOANH THU");
+                Row rowCol = sheetDoanhThu.createRow(0);
+                for(int i = 0; i<jTable_TKDoanhThu.getColumnCount(); i++){
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(jTable_TKDoanhThu.getColumnName(i));
+                }
+                
+                for(int j = 0; j<jTable_TKDoanhThu.getRowCount(); j++){
+                    Row row = sheetDoanhThu.createRow(j+1);
+                    for (int k = 0; k<jTable_TKDoanhThu.getColumnCount(); k++){
+                        Cell cell = row.createCell(k);
+                        if (jTable_TKDoanhThu.getValueAt(j, k) != null){
+                            cell.setCellValue(jTable_TKDoanhThu.getValueAt(j, k).toString());
+                        }
+                    }
+                }
+                
+                //Xuat hien tai
+                org.apache.poi.ss.usermodel.Sheet sheetHT = wb.createSheet("THONG KE XE");
+                Row rowColHT = sheetHT.createRow(0);
+                for(int i = 0; i<jTable_TKHienTai.getColumnCount(); i++){
+                    Cell cell = rowColHT.createCell(i);
+                    cell.setCellValue(jTable_TKHienTai.getColumnName(i));
+                }
+                
+                for(int j = 0; j<jTable_TKHienTai.getRowCount(); j++){
+                    Row row = sheetHT.createRow(j+1);
+                    for (int k = 0; k<jTable_TKHienTai.getColumnCount(); k++){
+                        Cell cell = row.createCell(k);
+                        if (jTable_TKHienTai.getValueAt(j, k) != null){
+                            cell.setCellValue(jTable_TKHienTai.getValueAt(j, k).toString());
+                        }
+                    }
+                }
+                
+                //Xuat ve thang
+                org.apache.poi.ss.usermodel.Sheet sheetVT = wb.createSheet("VE THANG");
+                Row rowColVT = sheetVT.createRow(0);
+                for(int i = 0; i<jTable_TKVeThang.getColumnCount(); i++){
+                    Cell cell = rowColVT.createCell(i);
+                    cell.setCellValue(jTable_TKVeThang.getColumnName(i));
+                }
+                
+                for(int j = 0; j<jTable_TKVeThang.getRowCount(); j++){
+                    Row row = sheetVT.createRow(j+1);
+                    for (int k = 0; k<jTable_TKVeThang.getColumnCount(); k++){
+                        Cell cell = row.createCell(k);
+                        if (jTable_TKVeThang.getValueAt(j, k) != null){
+                            cell.setCellValue(jTable_TKVeThang.getValueAt(j, k).toString());
+                        }
+                    }
+                }
+                
+                //Xuat su co
+                org.apache.poi.ss.usermodel.Sheet sheetSC = wb.createSheet("SU CO");
+                Row rowColSC = sheetSC.createRow(0);
+                for(int i = 0; i<jTable_TKSuCo.getColumnCount(); i++){
+                    Cell cell = rowColSC.createCell(i);
+                    cell.setCellValue(jTable_TKSuCo.getColumnName(i));
+                }
+                
+                for(int j = 0; j<jTable_TKSuCo.getRowCount(); j++){
+                    Row row = sheetSC.createRow(j+1);
+                    for (int k = 0; k<jTable_TKSuCo.getColumnCount(); k++){
+                        Cell cell = row.createCell(k);
+                        if (jTable_TKSuCo.getValueAt(j, k) != null){
+                            cell.setCellValue(jTable_TKSuCo.getValueAt(j, k).toString());
+                        }
+                    }
+                }
+                
+                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(out);
+                wb.close();
+                out.close();
+                openFile(saveFile.toString());
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Error");
+            }
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException io){
+            io.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_DT_EXtoExcelActionPerformed
+
     
     public static void main(String args[]) {
         
@@ -4531,6 +5165,7 @@ public class QuanLi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_DT_EXtoExcel;
     private javax.swing.JButton btn_DangXuat;
     private javax.swing.JButton btn_DatLaiVe;
     private javax.swing.JButton btn_DoanhThu;
@@ -4543,7 +5178,9 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JButton btn_HuyDatLai;
     private javax.swing.JButton btn_HuySV;
     private javax.swing.JButton btn_HuyThanhTien;
+    private javax.swing.JButton btn_HuyThaoTac_CT;
     private javax.swing.JButton btn_HuyTien;
+    private javax.swing.JButton btn_LocTheoYC;
     private javax.swing.JButton btn_LuuCaTruc1;
     private javax.swing.JButton btn_LuuVe;
     private javax.swing.JButton btn_Ra;
@@ -4552,25 +5189,25 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JButton btn_SuCo;
     private javax.swing.JButton btn_SuaCaTruc1;
     private javax.swing.JButton btn_Thang;
+    private javax.swing.JButton btn_ThemCaTruc;
     private javax.swing.JButton btn_ThemNV;
     private javax.swing.JButton btn_Vao;
     private javax.swing.JButton btn_VeThang;
     private javax.swing.JButton btn_XNSV;
     private javax.swing.JButton btn_XacNhanThanhTien;
+    private javax.swing.JButton btn_XacNhanThemCT;
     private javax.swing.JButton btn_XacNhanTien;
+    private javax.swing.JButton btn_XoaCaTruc;
     private javax.swing.JButton btn_xoa;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jC_CaTruc;
     private javax.swing.JComboBox<String> jC_CaTruc1;
     private javax.swing.JComboBox<String> jC_Class;
     private javax.swing.JComboBox<String> jC_GioiTinh;
+    private javax.swing.JComboBox<String> jC_LocCaTruc;
+    private javax.swing.JComboBox<String> jC_LocNgayLam;
     private javax.swing.JComboBox<String> jC_Loi;
     private javax.swing.JComboBox<String> jC_Quy;
     private javax.swing.JComboBox<String> jC_Sex;
@@ -4579,11 +5216,11 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jC_ThongKe;
     private javax.swing.JComboBox<String> jC_TinhTrangDKT;
     private javax.swing.JComboBox<String> jC_TinhTrangGui;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDate_Date;
     private com.toedter.calendar.JDateChooser jDate_Ngay;
     private com.toedter.calendar.JDateChooser jDate_NgaySV;
     private com.toedter.calendar.JDateChooser jDate_NgayThongKe;
+    private com.toedter.calendar.JDateChooser jDate_NgayTruc;
     private javax.swing.JDialog jDi_SinhVien;
     private javax.swing.JDialog jDi_ThanhTien;
     private javax.swing.JDialog jDi_XNDKThang;
@@ -4618,6 +5255,9 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jL_TGDK;
     private javax.swing.JLabel jL_TGHetHan;
     private javax.swing.JLabel jL_ThongKe;
+    private javax.swing.JLabel jL_ThongKeTongSoXe;
+    private javax.swing.JLabel jL_ThongKeXeChuaLay;
+    private javax.swing.JLabel jL_ThongKeXeDaLay;
     private javax.swing.JLabel jL_Tien;
     private javax.swing.JLabel jL_Tien1;
     private javax.swing.JLabel jL_TienPaht1;
@@ -4627,6 +5267,7 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jL_TongSC;
     private javax.swing.JLabel jL_TongTien;
     private javax.swing.JLabel jL_TongTienLuot;
+    private javax.swing.JLabel jL_TongTienSC;
     private javax.swing.JLabel jL_TongTienThang;
     private javax.swing.JLabel jL_XeCH;
     private javax.swing.JLabel jL_XeDKT;
@@ -4655,7 +5296,6 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
@@ -4665,13 +5305,6 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
@@ -4756,23 +5389,26 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JTextField jT_BienSo;
     private javax.swing.JTextField jT_CT_BD;
     private javax.swing.JTextField jT_CT_KT;
+    private javax.swing.JTextField jT_DT_TimXe;
     private javax.swing.JTextField jT_DiaChi;
     private javax.swing.JTextField jT_FindBienSo;
     private javax.swing.JTextField jT_FindHieuXe;
     private javax.swing.JTextField jT_GioBD;
     private javax.swing.JTextField jT_GioKT;
+    private javax.swing.JTextField jT_HT_TimKiem;
     private javax.swing.JTextField jT_HieuXe;
     private javax.swing.JTextField jT_HoTen;
     private javax.swing.JTextField jT_ID;
     private javax.swing.JTextField jT_KhungGio;
     private javax.swing.JTextField jT_Lop;
+    private javax.swing.JTextField jT_MaNVTruc;
     private javax.swing.JTextField jT_MaSV;
     private javax.swing.JTextField jT_MauXe;
     private javax.swing.JTextField jT_Name;
     private javax.swing.JTextField jT_Phone;
     private javax.swing.JTextField jT_QueQuan;
+    private javax.swing.JTextField jT_TenNVTruc;
     private javax.swing.JTextField jT_TienKhungGio;
-    private javax.swing.JTextField jT_TimXe;
     private javax.swing.JTextField jT_Time;
     private javax.swing.JTable jTable_GuiXe;
     private javax.swing.JTable jTable_KhungGio;
@@ -4783,8 +5419,5 @@ public class QuanLi extends javax.swing.JFrame {
     private javax.swing.JTable jTable_TKHienTai;
     private javax.swing.JTable jTable_TKSuCo;
     private javax.swing.JTable jTable_TKVeThang;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

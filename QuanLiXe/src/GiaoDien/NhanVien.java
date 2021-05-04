@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import Service.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -27,9 +28,11 @@ public class NhanVien extends javax.swing.JFrame {
     public NhanVien(String maNV) {
         this.maNV = maNV;
         initComponents();
+        this.setTitle("Nhân viên trực");
         this.setLocationRelativeTo(null);
         capNhatTTVeThang();
         this.layTT(maNV);
+        this.layTTCaTruc(maNV);
         layTTXe();
     }
 
@@ -180,6 +183,37 @@ public class NhanVien extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    public void layTTCaTruc(String TK){
+        
+        Date ngayHT = Date.valueOf(LocalDate.now());
+        DefaultTableModel dtm1 = (DefaultTableModel) jTable_LichTruc.getModel();
+        dtm1.setNumRows(0);
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select CT.TEN_CA, PC.NGAY_LAM, CT.GIO_BAT_DAU, CT.GIO_KET_THUC\n" +
+                    "from CA_TRUC as CT, PHAN_CONG_TRUC as PC\n" +
+                    "where CT.MA_CA = PC.MA_CA and PC.MA_NHAN_VIEN = '" + TK + "' AND PC.NGAY_LAM >= '" + ngayHT + "'";
+        Vector vt;
+        try{
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                vt = new Vector();
+                vt.add(rs.getString("TEN_CA"));
+                vt.add(rs.getDate("NGAY_LAM"));
+                vt.add(rs.getTime("GIO_BAT_DAU"));
+                vt.add(rs.getTime("GIO_KET_THUC"));
+                dtm1.addRow(vt);
+            }
+            jTable_LichTruc.setModel(dtm1);
+            rs.close();
+            ps.close();
+            ketNoi.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+   }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -301,6 +335,9 @@ public class NhanVien extends javax.swing.JFrame {
         jT_Phone = new javax.swing.JTextField();
         btn_Edit = new javax.swing.JButton();
         btn_Save = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable_LichTruc = new javax.swing.JTable();
+        jLabel19 = new javax.swing.JLabel();
         btn_DangXuat = new javax.swing.JButton();
 
         jDi_SinhVien.setMinimumSize(new java.awt.Dimension(420, 440));
@@ -893,8 +930,18 @@ public class NhanVien extends javax.swing.JFrame {
         jL_BienSo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_BienSo.setText("Biển số:");
 
+        jT_BienSo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jT_BienSoKeyPressed(evt);
+            }
+        });
+
+        jT_HieuXe.setEditable(false);
+
         jL_Hieuxe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_Hieuxe.setText("Hiệu xe:");
+
+        jT_MauXe.setEditable(false);
 
         jL_Mauxe.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_Mauxe.setText("Màu xe:");
@@ -1070,7 +1117,7 @@ public class NhanVien extends javax.swing.JFrame {
                     .addComponent(jT_FindBienSo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_FindName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1189,23 +1236,28 @@ public class NhanVien extends javax.swing.JFrame {
         }
     });
 
+    jTable_LichTruc.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+
+        },
+        new String [] {
+            "Ca trực", "Ngày làm", "Giờ bắt đầu", "Giờ kết thúc"
+        }
+    ));
+    jScrollPane1.setViewportView(jTable_LichTruc);
+
+    jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+    jLabel19.setText("Lịch trực:");
+
     javax.swing.GroupLayout jPan_InfLayout = new javax.swing.GroupLayout(jPan_Inf);
     jPan_Inf.setLayout(jPan_InfLayout);
     jPan_InfLayout.setHorizontalGroup(
         jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPan_InfLayout.createSequentialGroup()
-            .addGap(18, 18, 18)
+            .addGap(23, 23, 23)
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPan_InfLayout.createSequentialGroup()
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jL_Tittle2)
-                    .addGap(18, 18, 18)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPan_InfLayout.createSequentialGroup()
-                    .addGap(15, 15, 15)
-                    .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPan_InfLayout.createSequentialGroup()
                             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPan_InfLayout.createSequentialGroup()
@@ -1219,45 +1271,52 @@ public class NhanVien extends javax.swing.JFrame {
                                 .addGroup(jPan_InfLayout.createSequentialGroup()
                                     .addComponent(jL_ID)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                            .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jT_Name)
-                                .addComponent(jT_ID)
-                                .addComponent(jDate_Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jC_Sex, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGap(47, 47, 47)
-                    .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPan_InfLayout.createSequentialGroup()
+                            .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jT_Name)
+                                    .addComponent(jT_ID)
+                                    .addComponent(jDate_Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jC_Sex, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(47, 47, 47)
                             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPan_InfLayout.createSequentialGroup()
                                     .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jL_Pass)
                                         .addComponent(jL_Class)
                                         .addComponent(jL_Add))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jT_Add, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jC_Class, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGap(43, 43, 43)
+                                    .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jC_Class, javax.swing.GroupLayout.Alignment.LEADING, 0, 203, Short.MAX_VALUE)
+                                        .addComponent(jT_Add)
+                                        .addComponent(jPass_Pass)))
                                 .addGroup(jPan_InfLayout.createSequentialGroup()
                                     .addComponent(jL_Phone)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jT_Phone)))
-                            .addGap(36, 36, 36))
+                                    .addComponent(jT_Phone, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPan_InfLayout.createSequentialGroup()
-                            .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-            .addGap(40, 40, 40))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jL_Tittle2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(13, Short.MAX_VALUE))
+                .addGroup(jPan_InfLayout.createSequentialGroup()
+                    .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE))))
     );
     jPan_InfLayout.setVerticalGroup(
         jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPan_InfLayout.createSequentialGroup()
-            .addGap(61, 61, 61)
+            .addContainerGap()
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jL_Tittle2)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(39, 39, 39)
+            .addGap(18, 18, 18)
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jL_ID)
                 .addComponent(jT_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1273,9 +1332,10 @@ public class NhanVien extends javax.swing.JFrame {
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(jL_Date)
                 .addComponent(jDate_Date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jL_Add)
-                .addComponent(jT_Add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(24, 24, 24)
+                .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jL_Add)
+                    .addComponent(jT_Add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(21, 21, 21)
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jC_Sex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jL_Phone)
@@ -1285,7 +1345,11 @@ public class NhanVien extends javax.swing.JFrame {
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(89, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+            .addComponent(jLabel19)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
     );
 
     Connection ketNoi = KetNoiCSDL.ketNoi();
@@ -1328,10 +1392,10 @@ public class NhanVien extends javax.swing.JFrame {
             .addComponent(jL_Tittle)
             .addGap(155, 155, 155)
             .addComponent(jL_Icon2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
             .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addComponent(jTable_NV, javax.swing.GroupLayout.PREFERRED_SIZE, 719, Short.MAX_VALUE)
+            .addGap(32, 32, 32))
+        .addComponent(jTable_NV, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1352,7 +1416,7 @@ public class NhanVien extends javax.swing.JFrame {
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1361,356 +1425,6 @@ public class NhanVien extends javax.swing.JFrame {
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditActionPerformed
-        // TODO add your handling code here:
-        btn_Edit.setEnabled(false);
-        btn_Save.setEnabled(true);
-        jT_Name.setEditable(true);
-        jDate_Date.setEnabled(true);
-        jC_Sex.setEnabled(true);
-        jPass_Pass.setEditable(true);
-        jT_Add.setEditable(true);
-        jT_Phone.setEditable(true);
-        
-    }//GEN-LAST:event_btn_EditActionPerformed
-
-    private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
-        // TODO add your handling code here:
-        Date date = null;
-        //Dat cac bien de lay du lieu trong jTextF
-        String maNV = jT_ID.getText();
-        String tenNV = jT_Name.getText();
-        String gioiTinh = (String) jC_Sex.getSelectedItem();
-        String MK = jPass_Pass.getText();
-        String chucVu = (String) jC_Class.getSelectedItem();
-        String diaChi = jT_Add.getText();
-        String SDT = jT_Phone.getText();
-
-        //Chuc nang
-        if (maNV.equals("") || tenNV.equals("") || gioiTinh.equals("") || chucVu.equals("") || MK.equals("")){
-            JOptionPane.showMessageDialog(null, "Các thông tin: Tên nv, giới tính, chức vụ và mật khẩu không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-
-        }
-        else{
-            java.sql.Date ngaySinh = null;
-            try {
-                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Date.getDate());
-                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
-                ngaySinh = new java.sql.Date(tmp.getTime());
-            }
-            catch (Exception e) {
-            }
-            btn_Edit.setEnabled(true);
-            btn_Save.setEnabled(false);
-
-            jT_Name.setEditable(false);
-            jDate_Date.setEnabled(false);
-            jC_Sex.setEnabled(false);
-            jPass_Pass.setEditable(false);
-            jT_Add.setEditable(false);
-            jT_Phone.setEditable(false);
-            JOptionPane.showMessageDialog(null, "Sửa thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                
-            thaoTac.suaDN(maNV, MK);
-            thaoTac.suaNV(maNV, tenNV, ngaySinh, diaChi, SDT, gioiTinh);
-        }
-    }//GEN-LAST:event_btn_SaveActionPerformed
-
-    private void jTable_GuiXeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_GuiXeMousePressed
-        // TODO add your handling code here:
-        btn_Ra.setEnabled(true);
-        btn_Vao.setEnabled(false);
-        jC_Loi.setEnabled(true);
-
-        String bienSo = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 2);
-        String maVe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0);
-        String hieuXe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 3);
-        String mauXe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 4);
-
-        jT_BienSo.setText(bienSo);
-        jT_HieuXe.setText(hieuXe);
-        jT_MauXe.setText(mauXe);
-    }//GEN-LAST:event_jTable_GuiXeMousePressed
-
-    private void btn_VaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VaoActionPerformed
-        // TODO add your handling code here:
-        //gan du lieu
-        String bienSo = jT_BienSo.getText();
-        String maVe = QLXe.maXe();
-        String hieuXe = jT_HieuXe.getText();
-        String mauXe = jT_MauXe.getText();
-        Time gioVao = Time.valueOf(LocalTime.now());
-
-        java.sql.Date ngayVao = null;
-        try {
-            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
-            java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
-            ngayVao = new java.sql.Date(tmp.getTime());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(bienSo.equals("")){
-            JOptionPane.showMessageDialog(null, "Xin nhập mã vé và biển số xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(QLXe.checkTinhTrangVe(bienSo).equals("CHƯA LẤY")){
-            JOptionPane.showMessageDialog(null, "Xe này vần còn trong bãi, không thể thêm được.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(QLXe.checkBienSo(bienSo) == 1){
-            if(QLXe.checkBienSoInVX(bienSo) == 1){
-                if(QLXe.checkTinhTrangVe(bienSo).equals("ĐÃ LẤY")){
-                    //Ve luot
-                    if (QLXe.checkTinhTrangVeThang(bienSo).equals("") || QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN")){
-                        String maLoaiVe = "L";
-                        QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
-
-                        //set lai cai jT
-                        jT_BienSo.setText("");
-                        jT_HieuXe.setText("");
-                        jT_MauXe.setText("");
-
-                        this.layTTXe();
-                    }
-                    //Ve thang
-                    else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
-                        String maLoaiVe = "T";
-                        QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
-
-                        //set lai cai jT
-                        jT_BienSo.setText("");
-                        jT_HieuXe.setText("");
-                        jT_MauXe.setText("");
-
-                        this.layTTXe();
-                    }
-                }
-                else if (QLXe.checkTinhTrangVe(bienSo).equals("CHƯA LẤY")){
-                    JOptionPane.showMessageDialog(null, "Xe này vần còn trong bãi, không thể thêm được.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-            else if(QLXe.checkBienSoInVX(bienSo) == 0){
-                if (QLXe.checkTinhTrangVeThang(bienSo).equals("") || QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN")){
-                    String maLoaiVe = "L";
-                    QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
-
-                    //set lai cai jT
-                    jT_BienSo.setText("");
-                    jT_HieuXe.setText("");
-                    jT_MauXe.setText("");
-
-                    this.layTTXe();
-                }
-                //Ve thang
-                else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
-                    String maLoaiVe = "T";
-                    QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
-
-                    //set lai cai jT
-                    jT_BienSo.setText("");
-                    jT_HieuXe.setText("");
-                    jT_MauXe.setText("");
-
-                    this.layTTXe();
-                }
-            }
-
-        }
-        else if (QLXe.checkBienSo(bienSo) == 0){
-            //them
-            String maLoaiVe = "L";
-            QLXe.themXe(bienSo, hieuXe, mauXe);
-            QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
-
-            //set lai cai jT
-            jT_BienSo.setText("");
-            jT_HieuXe.setText("");
-            jT_MauXe.setText("");
-            this.layTTXe();
-        }
-
-    }//GEN-LAST:event_btn_VaoActionPerformed
-
-    private void btn_RaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RaActionPerformed
-        // TODO add your handling code here:
-        btn_Ra.setEnabled(false);
-        btn_Vao.setEnabled(true);
-
-        //kiem tra ve
-        String maVe = JOptionPane.showInputDialog("Nhập mã vé: ");
-        String maLoaiVe = QLXe.layMaLoaiVe(maVe);
-        //tinh khung h ra
-        String maKhungGio ="";
-
-        //kiem tra h ra
-        Time gioRa = Time.valueOf(LocalTime.now());
-
-        if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
-            maKhungGio = "T";
-        }
-        else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
-            maKhungGio = "S";
-        }
-        else if (maLoaiVe.equals("T")){
-            maKhungGio = "A";
-        }
-
-        //tinh ngay ra
-        java.sql.Date ngayRa = null;
-        java.sql.Date ngayVao = null;
-        try {
-            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
-            String ngay2 = new SimpleDateFormat("yyyy-MM-dd").format(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 5));
-            java.util.Date tmp1 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
-            java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay2);
-            ngayVao = new java.sql.Date(tmp2.getTime());
-            ngayRa = new java.sql.Date(tmp1.getTime());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        long ngayVaoRa = (ngayRa.getTime()- ngayVao.getTime())/(24*3600*1000);
-
-        //xu li
-        int tienLoi = 0;
-        if (String.valueOf(jC_Loi.getSelectedItem()).equals("Không")) {
-            tienLoi = 0;
-        }
-        else {
-            tienLoi = QLXe.layTienLoi((String) jC_Loi.getSelectedItem());
-        }
-
-        int tinhTien = 0;
-        if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
-            JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-
-        }
-        else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
-            if (maLoaiVe.equals("L")){
-                if(ngayVaoRa == 0){
-                    tinhTien = QLXe.layTien(maLoaiVe, maKhungGio) + tienLoi;
-                }
-                else if (ngayVaoRa != 0){
-                    if (maKhungGio.equals("S")){
-                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "S") + tienLoi);
-                    }
-                    else  if (maKhungGio.equals("T")){
-                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "T") + tienLoi);
-                    }
-                }
-            }
-            else if (maLoaiVe.equals("T")){
-                tinhTien = tienLoi;
-            }
-
-            //them cac thong tin vao bang xac nhan tinh tien
-            jL_SoXe1.setText(jT_BienSo.getText());
-            jL_HieuXe2.setText(jT_HieuXe.getText());
-            jL_MauXeT1.setText(jT_MauXe.getText());
-            jL_NgayVao.setText(String.valueOf(ngayVao));
-            jL_GioVao.setText(String.valueOf(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 6)));
-            jL_Tien1.setText(String.valueOf(tinhTien));
-            jL_NgayRA.setText(String.valueOf(ngayRa));
-            jL_GioRa.setText(String.valueOf(gioRa));
-            jL_Loi.setText((String) jC_Loi.getSelectedItem());
-
-            jDi_ThanhTien.setLocationRelativeTo(null);
-            jDi_ThanhTien.setVisible(true);
-        }
-
-    }//GEN-LAST:event_btn_RaActionPerformed
-
-    private void btn_ThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThangActionPerformed
-        // TODO add your handling code here:
-        //gan du lieu
-        String bienSo = jT_BienSo.getText();
-        String hieuXe = jT_HieuXe.getText();
-        String mauXe = jT_MauXe.getText();
-        String gioVao = jT_Time.getText();
-        String maLoaiVe = "T";
-        String maKhungGio = "A";
-        String giaTien = String.valueOf(QLXe.layTien(maLoaiVe, maKhungGio));
-
-        String ngayDK = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
-        //tinh thang tiep theo
-        Calendar cal = GregorianCalendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date tmp = null;
-        try {
-            tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngayDK);
-        }
-        catch (Exception e) {
-        }
-        cal.setTime(tmp);
-        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH)+1);
-        String ngayHH = df.format(cal.getTime());
-        //
-
-        if (!bienSo.equals("") && (QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN") || QLXe.checkTinhTrangVeThang(bienSo).equals(""))){
-            //hien thong tin nhap dialog sv
-            jL_SoXe.setText(bienSo);
-            jL_HieuXe1.setText(hieuXe);
-            jL_MauXeT.setText(mauXe);
-            jL_TGDK.setText(ngayDK);
-            jL_TGHetHan.setText(ngayHH);
-            jL_Tien.setText(giaTien);
-            jDi_SinhVien.setLocationRelativeTo(null);
-            jDi_SinhVien.setVisible(true);
-
-        }
-        else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
-            JOptionPane.showMessageDialog(null, "Xe vẫn còn hạn, không thể thêm được nữa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Cac thông tin về xe không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btn_ThangActionPerformed
-
-    private void jT_FindHieuXeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindHieuXeKeyReleased
-        // TODO add your handling code here:
-        String hieuXe = jT_FindHieuXe.getText();
-        if (hieuXe.equals("")){
-            layTTXe();
-        }
-        else if (!hieuXe.equals("")){
-            layTTXeTimKiemHieu(hieuXe);
-        }
-    }//GEN-LAST:event_jT_FindHieuXeKeyReleased
-
-    private void jT_FindBienSoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindBienSoKeyReleased
-        // TODO add your handling code here:
-        String bienSo = jT_FindBienSo.getText();
-        if (bienSo.equals("")){
-            layTTXe();
-        }
-        else if (!bienSo.equals("")){
-            layTTXeTimKiemSo(bienSo);
-        }
-    }//GEN-LAST:event_jT_FindBienSoKeyReleased
-
-    private void btn_HuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuyActionPerformed
-        // TODO add your handling code here:
-        jT_BienSo.setText("");
-        jT_HieuXe.setText("");
-        jT_MauXe.setText("");
-        btn_Vao.setEnabled(true);
-        btn_Ra.setEnabled(false);
-        jC_Loi.setEnabled(false);
-
-    }//GEN-LAST:event_btn_HuyActionPerformed
-
-    private void jPan_GuiXeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPan_GuiXeMousePressed
-        // TODO add your handling code here:
-        btn_Vao.setEnabled(true);
-        btn_Ra.setEnabled(false);
-        jC_Loi.setEnabled(false);
-        jT_BienSo.setText("");
-        jT_HieuXe.setText("");
-        jT_MauXe.setText("");
-    }//GEN-LAST:event_jPan_GuiXeMousePressed
 
     private void btn_XNSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XNSVActionPerformed
         // TODO add your handling code here:
@@ -1884,6 +1598,371 @@ public class NhanVien extends javax.swing.JFrame {
         new Login().setVisible(true);
     }//GEN-LAST:event_btn_DangXuatActionPerformed
 
+    private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
+        // TODO add your handling code here:
+        Date date = null;
+        //Dat cac bien de lay du lieu trong jTextF
+        String maNV = jT_ID.getText();
+        String tenNV = jT_Name.getText();
+        String gioiTinh = (String) jC_Sex.getSelectedItem();
+        String MK = jPass_Pass.getText();
+        String chucVu = (String) jC_Class.getSelectedItem();
+        String diaChi = jT_Add.getText();
+        String SDT = jT_Phone.getText();
+
+        //Chuc nang
+        if (maNV.equals("") || tenNV.equals("") || gioiTinh.equals("") || chucVu.equals("") || MK.equals("")){
+            JOptionPane.showMessageDialog(null, "Các thông tin: Tên nv, giới tính, chức vụ và mật khẩu không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+        }
+        else{
+            java.sql.Date ngaySinh = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Date.getDate());
+                java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                ngaySinh = new java.sql.Date(tmp.getTime());
+            }
+            catch (Exception e) {
+            }
+            btn_Edit.setEnabled(true);
+            btn_Save.setEnabled(false);
+
+            jT_Name.setEditable(false);
+            jDate_Date.setEnabled(false);
+            jC_Sex.setEnabled(false);
+            jPass_Pass.setEditable(false);
+            jT_Add.setEditable(false);
+            jT_Phone.setEditable(false);
+            JOptionPane.showMessageDialog(null, "Sửa thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+            thaoTac.suaDN(maNV, MK);
+            thaoTac.suaNV(maNV, tenNV, ngaySinh, diaChi, SDT, gioiTinh);
+        }
+    }//GEN-LAST:event_btn_SaveActionPerformed
+
+    private void btn_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditActionPerformed
+        // TODO add your handling code here:
+        btn_Edit.setEnabled(false);
+        btn_Save.setEnabled(true);
+        jT_Name.setEditable(true);
+        jDate_Date.setEnabled(true);
+        jC_Sex.setEnabled(true);
+        jPass_Pass.setEditable(true);
+        jT_Add.setEditable(true);
+        jT_Phone.setEditable(true);
+
+    }//GEN-LAST:event_btn_EditActionPerformed
+
+    private void jPan_GuiXeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPan_GuiXeMousePressed
+        // TODO add your handling code here:
+        btn_Vao.setEnabled(true);
+        btn_Ra.setEnabled(false);
+        jC_Loi.setEnabled(false);
+        jT_BienSo.setText("");
+        jT_HieuXe.setText("");
+        jT_MauXe.setText("");
+    }//GEN-LAST:event_jPan_GuiXeMousePressed
+
+    private void btn_HuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuyActionPerformed
+        // TODO add your handling code here:
+        jT_BienSo.setText("");
+        jT_HieuXe.setText("");
+        jT_MauXe.setText("");
+        btn_Vao.setEnabled(true);
+        btn_Ra.setEnabled(false);
+        jC_Loi.setEnabled(false);
+    }//GEN-LAST:event_btn_HuyActionPerformed
+
+    private void jT_FindBienSoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindBienSoKeyReleased
+        // TODO add your handling code here:
+        String bienSo = jT_FindBienSo.getText();
+        if (bienSo.equals("")){
+            layTTXe();
+        }
+        else if (!bienSo.equals("")){
+            layTTXeTimKiemSo(bienSo);
+        }
+    }//GEN-LAST:event_jT_FindBienSoKeyReleased
+
+    private void jT_FindHieuXeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindHieuXeKeyReleased
+        // TODO add your handling code here:
+        String hieuXe = jT_FindHieuXe.getText();
+        if (hieuXe.equals("")){
+            layTTXe();
+        }
+        else if (!hieuXe.equals("")){
+            layTTXeTimKiemHieu(hieuXe);
+        }
+    }//GEN-LAST:event_jT_FindHieuXeKeyReleased
+
+    private void btn_ThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThangActionPerformed
+        // TODO add your handling code here:
+        //gan du lieu
+        String bienSo = jT_BienSo.getText();
+        String hieuXe = jT_HieuXe.getText();
+        String mauXe = jT_MauXe.getText();
+        String gioVao = jT_Time.getText();
+        String maLoaiVe = "T";
+        String maKhungGio = "A";
+        String giaTien = String.valueOf(QLXe.layTien(maLoaiVe, maKhungGio));
+
+        String ngayDK = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
+        //tinh thang tiep theo
+        Calendar cal = GregorianCalendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date tmp = null;
+        try {
+            tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngayDK);
+        }
+        catch (Exception e) {
+        }
+        cal.setTime(tmp);
+        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH)+1);
+        String ngayHH = df.format(cal.getTime());
+        //
+
+        if (!bienSo.equals("") && (QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN") || QLXe.checkTinhTrangVeThang(bienSo).equals(""))){
+            //hien thong tin nhap dialog sv
+            jL_SoXe.setText(bienSo);
+            jL_HieuXe1.setText(hieuXe);
+            jL_MauXeT.setText(mauXe);
+            jL_TGDK.setText(ngayDK);
+            jL_TGHetHan.setText(ngayHH);
+            jL_Tien.setText(giaTien);
+            jDi_SinhVien.setLocationRelativeTo(null);
+            jDi_SinhVien.setVisible(true);
+
+        }
+        else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
+            JOptionPane.showMessageDialog(null, "Xe vẫn còn hạn, không thể thêm được nữa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Cac thông tin về xe không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_ThangActionPerformed
+
+    private void btn_RaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RaActionPerformed
+        // TODO add your handling code here:
+        btn_Ra.setEnabled(false);
+        btn_Vao.setEnabled(true);
+
+        //kiem tra ve
+        String maVe = JOptionPane.showInputDialog("Nhập mã vé: ");
+        String maLoaiVe = QLXe.layMaLoaiVe(maVe);
+        //tinh khung h ra
+        String maKhungGio ="";
+
+        //kiem tra h ra
+        Time gioRa = Time.valueOf(LocalTime.now());
+
+        if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
+            maKhungGio = "T";
+        }
+        else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
+            maKhungGio = "S";
+        }
+        else if (maLoaiVe.equals("T")){
+            maKhungGio = "A";
+        }
+
+        //tinh ngay ra
+        java.sql.Date ngayRa = null;
+        java.sql.Date ngayVao = null;
+        try {
+            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
+            String ngay2 = new SimpleDateFormat("yyyy-MM-dd").format(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 5));
+            java.util.Date tmp1 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+            java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay2);
+            ngayVao = new java.sql.Date(tmp2.getTime());
+            ngayRa = new java.sql.Date(tmp1.getTime());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        long ngayVaoRa = (ngayRa.getTime()- ngayVao.getTime())/(24*3600*1000);
+
+        //xu li
+        int tienLoi = 0;
+        if (String.valueOf(jC_Loi.getSelectedItem()).equals("Không")) {
+            tienLoi = 0;
+        }
+        else {
+            tienLoi = QLXe.layTienLoi((String) jC_Loi.getSelectedItem());
+        }
+
+        int tinhTien = 0;
+        if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
+            JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+        }
+        else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
+            if (maLoaiVe.equals("L")){
+                if(ngayVaoRa == 0){
+                    tinhTien = QLXe.layTien(maLoaiVe, maKhungGio) + tienLoi;
+                }
+                else if (ngayVaoRa != 0){
+                    if (maKhungGio.equals("S")){
+                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "S") + tienLoi);
+                    }
+                    else  if (maKhungGio.equals("T")){
+                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "T") + tienLoi);
+                    }
+                }
+            }
+            else if (maLoaiVe.equals("T")){
+                tinhTien = tienLoi;
+            }
+
+            //them cac thong tin vao bang xac nhan tinh tien
+            jL_SoXe1.setText(jT_BienSo.getText());
+            jL_HieuXe2.setText(jT_HieuXe.getText());
+            jL_MauXeT1.setText(jT_MauXe.getText());
+            jL_NgayVao.setText(String.valueOf(ngayVao));
+            jL_GioVao.setText(String.valueOf(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 6)));
+            jL_Tien1.setText(String.valueOf(tinhTien));
+            jL_NgayRA.setText(String.valueOf(ngayRa));
+            jL_GioRa.setText(String.valueOf(gioRa));
+            jL_Loi.setText((String) jC_Loi.getSelectedItem());
+
+            jDi_ThanhTien.setLocationRelativeTo(null);
+            jDi_ThanhTien.setVisible(true);
+        }
+    }//GEN-LAST:event_btn_RaActionPerformed
+
+    private void btn_VaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VaoActionPerformed
+        // TODO add your handling code here:
+        //gan du lieu
+        String bienSo = jT_BienSo.getText();
+        String maVe = QLXe.maXe();
+        String hieuXe = jT_HieuXe.getText();
+        String mauXe = jT_MauXe.getText();
+        Time gioVao = Time.valueOf(LocalTime.now());
+
+        java.sql.Date ngayVao = null;
+        try {
+            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
+            java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+            ngayVao = new java.sql.Date(tmp.getTime());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(bienSo.equals("")){
+            JOptionPane.showMessageDialog(null, "Xin nhập mã vé và biển số xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(QLXe.checkTinhTrangVe(bienSo).equals("CHƯA LẤY")){
+            JOptionPane.showMessageDialog(null, "Xe này vần còn trong bãi, không thể thêm được.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(QLXe.checkBienSo(bienSo) == 1){
+            if(QLXe.checkBienSoInVX(bienSo) == 1){
+                if(QLXe.checkTinhTrangVe(bienSo).equals("ĐÃ LẤY")){
+                    //Ve luot
+                    if (QLXe.checkTinhTrangVeThang(bienSo).equals("") || QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN")){
+                        String maLoaiVe = "L";
+                        QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
+
+                        //set lai cai jT
+                        jT_BienSo.setText("");
+                        jT_HieuXe.setText("");
+                        jT_MauXe.setText("");
+
+                        this.layTTXe();
+                    }
+                    //Ve thang
+                    else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
+                        String maLoaiVe = "T";
+                        QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
+
+                        //set lai cai jT
+                        jT_BienSo.setText("");
+                        jT_HieuXe.setText("");
+                        jT_MauXe.setText("");
+
+                        this.layTTXe();
+                    }
+                }
+                else if (QLXe.checkTinhTrangVe(bienSo).equals("CHƯA LẤY")){
+                    JOptionPane.showMessageDialog(null, "Xe này vần còn trong bãi, không thể thêm được.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            else if(QLXe.checkBienSoInVX(bienSo) == 0){
+                if (QLXe.checkTinhTrangVeThang(bienSo).equals("") || QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN")){
+                    String maLoaiVe = "L";
+                    QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
+
+                    //set lai cai jT
+                    jT_BienSo.setText("");
+                    jT_HieuXe.setText("");
+                    jT_MauXe.setText("");
+
+                    this.layTTXe();
+                }
+                //Ve thang
+                else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
+                    String maLoaiVe = "T";
+                    QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
+
+                    //set lai cai jT
+                    jT_BienSo.setText("");
+                    jT_HieuXe.setText("");
+                    jT_MauXe.setText("");
+
+                    this.layTTXe();
+                }
+            }
+
+        }
+        else if (QLXe.checkBienSo(bienSo) == 0){
+            //them
+            String maLoaiVe = "L";
+            QLXe.themXe(bienSo, hieuXe, mauXe);
+            QLXe.themVeXe(maVe, maLoaiVe, bienSo, ngayVao, gioVao, this.maNV, "CHƯA LẤY");
+
+            //set lai cai jT
+            jT_BienSo.setText("");
+            jT_HieuXe.setText("");
+            jT_MauXe.setText("");
+            this.layTTXe();
+        }
+    }//GEN-LAST:event_btn_VaoActionPerformed
+
+    private void jTable_GuiXeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_GuiXeMousePressed
+        // TODO add your handling code here:
+        btn_Ra.setEnabled(true);
+        btn_Vao.setEnabled(false);
+        jC_Loi.setEnabled(true);
+
+        String bienSo = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 2);
+        String maVe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0);
+        String hieuXe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 3);
+        String mauXe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 4);
+
+        jT_BienSo.setText(bienSo);
+        jT_HieuXe.setText(hieuXe);
+        jT_MauXe.setText(mauXe);
+    }//GEN-LAST:event_jTable_GuiXeMousePressed
+
+    private void jT_BienSoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_BienSoKeyPressed
+        // TODO add your handling code here:
+        String bienSo = jT_BienSo.getText();
+        if (evt.getKeyCode() == evt.VK_ENTER){
+            if (QLXe.checkBienSo(bienSo) == 1){
+                jT_HieuXe.setEditable(false);
+                jT_MauXe.setEditable(false);
+                jT_HieuXe.setText(QLXe.layHieuXe(bienSo));
+                jT_MauXe.setText(QLXe.layMauXe(bienSo));
+            }
+            else if (QLXe.checkBienSo(bienSo) == 0){
+                jT_HieuXe.setText("");
+                jT_MauXe.setText("");
+                jT_HieuXe.setEditable(true);
+                jT_MauXe.setEditable(true);
+            }
+        }
+    }//GEN-LAST:event_jT_BienSoKeyPressed
+
     
     public static void main(String args[]) {
         
@@ -1986,6 +2065,7 @@ public class NhanVien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -2008,6 +2088,7 @@ public class NhanVien extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPasswordField jPass_Pass;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
@@ -2034,6 +2115,7 @@ public class NhanVien extends javax.swing.JFrame {
     private javax.swing.JTextField jT_QueQuan;
     private javax.swing.JTextField jT_Time;
     private javax.swing.JTable jTable_GuiXe;
+    private javax.swing.JTable jTable_LichTruc;
     private javax.swing.JTabbedPane jTable_NV;
     // End of variables declaration//GEN-END:variables
 }

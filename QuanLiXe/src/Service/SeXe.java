@@ -110,7 +110,7 @@ public class SeXe {
         return hieuXe;
     }
     
-    //76. lay mauXe
+    //7. lay mauXe
     public String layMauXe(String bienSo){
         String mauXe = "";
         Connection ketNoi = KetNoiCSDL.ketNoi();
@@ -127,6 +127,40 @@ public class SeXe {
         return mauXe;
     }
     
+    //8.lay ma ca truc tu ten ca truc cua nhanvien
+    public String layMaCaTruc(String maNV, Date ngayLam){
+        String maCa = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT MA_CA FROM PHAN_CONG_TRUC WHERE MA_NHAN_VIEN = '" + maNV + "' AND NGAY_LAM = '" + ngayLam + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                maCa = rs.getString("MA_CA");
+            }
+        } 
+        catch (Exception e) {
+        }
+        return maCa;
+    }
+    
+    //9. lay ma ca truc tu ten ca
+    public String layMaCaTrucTuTenCa(String tenCa){
+        String maCa = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "SELECT MA_CA FROM CA_TRUC WHERE TEN_CA = N'" + tenCa + "'";
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                maCa = rs.getString("MA_CA");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maCa;
+    }
     
     //Cac ham INSERT INTO-------------------------------------------------------
     //1. Them xe moi vao ql xe
@@ -211,6 +245,22 @@ public class SeXe {
             ps.setString(1, maSuCo);
             ps.setString(2, bienSoXe);
             ps.setDate(3, ngayXayRa);
+            ps.executeUpdate();
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //6. them lich truc
+    public void themCaTruc(String maCa, Date ngayLam, String maNV){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "insert into PHAN_CONG_TRUC values (?, ?, ?)";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, maCa);
+            ps.setDate(2, ngayLam);
+            ps.setString(3, maNV);
             ps.executeUpdate();
         } 
         catch (Exception e) {
@@ -324,6 +374,19 @@ public class SeXe {
     
     
     //Cac ham ve DELETE---------------------------------------------------------
+    public void xoaCaTruc(String maCa, Date ngayLam){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "DELETE FROM PHAN_CONG_TRUC WHERE MA_CA = ? AND NGAY_LAM = ?";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, maCa);
+            ps.setDate(2, ngayLam);
+            ps.executeUpdate();
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     //Cac ham UPDATE------------------------------------------------------------
     //1. Cap nhat lai trang thai xe trong QL ve thang
@@ -333,6 +396,21 @@ public class SeXe {
         try {
             PreparedStatement ps = ketNoi.prepareStatement(sql);
             ps.setString(1, trangThai);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void capNhatLaiTTVeThang(String bienSo, Date ngayLam, Date ngayHH ,String trangThai){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "update QL_VE_THANG set NGAY_LAM_VE = ?, NGAY_HET_HAN =?, TRANG_THAI = ? where BIEN_SO_XE = '" + bienSo + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setDate(1, ngayLam);
+            ps.setDate(2, ngayHH);
+            ps.setString(3, trangThai);
             ps.executeUpdate();
             
         } 
@@ -458,6 +536,23 @@ public class SeXe {
         }
     }
     
+    //6. Cap nhat ca truc
+    public void capNhatLichTruc(String maCaOld, Date ngayLamOld, String maNV, String maCaNew, Date ngayLamNew){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "update PHAN_CONG_TRUC set MA_CA = ?, NGAY_LAM = ?, MA_NHAN_VIEN = ? where MA_CA = '" + maCaOld+"' AND NGAY_LAM = '" + ngayLamOld + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, maCaNew);
+            ps.setDate(2, ngayLamNew);
+            ps.setString(3, maNV);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     
     //Cac ham THONG KE----------------------------------------------------------
     //I. Bang doanh thu
@@ -574,6 +669,24 @@ public class SeXe {
         }
         
         return String.valueOf(tienSuCo);
+    }
+    
+    //7. Tinh tong so xe trong bai
+    public String tongSoXeTrongBai(String sql){
+        int tongSoXe = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        try {
+            PreparedStatement pr = ketNoi.prepareStatement(sql);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                tongSoXe = rs.getInt("XE");
+            }
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return String.valueOf(tongSoXe);
     }
     
     //III. Bang Ve thang
