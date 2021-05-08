@@ -185,7 +185,6 @@ public class NhanVien extends javax.swing.JFrame {
     }
     
     public void layTTCaTruc(String TK){
-        
         Date ngayHT = Date.valueOf(LocalDate.now());
         DefaultTableModel dtm1 = (DefaultTableModel) jTable_LichTruc.getModel();
         dtm1.setNumRows(0);
