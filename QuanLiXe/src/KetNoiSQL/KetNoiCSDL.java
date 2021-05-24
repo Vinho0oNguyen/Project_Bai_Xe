@@ -4,9 +4,8 @@ package KetNoiSQL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
 public class KetNoiCSDL {
-    public static Connection ketNoi(){
+    public static Connection ketNoi(){       
         Connection ketNoi = null;
         String uRL = "jdbc:sqlserver://;databaseName=QLBAIXE";
         String user = "sa";
@@ -20,11 +19,10 @@ public class KetNoiCSDL {
         catch (Exception e) {
             System.out.print("Ket noi that bai.");
         }
-        
+       
         
         return ketNoi;
     }
-    
     public static void main(String[] args) {
         KetNoiCSDL.ketNoi();
     }

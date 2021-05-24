@@ -2572,7 +2572,7 @@ public class QuanLi extends javax.swing.JFrame {
 
     jLabel47.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
     jLabel47.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel47.setText("THỐNG KÊ CÁC XE ĐĂNG KÍ THÁNG");
+    jLabel47.setText("THỐNG KÊ CÁC XE ĐĂNG KÝ THÁNG");
     jP_VeThang.add(jLabel47);
     jLabel47.setBounds(10, 11, 510, 29);
     jP_VeThang.add(jSeparator19);
@@ -2616,7 +2616,7 @@ public class QuanLi extends javax.swing.JFrame {
     jLabel51.setBounds(90, 160, 70, 15);
 
     jLabel52.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    jLabel52.setText("Tổng số xe đăng kí:");
+    jLabel52.setText("Tổng số xe đăng ký:");
     jP_VeThang.add(jLabel52);
     jLabel52.setBounds(30, 140, 120, 15);
 
@@ -2637,7 +2637,7 @@ public class QuanLi extends javax.swing.JFrame {
 
         },
         new String [] {
-            "Biển số xe", "Mã sinh viên đăng kí", "Ngày làm vé", "Ngày hết hạn"
+            "Biển số xe", "Mã sinh viên đăng ký", "Ngày làm vé", "Ngày hết hạn"
         }
     ));
     jScrollPane5.setViewportView(jTable_TKVeThang);
@@ -3144,39 +3144,44 @@ public class QuanLi extends javax.swing.JFrame {
                 }
                 catch (Exception e) {
                 }
+                if (thaoTac.chuanHoaSDT(SDT) == 0){
+                    JOptionPane.showMessageDialog(null, "SDT không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    jT_Phone.setText("");
+                }
+                else{
+                    //set cac nut
+                    btn_Edit.setEnabled(true);
+                    btn_ThemNV.setEnabled(true);
+                    btn_xoa.setEnabled(true);
+                    btn_SaveAdd.setEnabled(false);
+                    btn_SaveEdit.setEnabled(false);
 
-                //set cac nut
-                btn_Edit.setEnabled(true);
-                btn_ThemNV.setEnabled(true);
-                btn_xoa.setEnabled(true);
-                btn_SaveAdd.setEnabled(false);
-                btn_SaveEdit.setEnabled(false);
+                    jT_Name.setEditable(false);
+                    jT_ID.setEditable(false);
+                    jDate_Date.setEnabled(false);
+                    jC_Sex.setEnabled(false);
+                    jPass_Pass.setEditable(false);
+                    jC_Class.setEnabled(false);
+                    jT_DiaChi.setEditable(false);
+                    jT_Phone.setEditable(false);
 
-                jT_Name.setEditable(false);
-                jT_ID.setEditable(false);
-                jDate_Date.setEnabled(false);
-                jC_Sex.setEnabled(false);
-                jPass_Pass.setEditable(false);
-                jC_Class.setEnabled(false);
-                jT_DiaChi.setEditable(false);
-                jT_Phone.setEditable(false);
+                    jT_ID.setText("");
+                    jT_Name.setText("");
+                    jDate_Date.setDate(date);
+                    jC_Sex.setSelectedItem("");
+                    jPass_Pass.setText("");
+                    jC_Class.setSelectedItem("");
+                    jT_DiaChi.setText("");
+                    jT_Phone.setText("");
 
-                jT_ID.setText("");
-                jT_Name.setText("");
-                jDate_Date.setDate(date);
-                jC_Sex.setSelectedItem("");
-                jPass_Pass.setText("");
-                jC_Class.setSelectedItem("");
-                jT_DiaChi.setText("");
-                jT_Phone.setText("");
-
-                //lay cac thong tin de them vao CSDL
-                JOptionPane.showMessageDialog(null, "Sửa thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                String maCV = thaoTac.maCV(chucVu);
-                thaoTac.suaDN(maNV, MK, maCV);
-                thaoTac.suaNV(maNV, tenNV, ngaySinh, diaChi, SDT, gioiTinh);
-                this.layTTCaTruc();
-                layTT();
+                    //lay cac thong tin de them vao CSDL
+                    JOptionPane.showMessageDialog(null, "Sửa thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    String maCV = thaoTac.maCV(chucVu);
+                    thaoTac.suaDN(maNV, MK, maCV);
+                    thaoTac.suaNV(maNV, tenNV, ngaySinh, diaChi, SDT, gioiTinh);
+                    this.layTTCaTruc();
+                    layTT();
+                }
             }
 
         }
@@ -3384,7 +3389,7 @@ public class QuanLi extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Xe vẫn còn hạn, không thể thêm được nữa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         else{
-            JOptionPane.showMessageDialog(null, "Cac thông tin về xe không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Các thông tin về xe không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         
         
@@ -4666,10 +4671,33 @@ public class QuanLi extends javax.swing.JFrame {
             int giaTien = Integer.parseInt(giaTienString);
             Time gioBD = Time.valueOf(jT_GioBD.getText());
             Time gioKT = Time.valueOf(jT_GioKT.getText());
-            QLXe.capNhatKhungGio(tenKH, gioBD, gioKT);
-            QLXe.capNhatGiaTienKhungGio(loaiVe, tenKH, giaTien);
-            JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            this.layKhungGio();
+            if (QLXe.KTKhungGioLoaiVe(tenKH, gioBD, gioKT) == 1){
+                QLXe.capNhatKhungGio(tenKH, gioBD, gioKT);
+                QLXe.capNhatGiaTienKhungGio(loaiVe, tenKH, giaTien);
+                JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                jT_KhungGio.setText("");
+                jT_GioBD.setText("");
+                jT_GioKT.setText("");
+                jT_TienKhungGio.setText("");
+                jT_KhungGio.setEditable(false);
+                jT_GioBD.setEditable(false);
+                jT_GioKT.setEditable(false);
+                jT_TienKhungGio.setEditable(false);
+                this.layKhungGio();
+            }
+            else if (QLXe.KTKhungGioLoaiVe(tenKH, gioBD, gioKT) == 0){
+                JOptionPane.showMessageDialog(null, "Thay đổi thay đổi thất bại. Khung giờ nhập trùng với các khung giờ còn lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                jT_KhungGio.setText("");
+                jT_GioBD.setText("");
+                jT_GioKT.setText("");
+                jT_TienKhungGio.setText("");
+                jT_KhungGio.setEditable(false);
+                jT_GioBD.setEditable(false);
+                jT_GioKT.setEditable(false);
+                jT_TienKhungGio.setEditable(false);
+                this.layKhungGio();
+            }
+            
     }//GEN-LAST:event_btn_LuuVeActionPerformed
 
     private void btn_HuyDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuyDatLaiActionPerformed
@@ -4726,9 +4754,27 @@ public class QuanLi extends javax.swing.JFrame {
             String tenCa = (String) jC_CaTruc1.getSelectedItem();
             Time gioBD = Time.valueOf(jT_CT_BD.getText());
             Time gioKT = Time.valueOf(jT_CT_KT.getText());
-            QLXe.capNhatKhungGioCaTruc(tenCa, gioBD, gioKT);
-            this.layTTCaTruc();
-            JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            if (QLXe.KTKhungGio(tenCa, gioBD, gioKT) == 0){
+                JOptionPane.showMessageDialog(null, "Thay đổi thất bại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                Connection ketNoi = KetNoiCSDL.ketNoi();
+                String sql = "SELECT GIO_BAT_DAU, GIO_KET_THUC FROM CA_TRUC WHERE TEN_CA = N'" + tenCa + "'";
+                try {
+                    PreparedStatement pr = ketNoi.prepareStatement(sql);
+                    ResultSet rs = pr.executeQuery();
+                    while (rs.next()){
+                        jT_CT_BD.setText(String.valueOf(rs.getTime("GIO_BAT_DAU")));
+                        jT_CT_KT.setText(String.valueOf(rs.getTime("GIO_KET_THUC")));
+                    }
+                } 
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (QLXe.KTKhungGio(tenCa, gioBD, gioKT) == 1){
+                QLXe.capNhatKhungGioCaTruc(tenCa, gioBD, gioKT);
+                this.layTTCaTruc();
+                JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            } 
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Thay đổi thất bại. Xin nhập đúng định dạng giờ làm (HH:mm:ss).", "Thông báo", JOptionPane.WARNING_MESSAGE);

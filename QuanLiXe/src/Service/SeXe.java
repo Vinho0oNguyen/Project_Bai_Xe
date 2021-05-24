@@ -479,6 +479,52 @@ public class SeXe {
         return maKH;
     }
     
+    //goi function kiem tra nhap khung gio ca truc co dung ko
+    public int KTKhungGio(String tenKH, Time gioBD, Time gioKT){
+        int check = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "{? = call dbo.thayGioCaTruc(?, ?, ?)}";
+        try {
+            CallableStatement cs = ketNoi.prepareCall(sql);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setString(2, tenKH);
+            cs.setTime(3, gioBD);
+            cs.setTime(4, gioKT);
+            cs.execute();
+            check = cs.getInt(1);
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return check;
+        
+    }
+    
+    //goi function kiem tra nhap khung gio loai ve co dung ko
+    public int KTKhungGioLoaiVe(String tenKH, Time gioBD, Time gioKT){
+        int check = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "{? = call dbo.thayGioLoaiVe(?, ?, ?)}";
+        try {
+            CallableStatement cs = ketNoi.prepareCall(sql);
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.setString(2, tenKH);
+            cs.setTime(3, gioBD);
+            cs.setTime(4, gioKT);
+            cs.execute();
+            check = cs.getInt(1);
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return check;
+        
+    }
+    
     //3. Cap nhat khung gio
     public void capNhatKhungGio(String tenKH, Time gioBD, Time gioKT){
         Connection ketNoi = KetNoiCSDL.ketNoi();
