@@ -1088,6 +1088,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="H&#x1ed7; Tr&#x1ee3;"/>
           </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jL_Icon2MousePressed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JTabbedPane" name="jTable_NV">
           <Properties>

@@ -1287,6 +1287,11 @@ public class QuanLi extends javax.swing.JFrame {
         jL_Icon2.setForeground(new java.awt.Color(255, 255, 255));
         jL_Icon2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8_faq_30px.png"))); // NOI18N
         jL_Icon2.setText("Hỗ Trợ");
+        jL_Icon2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jL_Icon2MousePressed(evt);
+            }
+        });
 
         jTable_NV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -5182,6 +5187,13 @@ public class QuanLi extends javax.swing.JFrame {
             io.printStackTrace();
         }
     }//GEN-LAST:event_btn_DT_EXtoExcelActionPerformed
+
+    private void jL_Icon2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_Icon2MousePressed
+        // TODO add your handling code here:
+        GioiThieu formGT = new GioiThieu();
+        formGT.setLocationRelativeTo(null);
+        formGT.setVisible(true);
+    }//GEN-LAST:event_jL_Icon2MousePressed
 
     
     public static void main(String args[]) {
