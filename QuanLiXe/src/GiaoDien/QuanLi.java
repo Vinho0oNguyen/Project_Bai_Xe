@@ -2954,13 +2954,13 @@ public class QuanLi extends javax.swing.JFrame {
 
         jT_Name.setEditable(false);
         jT_ID.setEditable(false);
-        jDate_Date.setEnabled(false);
         jC_Sex.setEnabled(false);
         jPass_Pass.setEditable(false);
         jC_Class.setEnabled(false);
         jT_DiaChi.setEditable(false);
         jT_Phone.setEditable(false);
-
+        jDate_Date.setEnabled(false);
+        
         jT_ID.setText("");
         jT_Name.setText("");
         jDate_Date.setDate(date);
@@ -3016,12 +3016,12 @@ public class QuanLi extends javax.swing.JFrame {
 
                     jT_Name.setEditable(false);
                     jT_ID.setEditable(false);
-                    jDate_Date.setEnabled(false);
                     jC_Sex.setEnabled(false);
                     jPass_Pass.setEditable(false);
                     jC_Class.setEnabled(false);
                     jT_DiaChi.setEditable(false);
                     jT_Phone.setEditable(false);
+                    jDate_Date.setEnabled(false);
 
                     jT_ID.setText("");
                     jT_Name.setText("");
@@ -3102,12 +3102,13 @@ public class QuanLi extends javax.swing.JFrame {
 
         jT_Name.setEditable(true);
         jT_ID.setEditable(true);
-        jDate_Date.setEnabled(true);
         jC_Sex.setEnabled(true);
         jPass_Pass.setEditable(true);
         jC_Class.setEnabled(true);
         jT_DiaChi.setEditable(true);
         jT_Phone.setEditable(true);
+        jDate_Date.setEnabled(true);
+        jDate_Date.getDateEditor().setEnabled(false);
 
         jT_ID.setText("");
         jT_Name.setText("");
@@ -3163,12 +3164,12 @@ public class QuanLi extends javax.swing.JFrame {
 
                     jT_Name.setEditable(false);
                     jT_ID.setEditable(false);
-                    jDate_Date.setEnabled(false);
                     jC_Sex.setEnabled(false);
                     jPass_Pass.setEditable(false);
                     jC_Class.setEnabled(false);
                     jT_DiaChi.setEditable(false);
                     jT_Phone.setEditable(false);
+                    jDate_Date.setEnabled(false);
 
                     jT_ID.setText("");
                     jT_Name.setText("");
@@ -3200,13 +3201,14 @@ public class QuanLi extends javax.swing.JFrame {
         btn_xoa.setEnabled(false);
         jT_Name.setEditable(true);
         jT_ID.setEditable(false);
-        jDate_Date.setEnabled(true);
         jC_Sex.setEnabled(true);
         jPass_Pass.setEditable(true);
         jC_Class.setEnabled(true);
         jT_DiaChi.setEditable(true);
         jT_Phone.setEditable(true);
         btn_SaveEdit.setEnabled(true);
+        jDate_Date.setEnabled(true);
+        jDate_Date.getDateEditor().setEnabled(false);
     }//GEN-LAST:event_btn_EditActionPerformed
 
     private void jTable_NhanVienMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_NhanVienMousePressed
@@ -3914,6 +3916,7 @@ public class QuanLi extends javax.swing.JFrame {
         else if(jC_ThongKe.getSelectedItem().equals("NGÀY")){
             //set lua chon
             jDate_NgayThongKe.setEnabled(true);
+            jDate_NgayThongKe.getDateEditor().setEnabled(false);
             
             
             jC_Thang.setEnabled(false);
@@ -4669,7 +4672,7 @@ public class QuanLi extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_DatLaiVe.setEnabled(true);
         btn_LuuVe.setEnabled(false);
-        
+        try{
             String tenKH = jT_KhungGio.getText();
             String loaiVe = (String) jTable_KhungGio.getValueAt(jTable_KhungGio.getSelectedRow(), 0);
             String giaTienString = jT_TienKhungGio.getText();
@@ -4702,6 +4705,16 @@ public class QuanLi extends javax.swing.JFrame {
                 jT_TienKhungGio.setEditable(false);
                 this.layKhungGio();
             }
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Thay đổi thất bại. Xin nhập đúng định dạng giờ làm (HH:mm:ss).", "Thông báo", JOptionPane.WARNING_MESSAGE);           
+            btn_DatLaiVe.setEnabled(true);
+            btn_LuuVe.setEnabled(false);
+            jT_KhungGio.setText("");
+            jT_GioBD.setText("");
+            jT_GioKT.setText("");
+            jT_TienKhungGio.setText("");
+        }
             
     }//GEN-LAST:event_btn_LuuVeActionPerformed
 
@@ -4783,6 +4796,23 @@ public class QuanLi extends javax.swing.JFrame {
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Thay đổi thất bại. Xin nhập đúng định dạng giờ làm (HH:mm:ss).", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            
+            //lay lai du lieu cu
+            String tenCa = (String) jC_CaTruc1.getSelectedItem();
+            Connection ketNoi = KetNoiCSDL.ketNoi();
+            String sql = "SELECT GIO_BAT_DAU, GIO_KET_THUC FROM CA_TRUC WHERE TEN_CA = N'" + tenCa + "'";
+            try {
+                PreparedStatement pr = ketNoi.prepareStatement(sql);
+                ResultSet rs = pr.executeQuery();
+                while (rs.next()){
+                    jT_CT_BD.setText(String.valueOf(rs.getTime("GIO_BAT_DAU")));
+                    jT_CT_KT.setText(String.valueOf(rs.getTime("GIO_KET_THUC")));
+                }
+            } 
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            
             btn_SuaCaTruc1.setEnabled(false);
             btn_LuuCaTruc1.setEnabled(true);
             jC_CaTruc1.setEnabled(false);
@@ -4880,6 +4910,7 @@ public class QuanLi extends javax.swing.JFrame {
         jT_MaNVTruc.setEditable(true);
         jT_TenNVTruc.setEditable(false);
         jDate_NgayTruc.setEnabled(true);
+        jDate_NgayTruc.getDateEditor().setEnabled(false);
         
     }//GEN-LAST:event_btn_ThemCaTrucActionPerformed
 

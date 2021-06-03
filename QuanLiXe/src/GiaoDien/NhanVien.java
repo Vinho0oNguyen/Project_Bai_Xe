@@ -1650,6 +1650,7 @@ public class NhanVien extends javax.swing.JFrame {
         btn_Save.setEnabled(true);
         jT_Name.setEditable(true);
         jDate_Date.setEnabled(true);
+        jDate_Date.getDateEditor().setEnabled(false);
         jC_Sex.setEnabled(true);
         jPass_Pass.setEditable(true);
         jT_Add.setEditable(true);

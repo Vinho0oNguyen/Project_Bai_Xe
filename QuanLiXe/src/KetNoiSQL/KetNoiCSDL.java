@@ -14,10 +14,10 @@ public class KetNoiCSDL {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             ketNoi = (Connection) DriverManager.getConnection(uRL, user, pass);
-            System.out.print("Ket noi thanh cong.");
+            System.out.print("Ket noi thanh cong.\n");
         } 
         catch (Exception e) {
-            System.out.print("Ket noi that bai.");
+            System.out.print("Ket noi that bai.\n");
         }
        
         
