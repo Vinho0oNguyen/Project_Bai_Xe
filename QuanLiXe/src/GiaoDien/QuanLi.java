@@ -1306,6 +1306,12 @@ public class QuanLi extends javax.swing.JFrame {
         jL_ID.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jL_ID.setText("Mã nhân viên:");
 
+        jT_ID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jT_IDFocusLost(evt);
+            }
+        });
+
         jL_Name.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jL_Name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jL_Name.setText("Tên nhân viên:");
@@ -1611,6 +1617,11 @@ public class QuanLi extends javax.swing.JFrame {
 
         jT_MaNVTruc.setEditable(false);
         jT_MaNVTruc.setToolTipText("Enter để xem tên nhân viên");
+        jT_MaNVTruc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jT_MaNVTrucFocusLost(evt);
+            }
+        });
         jT_MaNVTruc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jT_MaNVTrucKeyPressed(evt);
@@ -2116,6 +2127,11 @@ public class QuanLi extends javax.swing.JFrame {
         jL_BienSo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_BienSo.setText("Biển số:");
 
+        jT_BienSo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jT_BienSoFocusLost(evt);
+            }
+        });
         jT_BienSo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jT_BienSoKeyPressed(evt);
@@ -3517,6 +3533,8 @@ public class QuanLi extends javax.swing.JFrame {
         btn_Vao.setEnabled(true);
         btn_Ra.setEnabled(false);
         jC_Loi.setEnabled(false);
+        jT_HieuXe.setEditable(false);
+        jT_MauXe.setEditable(false);
         
     }//GEN-LAST:event_btn_HuyActionPerformed
 
@@ -5225,6 +5243,30 @@ public class QuanLi extends javax.swing.JFrame {
         formGT.setLocationRelativeTo(null);
         formGT.setVisible(true);
     }//GEN-LAST:event_jL_Icon2MousePressed
+
+    private void jT_IDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jT_IDFocusLost
+        // TODO add your handling code here:
+        if (jT_ID.getText().length() > 15){
+            JOptionPane.showMessageDialog(null, "Mã nhân viên  <= 15. Xin nhập lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            jT_ID.requestFocus();
+        }
+    }//GEN-LAST:event_jT_IDFocusLost
+
+    private void jT_MaNVTrucFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jT_MaNVTrucFocusLost
+        // TODO add your handling code here:
+        if (jT_MaNVTruc.getText().length() > 15){
+            JOptionPane.showMessageDialog(null, "Mã nhân viên  <= 15. Xin nhập lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            jT_MaNVTruc.requestFocus();
+        }
+    }//GEN-LAST:event_jT_MaNVTrucFocusLost
+
+    private void jT_BienSoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jT_BienSoFocusLost
+        // TODO add your handling code here:
+        if (jT_BienSo.getText().length() > 15){
+            JOptionPane.showMessageDialog(null, "Biển số xe  <= 15. Xin nhập lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            jT_BienSo.requestFocus();
+        }
+    }//GEN-LAST:event_jT_BienSoFocusLost
 
     
     public static void main(String args[]) {

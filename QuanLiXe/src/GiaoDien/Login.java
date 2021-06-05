@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import KetNoiSQL.*;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 
@@ -33,6 +34,23 @@ public class Login extends javax.swing.JFrame {
         return chucVu; 
     }
     
+    public String layMK(String TK){
+        String matKhau = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select DN.MAT_KHAU from DANG_NHAP as DN where DN.TAI_KHOANG = '" + TK + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                matKhau = rs.getString("MAT_KHAU");
+            }
+        } 
+        catch (Exception e) {
+            
+        }
+        return matKhau; 
+    }
+    
    
     
     @SuppressWarnings("unchecked")
@@ -50,7 +68,8 @@ public class Login extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         btn_DN = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_Thoat = new javax.swing.JButton();
+        jL_QuenMK = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,18 +115,50 @@ public class Login extends javax.swing.JFrame {
         btn_DN.setBackground(new java.awt.Color(255, 255, 255));
         btn_DN.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_DN.setText("Đăng nhập");
+        btn_DN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_DNMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_DNMouseExited(evt);
+            }
+        });
         btn_DN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_DNActionPerformed(evt);
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Thoát");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_Thoat.setBackground(new java.awt.Color(255, 255, 255));
+        btn_Thoat.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_Thoat.setText("Thoát");
+        btn_Thoat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_ThoatMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_ThoatMouseExited(evt);
+            }
+        });
+        btn_Thoat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_ThoatActionPerformed(evt);
+            }
+        });
+
+        jL_QuenMK.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jL_QuenMK.setForeground(new java.awt.Color(0, 51, 51));
+        jL_QuenMK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jL_QuenMK.setText("Quên mật khẩu?");
+        jL_QuenMK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jL_QuenMKMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jL_QuenMKMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jL_QuenMKMousePressed(evt);
             }
         });
 
@@ -127,25 +178,31 @@ public class Login extends javax.swing.JFrame {
                         .addGap(33, 33, 33)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jL_Tittle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jL_Pss)
-                            .addComponent(jL_Acc))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btn_DN)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jT_Acc, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel1)))
-                .addGap(48, 48, Short.MAX_VALUE))
+                                .addComponent(jL_Tittle)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jL_Pss)
+                                    .addComponent(jL_Acc))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(btn_DN)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_Thoat, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jT_Acc, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(93, 93, 93)
+                                .addComponent(jLabel1)))
+                        .addGap(48, 48, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jL_QuenMK, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(215, 215, 215))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,9 +231,11 @@ public class Login extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_DN)
-                            .addComponent(jButton1)))
+                            .addComponent(btn_Thoat))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jL_QuenMK))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -202,7 +261,7 @@ public class Login extends javax.swing.JFrame {
         
         if (TK.equals("") || MK.equals("")){
             
-            JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         else{
             TK = TK.toUpperCase();
@@ -217,16 +276,16 @@ public class Login extends javax.swing.JFrame {
             }
             else{
                
-                JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
         }
         
     }//GEN-LAST:event_btn_DNActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_ThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThoatActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_ThoatActionPerformed
 
     private void jT_AccKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_AccKeyPressed
         // TODO add your handling code here:
@@ -238,7 +297,7 @@ public class Login extends javax.swing.JFrame {
 
             if (TK.equals("") || MK.equals("")){
 
-                JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
             else{
                 TK = TK.toUpperCase();
@@ -253,7 +312,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 else{
 
-                    JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -269,7 +328,7 @@ public class Login extends javax.swing.JFrame {
 
             if (TK.equals("") || MK.equals("")){
 
-                JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Tài khoảng hoặc mật khẩu không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
             else{
                 TK = TK.toUpperCase();
@@ -284,11 +343,53 @@ public class Login extends javax.swing.JFrame {
                 }
                 else{
 
-                    JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
     }//GEN-LAST:event_jPass_PassKeyPressed
+
+    private void jL_QuenMKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_QuenMKMouseEntered
+        // TODO add your handling code here:
+        jL_QuenMK.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_jL_QuenMKMouseEntered
+
+    private void jL_QuenMKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_QuenMKMouseExited
+        // TODO add your handling code here:
+        jL_QuenMK.setForeground(new Color(0,51,51));
+    }//GEN-LAST:event_jL_QuenMKMouseExited
+
+    private void jL_QuenMKMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_QuenMKMousePressed
+        // TODO add your handling code here:
+        String TK = JOptionPane.showInputDialog("Nhập mã nhân viên:");
+        String matKhau = this.layMK(TK);
+        if (matKhau.equals("")){
+            JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Mật khẩu của bạn là: " + matKhau, "Thông báo", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jL_QuenMKMousePressed
+
+    private void btn_DNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DNMouseEntered
+        // TODO add your handling code here:
+        btn_DN.setBackground(new Color(0, 255, 51));
+    }//GEN-LAST:event_btn_DNMouseEntered
+
+    private void btn_DNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DNMouseExited
+        // TODO add your handling code here:
+        btn_DN.setBackground(new Color(255, 255, 255));
+    }//GEN-LAST:event_btn_DNMouseExited
+
+    private void btn_ThoatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThoatMouseEntered
+        // TODO add your handling code here:
+        btn_Thoat.setBackground(new Color(0, 255, 51));
+    }//GEN-LAST:event_btn_ThoatMouseEntered
+
+    private void btn_ThoatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThoatMouseExited
+        // TODO add your handling code here:
+        btn_Thoat.setBackground(new Color(255,255,255));
+    }//GEN-LAST:event_btn_ThoatMouseExited
 
     
     public static void main(String args[]) {
@@ -327,10 +428,11 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_DN;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_Thoat;
     private javax.swing.JLabel jL_Acc;
     private javax.swing.JLabel jL_Icon;
     private javax.swing.JLabel jL_Pss;
+    private javax.swing.JLabel jL_QuenMK;
     private javax.swing.JLabel jL_Tittle;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;

@@ -934,6 +934,11 @@ public class NhanVien extends javax.swing.JFrame {
         jL_BienSo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jL_BienSo.setText("Biển số:");
 
+        jT_BienSo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jT_BienSoFocusLost(evt);
+            }
+        });
         jT_BienSo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jT_BienSoKeyPressed(evt);
@@ -1676,6 +1681,8 @@ public class NhanVien extends javax.swing.JFrame {
         btn_Vao.setEnabled(true);
         btn_Ra.setEnabled(false);
         jC_Loi.setEnabled(false);
+        jT_MauXe.setEditable(false);
+        jT_HieuXe.setEditable(false);
     }//GEN-LAST:event_btn_HuyActionPerformed
 
     private void jT_FindBienSoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindBienSoKeyReleased
@@ -1974,6 +1981,14 @@ public class NhanVien extends javax.swing.JFrame {
         formGT.setLocationRelativeTo(null);
         formGT.setVisible(true);
     }//GEN-LAST:event_jL_Icon2MousePressed
+
+    private void jT_BienSoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jT_BienSoFocusLost
+        // TODO add your handling code here:
+        if (jT_BienSo.getText().length() > 15){
+            JOptionPane.showMessageDialog(null, "Biển số xe  <= 15. Xin nhập lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            jT_BienSo.requestFocus();
+        }
+    }//GEN-LAST:event_jT_BienSoFocusLost
 
     
     public static void main(String args[]) {

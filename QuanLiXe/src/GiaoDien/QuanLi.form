@@ -1325,6 +1325,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jT_ID">
+                  <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jT_IDFocusLost"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jT_ID.setEditable(false);"/>
                   </AuxValues>
@@ -1853,6 +1856,7 @@
                         <Property name="toolTipText" type="java.lang.String" value="Enter &#x111;&#x1ec3; xem t&#xea;n nh&#xe2;n vi&#xea;n"/>
                       </Properties>
                       <Events>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jT_MaNVTrucFocusLost"/>
                         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_MaNVTrucKeyPressed"/>
                       </Events>
                     </Component>
@@ -2668,6 +2672,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="jT_BienSo">
                   <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jT_BienSoFocusLost"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_BienSoKeyPressed"/>
                   </Events>
                 </Component>

@@ -1313,6 +1313,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="jT_BienSo">
                   <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jT_BienSoFocusLost"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_BienSoKeyPressed"/>
                   </Events>
                 </Component>
