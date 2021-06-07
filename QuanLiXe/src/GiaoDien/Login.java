@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import KetNoiSQL.*;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import api.speedsms.vn.SpeedSMSAPI;
+import Service.SeQL;
+import java.io.IOException;
 
 
 public class Login extends javax.swing.JFrame {
@@ -51,6 +54,37 @@ public class Login extends javax.swing.JFrame {
         return matKhau; 
     }
     
+    public String laySDT(String maNV){
+        String SDT = "";
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select SDT from NHAN_VIEN where MA_NV = '" + maNV + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                SDT = rs.getString("SDT");
+            }
+        } 
+        catch (Exception e) {
+            
+        }
+        return SDT; 
+    }
+    
+    public void suaNV(String maNV, String SDT){
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "update NHAN_VIEN set MA_NV = ?, SDT = ? where MA_NV = '" + maNV + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ps.setString(1, maNV);
+            ps.setString(2, SDT);
+            ps.executeUpdate();
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
    
     
     @SuppressWarnings("unchecked")
@@ -70,6 +104,7 @@ public class Login extends javax.swing.JFrame {
         btn_DN = new javax.swing.JButton();
         btn_Thoat = new javax.swing.JButton();
         jL_QuenMK = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,6 +197,17 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8_eye_24px_1.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel2MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel2MouseReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -194,13 +240,14 @@ public class Login extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btn_Thoat, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jT_Acc, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(93, 93, 93)
                                 .addComponent(jLabel1)))
                         .addGap(48, 48, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jL_QuenMK, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(215, 215, 215))))
         );
@@ -227,7 +274,8 @@ public class Login extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jL_Pss))
+                            .addComponent(jL_Pss)
+                            .addComponent(jLabel2))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_DN)
@@ -235,7 +283,7 @@ public class Login extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jL_QuenMK))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -363,12 +411,42 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String TK = JOptionPane.showInputDialog("Nhập mã nhân viên:");
         String matKhau = this.layMK(TK);
+        String SDT = this.laySDT(TK);
+        
+        SpeedSMSAPI api = new SpeedSMSAPI("Ug9Kw6C6CUAgmpgY6fsjWFXDSV-AafWG");
+        SeQL thaoTac = new SeQL();
+
+
         if (matKhau.equals("")){
             JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Mật khẩu của bạn là: " + matKhau, "Thông báo", JOptionPane.WARNING_MESSAGE);
+        else if (!SDT.equals("") && !matKhau.equals("")){//nhan vien da co so dien thoai
+            try {
+                String result = api.sendSMS(SDT, "Mau khau cua tai khoang " + TK + " la: " + matKhau, 5, "596ceb3aea858304");
+                JOptionPane.showMessageDialog(null, "Gửi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            } 
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        else if (SDT.equals("") && !matKhau.equals("")){//nhan vien chua dang ky so dien thoai
+            String newSDT = JOptionPane.showInputDialog("Bạn chưa đăng ký SĐT. Xin vui lòng ĐK SĐT để gửi mật khẩu:");
+            if(thaoTac.chuanHoaSDT(SDT) == 0){
+                JOptionPane.showMessageDialog(null, "SDT không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                try {
+                    this.suaNV(TK, newSDT);
+                    String result = api.sendSMS(newSDT, "Mau khau cua tai khoang " + TK + " la: " + matKhau, 5, "596ceb3aea858304");
+                    JOptionPane.showMessageDialog(null, "Gửi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                } 
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+        }
+        
     }//GEN-LAST:event_jL_QuenMKMousePressed
 
     private void btn_DNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DNMouseEntered
@@ -390,6 +468,16 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_Thoat.setBackground(new Color(255,255,255));
     }//GEN-LAST:event_btn_ThoatMouseExited
+
+    private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
+        // TODO add your handling code here:
+        jPass_Pass.setEchoChar((char)0);
+    }//GEN-LAST:event_jLabel2MousePressed
+
+    private void jLabel2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseReleased
+        // TODO add your handling code here:
+        jPass_Pass.setEchoChar('*');
+    }//GEN-LAST:event_jLabel2MouseReleased
 
     
     public static void main(String args[]) {
@@ -435,6 +523,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jL_QuenMK;
     private javax.swing.JLabel jL_Tittle;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPass_Pass;
     private javax.swing.JSeparator jSeparator1;

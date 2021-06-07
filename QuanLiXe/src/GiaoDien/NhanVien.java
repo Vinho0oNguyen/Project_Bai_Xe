@@ -337,6 +337,7 @@ public class NhanVien extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_LichTruc = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
+        jL_IconPs = new javax.swing.JLabel();
         btn_DangXuat = new javax.swing.JButton();
 
         jDi_SinhVien.setMinimumSize(new java.awt.Dimension(420, 440));
@@ -1258,6 +1259,16 @@ public class NhanVien extends javax.swing.JFrame {
     jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
     jLabel19.setText("Lịch trực:");
 
+    jL_IconPs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8_eye_24px_2.png"))); // NOI18N
+    jL_IconPs.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+            jL_IconPsMousePressed(evt);
+        }
+        public void mouseReleased(java.awt.event.MouseEvent evt) {
+            jL_IconPsMouseReleased(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPan_InfLayout = new javax.swing.GroupLayout(jPan_Inf);
     jPan_Inf.setLayout(jPan_InfLayout);
     jPan_InfLayout.setHorizontalGroup(
@@ -1298,7 +1309,10 @@ public class NhanVien extends javax.swing.JFrame {
                                     .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jC_Class, javax.swing.GroupLayout.Alignment.LEADING, 0, 203, Short.MAX_VALUE)
                                         .addComponent(jT_Add)
-                                        .addComponent(jPass_Pass)))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPan_InfLayout.createSequentialGroup()
+                                            .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jL_IconPs, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(jPan_InfLayout.createSequentialGroup()
                                     .addComponent(jL_Phone)
                                     .addGap(18, 18, 18)
@@ -1330,7 +1344,8 @@ public class NhanVien extends javax.swing.JFrame {
                 .addComponent(jL_ID)
                 .addComponent(jT_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jL_Pass)
-                .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jL_IconPs))
             .addGap(23, 23, 23)
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jL_Name)
@@ -1354,7 +1369,7 @@ public class NhanVien extends javax.swing.JFrame {
             .addGroup(jPan_InfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
             .addComponent(jLabel19)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1990,6 +2005,16 @@ public class NhanVien extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jT_BienSoFocusLost
 
+    private void jL_IconPsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_IconPsMousePressed
+        // TODO add your handling code here:
+        jPass_Pass.setEchoChar((char)0);
+    }//GEN-LAST:event_jL_IconPsMousePressed
+
+    private void jL_IconPsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jL_IconPsMouseReleased
+        // TODO add your handling code here:
+        jPass_Pass.setEchoChar('*');
+    }//GEN-LAST:event_jL_IconPsMouseReleased
+
     
     public static void main(String args[]) {
         
@@ -2060,6 +2085,7 @@ public class NhanVien extends javax.swing.JFrame {
     private javax.swing.JLabel jL_ID;
     private javax.swing.JLabel jL_Icon;
     private javax.swing.JLabel jL_Icon2;
+    private javax.swing.JLabel jL_IconPs;
     private javax.swing.JLabel jL_Loi;
     private javax.swing.JLabel jL_MaSV;
     private javax.swing.JLabel jL_MauXeT;
