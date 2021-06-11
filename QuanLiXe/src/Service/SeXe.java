@@ -372,6 +372,23 @@ public class SeXe {
         return check;
     }
     
+    //6. check ca truc
+    public int checkCaTruc(String maCa, Date ngayLam){
+        int check = 0;
+        Connection ketNoi = KetNoiCSDL.ketNoi();
+        String sql = "select * from PHAN_CONG_TRUC where MA_CA = '" + maCa + "' AND NGAY_LAM = '" + ngayLam + "'";
+        try {
+            PreparedStatement ps = ketNoi.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                check = 1;
+            }
+        } 
+        catch (Exception e) {
+        }
+        return check;
+    }
+    
     
     //Cac ham ve DELETE---------------------------------------------------------
     public void xoaCaTruc(String maCa, Date ngayLam){

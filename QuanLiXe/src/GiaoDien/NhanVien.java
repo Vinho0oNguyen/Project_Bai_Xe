@@ -889,6 +889,7 @@ public class NhanVien extends javax.swing.JFrame {
         jL_Icon2.setForeground(new java.awt.Color(255, 255, 255));
         jL_Icon2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8_faq_30px.png"))); // NOI18N
         jL_Icon2.setText("Hỗ Trợ");
+        jL_Icon2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jL_Icon2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jL_Icon2MousePressed(evt);
@@ -1698,6 +1699,9 @@ public class NhanVien extends javax.swing.JFrame {
         jC_Loi.setEnabled(false);
         jT_MauXe.setEditable(false);
         jT_HieuXe.setEditable(false);
+        jT_HieuXe.setEditable(false);
+        jT_MauXe.setEditable(false);
+        jC_Loi.setSelectedIndex(0);
     }//GEN-LAST:event_btn_HuyActionPerformed
 
     private void jT_FindBienSoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_FindBienSoKeyReleased
@@ -1776,85 +1780,88 @@ public class NhanVien extends javax.swing.JFrame {
         //kiem tra ve
         String maVe = JOptionPane.showInputDialog("Nhập mã vé: ");
         String maLoaiVe = QLXe.layMaLoaiVe(maVe);
-        //tinh khung h ra
-        String maKhungGio ="";
+        if(!maLoaiVe.equals("")){
+            //tinh khung h ra
+            String maKhungGio ="";
 
-        //kiem tra h ra
-        Time gioRa = Time.valueOf(LocalTime.now());
+            //kiem tra h ra
+            Time gioRa = Time.valueOf(LocalTime.now());
 
-        if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
-            maKhungGio = "T";
-        }
-        else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
-            maKhungGio = "S";
-        }
-        else if (maLoaiVe.equals("T")){
-            maKhungGio = "A";
-        }
-
-        //tinh ngay ra
-        java.sql.Date ngayRa = null;
-        java.sql.Date ngayVao = null;
-        try {
-            String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
-            String ngay2 = new SimpleDateFormat("yyyy-MM-dd").format(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 5));
-            java.util.Date tmp1 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
-            java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay2);
-            ngayVao = new java.sql.Date(tmp2.getTime());
-            ngayRa = new java.sql.Date(tmp1.getTime());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        long ngayVaoRa = (ngayRa.getTime()- ngayVao.getTime())/(24*3600*1000);
-
-        //xu li
-        int tienLoi = 0;
-        if (String.valueOf(jC_Loi.getSelectedItem()).equals("Không")) {
-            tienLoi = 0;
-        }
-        else {
-            tienLoi = QLXe.layTienLoi((String) jC_Loi.getSelectedItem());
-        }
-
-        int tinhTien = 0;
-        if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
-            JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-
-        }
-        else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
-            if (maLoaiVe.equals("L")){
-                if(ngayVaoRa == 0){
-                    tinhTien = QLXe.layTien(maLoaiVe, maKhungGio) + tienLoi;
-                }
-                else if (ngayVaoRa != 0){
-                    if (maKhungGio.equals("S")){
-                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "S") + tienLoi);
-                    }
-                    else  if (maKhungGio.equals("T")){
-                        tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "T") + tienLoi);
-                    }
-                }
+            if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
+                maKhungGio = "T";
+            }
+            else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
+                maKhungGio = "S";
             }
             else if (maLoaiVe.equals("T")){
-                tinhTien = tienLoi;
+                maKhungGio = "A";
             }
 
-            //them cac thong tin vao bang xac nhan tinh tien
-            jL_SoXe1.setText(jT_BienSo.getText());
-            jL_HieuXe2.setText(jT_HieuXe.getText());
-            jL_MauXeT1.setText(jT_MauXe.getText());
-            jL_NgayVao.setText(String.valueOf(ngayVao));
-            jL_GioVao.setText(String.valueOf(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 6)));
-            jL_Tien1.setText(String.valueOf(tinhTien));
-            jL_NgayRA.setText(String.valueOf(ngayRa));
-            jL_GioRa.setText(String.valueOf(gioRa));
-            jL_Loi.setText((String) jC_Loi.getSelectedItem());
+            //tinh ngay ra
+            java.sql.Date ngayRa = null;
+            java.sql.Date ngayVao = null;
+            try {
+                String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_Ngay.getDate());
+                String ngay2 = new SimpleDateFormat("yyyy-MM-dd").format(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 5));
+                java.util.Date tmp1 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
+                java.util.Date tmp2 = new SimpleDateFormat("yyyy-MM-dd").parse(ngay2);
+                ngayVao = new java.sql.Date(tmp2.getTime());
+                ngayRa = new java.sql.Date(tmp1.getTime());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            jDi_ThanhTien.setLocationRelativeTo(null);
-            jDi_ThanhTien.setVisible(true);
+            long ngayVaoRa = (ngayRa.getTime()- ngayVao.getTime())/(24*3600*1000);
+
+            //xu li
+            int tienLoi = 0;
+            if (String.valueOf(jC_Loi.getSelectedItem()).equals("Không")) {
+                tienLoi = 0;
+            }
+            else {
+                tienLoi = QLXe.layTienLoi((String) jC_Loi.getSelectedItem());
+            }
+
+            int tinhTien = 0;
+            if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
+                JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+            }
+            else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
+                if (maLoaiVe.equals("L")){
+                    if(ngayVaoRa == 0){
+                        tinhTien = QLXe.layTien(maLoaiVe, maKhungGio) + tienLoi;
+                    }
+                    else if (ngayVaoRa != 0){
+                        if (maKhungGio.equals("S")){
+                            tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "S") + tienLoi);
+                        }
+                        else  if (maKhungGio.equals("T")){
+                            tinhTien = (int) (ngayVaoRa*QLXe.layTien(maLoaiVe, "T") + QLXe.layTien(maLoaiVe, "T") + tienLoi);
+                        }
+                    }
+                }
+                else if (maLoaiVe.equals("T")){
+                    tinhTien = tienLoi;
+                }
+
+                //them cac thong tin vao bang xac nhan tinh tien
+                jL_SoXe1.setText(jT_BienSo.getText());
+                jL_HieuXe2.setText(jT_HieuXe.getText());
+                jL_MauXeT1.setText(jT_MauXe.getText());
+                jL_NgayVao.setText(String.valueOf(ngayVao));
+                jL_GioVao.setText(String.valueOf(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 6)));
+                jL_Tien1.setText(String.valueOf(tinhTien));
+                jL_NgayRA.setText(String.valueOf(ngayRa));
+                jL_GioRa.setText(String.valueOf(gioRa));
+                jL_Loi.setText((String) jC_Loi.getSelectedItem());
+
+                jDi_ThanhTien.setLocationRelativeTo(null);
+                jDi_ThanhTien.setVisible(true);
+            }
         }
+        
     }//GEN-LAST:event_btn_RaActionPerformed
 
     private void btn_VaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VaoActionPerformed
@@ -1894,6 +1901,8 @@ public class NhanVien extends javax.swing.JFrame {
                         jT_BienSo.setText("");
                         jT_HieuXe.setText("");
                         jT_MauXe.setText("");
+                        jT_HieuXe.setEditable(false);
+                        jT_MauXe.setEditable(false);
 
                         this.layTTXe();
                     }
@@ -1906,6 +1915,8 @@ public class NhanVien extends javax.swing.JFrame {
                         jT_BienSo.setText("");
                         jT_HieuXe.setText("");
                         jT_MauXe.setText("");
+                        jT_HieuXe.setEditable(false);
+                        jT_MauXe.setEditable(false);
 
                         this.layTTXe();
                     }
@@ -1923,6 +1934,8 @@ public class NhanVien extends javax.swing.JFrame {
                     jT_BienSo.setText("");
                     jT_HieuXe.setText("");
                     jT_MauXe.setText("");
+                    jT_HieuXe.setEditable(false);
+                    jT_MauXe.setEditable(false);
 
                     this.layTTXe();
                 }
@@ -1935,6 +1948,8 @@ public class NhanVien extends javax.swing.JFrame {
                     jT_BienSo.setText("");
                     jT_HieuXe.setText("");
                     jT_MauXe.setText("");
+                    jT_HieuXe.setEditable(false);
+                    jT_MauXe.setEditable(false);
 
                     this.layTTXe();
                 }
@@ -1951,6 +1966,8 @@ public class NhanVien extends javax.swing.JFrame {
             jT_BienSo.setText("");
             jT_HieuXe.setText("");
             jT_MauXe.setText("");
+            jT_HieuXe.setEditable(false);
+            jT_MauXe.setEditable(false);
             this.layTTXe();
         }
     }//GEN-LAST:event_btn_VaoActionPerformed
@@ -1960,6 +1977,8 @@ public class NhanVien extends javax.swing.JFrame {
         btn_Ra.setEnabled(true);
         btn_Vao.setEnabled(false);
         jC_Loi.setEnabled(true);
+        jT_HieuXe.setEditable(true);
+        jT_MauXe.setEditable(true);
 
         String bienSo = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 2);
         String maVe = (String) jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0);

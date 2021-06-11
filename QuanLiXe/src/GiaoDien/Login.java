@@ -85,6 +85,17 @@ public class Login extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    public void senSMS(String SDT, String TK, String matKhau){
+        SpeedSMSAPI api = new SpeedSMSAPI("Ug9Kw6C6CUAgmpgY6fsjWFXDSV-AafWG");
+        try {
+            String result = api.sendSMS(SDT, "Mau khau cua tai khoang " + TK + " la: " + matKhau, 5, "596ceb3aea858304");
+            JOptionPane.showMessageDialog(null, "Gửi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
    
     
     @SuppressWarnings("unchecked")
@@ -185,6 +196,7 @@ public class Login extends javax.swing.JFrame {
         jL_QuenMK.setForeground(new java.awt.Color(0, 51, 51));
         jL_QuenMK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jL_QuenMK.setText("Quên mật khẩu?");
+        jL_QuenMK.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jL_QuenMK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jL_QuenMKMouseEntered(evt);
@@ -272,10 +284,11 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jL_Acc)
                             .addComponent(jT_Acc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jL_Pss)
-                            .addComponent(jLabel2))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jPass_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jL_Pss)))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_DN)
@@ -413,39 +426,43 @@ public class Login extends javax.swing.JFrame {
         String matKhau = this.layMK(TK);
         String SDT = this.laySDT(TK);
         
-        SpeedSMSAPI api = new SpeedSMSAPI("Ug9Kw6C6CUAgmpgY6fsjWFXDSV-AafWG");
         SeQL thaoTac = new SeQL();
-
+        
+        String []luaChon = {"Số điện thoại đã đăng ký.", "Số điện thoại mới."};
 
         if (matKhau.equals("")){
             JOptionPane.showMessageDialog(null, "Tài khoảng không tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        else if (!SDT.equals("") && !matKhau.equals("")){//nhan vien da co so dien thoai
-            try {
-                String result = api.sendSMS(SDT, "Mau khau cua tai khoang " + TK + " la: " + matKhau, 5, "596ceb3aea858304");
-                JOptionPane.showMessageDialog(null, "Gửi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            } 
-            catch (IOException e) {
-                e.printStackTrace();
+        else if (!matKhau.equals("")){//nhan vien da co so dien thoai
+            //lua chon cach gui tin nhan
+            int option = JOptionPane.showOptionDialog(null, "Lựa chọn số điện thoại nhận tin nhắn", 
+                    "Thông báo", 0, JOptionPane.QUESTION_MESSAGE, null, luaChon, "Số điện thoại đăng ký");
+            if (option == 0){
+                if(!SDT.equals("")){
+                    this.senSMS(SDT, TK, matKhau);
+                }
+                else if (SDT.equals("")){
+                    String newSDT = JOptionPane.showInputDialog("Nhập số điện thoại muốn nhận tin nhắn:");
+                    if(thaoTac.chuanHoaSDT(newSDT) == 1){
+                        this.senSMS(newSDT, TK, matKhau);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Nhập sai định dạng SDT.Xin nhập lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                
             }
-        }
-        else if (SDT.equals("") && !matKhau.equals("")){//nhan vien chua dang ky so dien thoai
-            String newSDT = JOptionPane.showInputDialog("Bạn chưa đăng ký SĐT. Xin vui lòng ĐK SĐT để gửi mật khẩu:");
-            if(thaoTac.chuanHoaSDT(SDT) == 0){
-                JOptionPane.showMessageDialog(null, "SDT không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            }
-            else{
-                try {
-                    this.suaNV(TK, newSDT);
-                    String result = api.sendSMS(newSDT, "Mau khau cua tai khoang " + TK + " la: " + matKhau, 5, "596ceb3aea858304");
-                    JOptionPane.showMessageDialog(null, "Gửi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                } 
-                catch (IOException e) {
-                    e.printStackTrace();
+            else if (option == 1){
+                String newSDT = JOptionPane.showInputDialog("Nhập số điện thoại muốn nhận tin nhắn:");
+                if(thaoTac.chuanHoaSDT(newSDT) == 1){
+                    this.senSMS(newSDT, TK, matKhau);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Nhập sai định dạng SDT.Xin nhập lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 }
             }
-            
         }
+        
         
     }//GEN-LAST:event_jL_QuenMKMousePressed
 
