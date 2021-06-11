@@ -4993,41 +4993,42 @@ public class QuanLi extends javax.swing.JFrame {
             String ngay = new SimpleDateFormat("yyyy-MM-dd").format(jDate_NgayTruc.getDate());
             java.util.Date tmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay);
             ngayLam = new java.sql.Date(tmp.getTime());
+            //chuc nang
+            if(maNV.equals("")){
+                JOptionPane.showMessageDialog(null, "Mã nhân viên không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                String tenCa = (String) jC_CaTruc.getSelectedItem();
+                String maCa = QLXe.layMaCaTrucTuTenCa(tenCa);
+                int checkCaTruc = QLXe.checkCaTruc(maCa, ngayLam);
+                if (checkCaTruc == 1){
+                    JOptionPane.showMessageDialog(null, "Ca trực này đã có người làm. Không thể thêm mới.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    QLXe.themCaTruc(maCa, ngayLam, maNV);
+                    JOptionPane.showMessageDialog(null, "Thêm thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    this.layTTCaTruc();
+                }
+
+
+                //set su kien
+                jC_CaTruc.setSelectedIndex(0);
+                jT_MaNVTruc.setText("");
+                jT_TenNVTruc.setText("");
+                jDate_NgayTruc.setDate(null);
+
+                btn_XacNhanThemCT.setEnabled(false);
+                btn_ThemCaTruc.setEnabled(true);
+                jT_MaNVTruc.setEditable(false);
+                jT_TenNVTruc.setEditable(false);
+                jDate_NgayTruc.setEnabled(false);
+            }
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ngày làm không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         
-        //chuc nang
-        if(maNV.equals("")){
-            JOptionPane.showMessageDialog(null, "Mã nhân viên không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-            String tenCa = (String) jC_CaTruc.getSelectedItem();
-            String maCa = QLXe.layMaCaTrucTuTenCa(tenCa);
-            int checkCaTruc = QLXe.checkCaTruc(maCa, ngayLam);
-            if (checkCaTruc == 1){
-                JOptionPane.showMessageDialog(null, "Ca trực này đã có người làm. Không thể thêm mới.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            }
-            else {
-                QLXe.themCaTruc(maCa, ngayLam, maNV);
-                JOptionPane.showMessageDialog(null, "Thêm thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                this.layTTCaTruc();
-            }
-            
-            
-            //set su kien
-            jC_CaTruc.setSelectedIndex(0);
-            jT_MaNVTruc.setText("");
-            jT_TenNVTruc.setText("");
-            jDate_NgayTruc.setDate(null);
-
-            btn_XacNhanThemCT.setEnabled(false);
-            btn_ThemCaTruc.setEnabled(true);
-            jT_MaNVTruc.setEditable(false);
-            jT_TenNVTruc.setEditable(false);
-            jDate_NgayTruc.setEnabled(false);
-        }
+        
         
     }//GEN-LAST:event_btn_XacNhanThemCTActionPerformed
 
