@@ -190,7 +190,22 @@ public class SeQL {
         else if(!SDT.matches(tmp)){
             check = 0;
         }
-        
         return check;
+    }
+    
+    //chuan hoa ten
+    public String chuanHoaTen(String ten){
+        String result = "";
+        ten = ten.toUpperCase();
+        String[] a = ten.split(" ");
+        for (String x: a){
+            if (x.equals("")){
+                continue;
+            }
+            else{
+                result += String.valueOf(x.charAt(0)) + x.substring(1) + " ";
+            }
+        }
+        return result.trim();
     }
 }

@@ -24,6 +24,7 @@ public class NhanVien extends javax.swing.JFrame {
     private String maNV;
     SeXe QLXe = new SeXe();
     SeNV thaoTac = new SeNV();
+    SeQL QL = new SeQL();
     
     public NhanVien(String maNV) {
         this.maNV = maNV;
@@ -1628,7 +1629,7 @@ public class NhanVien extends javax.swing.JFrame {
         Date date = null;
         //Dat cac bien de lay du lieu trong jTextF
         String maNV = jT_ID.getText();
-        String tenNV = jT_Name.getText();
+        String tenNV = QL.chuanHoaTen(jT_Name.getText());
         String gioiTinh = (String) jC_Sex.getSelectedItem();
         String MK = jPass_Pass.getText();
         String chucVu = (String) jC_Class.getSelectedItem();

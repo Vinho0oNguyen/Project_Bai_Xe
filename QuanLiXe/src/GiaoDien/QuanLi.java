@@ -3011,7 +3011,7 @@ public class QuanLi extends javax.swing.JFrame {
         Date date = null;
         //Dat cac bien de lay du lieu trong jTextF
         String maNV = jT_ID.getText();
-        String tenNV = jT_Name.getText();
+        String tenNV = thaoTac.chuanHoaTen(jT_Name.getText());
         String gioiTinh = (String) jC_Sex.getSelectedItem();
         String MK = jPass_Pass.getText();
         String chucVu = (String) jC_Class.getSelectedItem();
@@ -3160,7 +3160,7 @@ public class QuanLi extends javax.swing.JFrame {
         Date date = null;
         //Dat cac bien de lay du lieu trong jTextF
         String maNV = jT_ID.getText();
-        String tenNV = jT_Name.getText();
+        String tenNV = thaoTac.chuanHoaTen(jT_Name.getText());
         String gioiTinh = (String) jC_Sex.getSelectedItem();
         String MK = jPass_Pass.getText();
         String chucVu = (String) jC_Class.getSelectedItem();

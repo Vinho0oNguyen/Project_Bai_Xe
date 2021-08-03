@@ -1,0 +1,2 @@
+1. Trương Hùng An(N18DCCN002): file báo báo word, câu lệnh sql lấy thông tin nhân viên, chuẩn hóa SĐT, họ tên.
+2. Nguyễn Tấn Quang Vinh(N18DCCN245): file báo cáo word, database, các phần code còn lại
