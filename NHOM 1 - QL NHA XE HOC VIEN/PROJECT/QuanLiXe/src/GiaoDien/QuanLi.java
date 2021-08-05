@@ -3502,6 +3502,16 @@ public class QuanLi extends javax.swing.JFrame {
             jDi_SinhVien.dispose();
             jDi_XNDKThang.setLocationRelativeTo(null);
             jDi_XNDKThang.setVisible(true);
+            jT_MaSV.setText("");
+            jT_HoTen.setText("");
+            jT_HoTen.setEditable(false);
+            jT_Lop.setText("");
+            jT_Lop.setEditable(false);
+            jDate_NgaySV.setEnabled(false);
+            jT_QueQuan.setText("");
+            jT_QueQuan.setEditable(false);
+            jC_GioiTinh.setSelectedIndex(0);
+            jC_GioiTinh.setEnabled(false);
         }
         else if (maSV.equals("")){
             JOptionPane.showMessageDialog(null, "Mã sinh viên không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -3518,6 +3528,16 @@ public class QuanLi extends javax.swing.JFrame {
 
     private void btn_HuySVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuySVActionPerformed
         // TODO add your handling code here:
+        jT_MaSV.setText("");
+        jT_HoTen.setText("");
+            jT_HoTen.setEditable(false);
+            jT_Lop.setText("");
+            jT_Lop.setEditable(false);
+            jDate_NgaySV.setEnabled(false);
+            jT_QueQuan.setText("");
+            jT_QueQuan.setEditable(false);
+            jC_GioiTinh.setSelectedIndex(0);
+            jC_GioiTinh.setEnabled(false);
         jDi_SinhVien.dispose();
     }//GEN-LAST:event_btn_HuySVActionPerformed
 
@@ -3604,18 +3624,24 @@ public class QuanLi extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_Ra.setEnabled(false);
         btn_Vao.setEnabled(true);
-        
+
         //kiem tra ve
         String maVe = JOptionPane.showInputDialog("Nhập mã vé: ");
         String maLoaiVe = QLXe.layMaLoaiVe(maVe);
         if(!maLoaiVe.equals("")){
             //tinh khung h ra
-            String maKhungGio = "";
+            String maKhungGio ="";
 
             //kiem tra h ra
             Time gioRa = Time.valueOf(LocalTime.now());
-            maKhungGio = QLXe.maKhungGio(gioRa);
-            if (maLoaiVe.equals("T")){
+
+            if (gioRa.getHours() > 17 && maLoaiVe.equals("L")){
+                maKhungGio = "T";
+            }
+            else if (gioRa.getHours() <= 17 && maLoaiVe.equals("L")){
+                maKhungGio = "S";
+            }
+            else if (maLoaiVe.equals("T")){
                 maKhungGio = "A";
             }
 
@@ -3636,7 +3662,6 @@ public class QuanLi extends javax.swing.JFrame {
 
             long ngayVaoRa = (ngayRa.getTime()- ngayVao.getTime())/(24*3600*1000);
 
-
             //xu li
             int tienLoi = 0;
             if (String.valueOf(jC_Loi.getSelectedItem()).equals("Không")) {
@@ -3652,7 +3677,7 @@ public class QuanLi extends javax.swing.JFrame {
 
             }
             else if(maVe.equals("")){
-
+                JOptionPane.showMessageDialog(null, "Mã vé không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
             else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
                 if (maLoaiVe.equals("L")){
@@ -3683,12 +3708,10 @@ public class QuanLi extends javax.swing.JFrame {
                 jL_GioRa.setText(String.valueOf(gioRa));
                 jL_Loi.setText((String) jC_Loi.getSelectedItem());
 
-
                 jDi_ThanhTien.setLocationRelativeTo(null);
                 jDi_ThanhTien.setVisible(true);
             }
         }
-        
         
     }//GEN-LAST:event_btn_RaActionPerformed
 
@@ -4764,32 +4787,38 @@ public class QuanLi extends javax.swing.JFrame {
             int giaTien = Integer.parseInt(giaTienString);
             Time gioBD = Time.valueOf(jT_GioBD.getText());
             Time gioKT = Time.valueOf(jT_GioKT.getText());
-            if (QLXe.KTKhungGioLoaiVe(tenKH, gioBD, gioKT) == 1){
-                QLXe.capNhatKhungGio(tenKH, gioBD, gioKT);
-                QLXe.capNhatGiaTienKhungGio(loaiVe, tenKH, giaTien);
-                JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                jT_KhungGio.setText("");
-                jT_GioBD.setText("");
-                jT_GioKT.setText("");
-                jT_TienKhungGio.setText("");
-                jT_KhungGio.setEditable(false);
-                jT_GioBD.setEditable(false);
-                jT_GioKT.setEditable(false);
-                jT_TienKhungGio.setEditable(false);
-                this.layKhungGio();
+            if (gioBD.getTime() < gioKT.getTime()){
+                if (QLXe.KTKhungGioLoaiVe(tenKH, gioBD, gioKT) == 1){
+                    QLXe.capNhatKhungGio(tenKH, gioBD, gioKT);
+                    QLXe.capNhatGiaTienKhungGio(loaiVe, tenKH, giaTien);
+                    JOptionPane.showMessageDialog(null, "Thay đổi thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    jT_KhungGio.setText("");
+                    jT_GioBD.setText("");
+                    jT_GioKT.setText("");
+                    jT_TienKhungGio.setText("");
+                    jT_KhungGio.setEditable(false);
+                    jT_GioBD.setEditable(false);
+                    jT_GioKT.setEditable(false);
+                    jT_TienKhungGio.setEditable(false);
+                    this.layKhungGio();
+                }
+                else if (QLXe.KTKhungGioLoaiVe(tenKH, gioBD, gioKT) == 0){
+                    JOptionPane.showMessageDialog(null, "Thay đổi thay đổi thất bại. Khung giờ nhập trùng với các khung giờ còn lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    jT_KhungGio.setText("");
+                    jT_GioBD.setText("");
+                    jT_GioKT.setText("");
+                    jT_TienKhungGio.setText("");
+                    jT_KhungGio.setEditable(false);
+                    jT_GioBD.setEditable(false);
+                    jT_GioKT.setEditable(false);
+                    jT_TienKhungGio.setEditable(false);
+                    this.layKhungGio();
+                }
             }
-            else if (QLXe.KTKhungGioLoaiVe(tenKH, gioBD, gioKT) == 0){
+            else{
                 JOptionPane.showMessageDialog(null, "Thay đổi thay đổi thất bại. Khung giờ nhập trùng với các khung giờ còn lại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                jT_KhungGio.setText("");
-                jT_GioBD.setText("");
-                jT_GioKT.setText("");
-                jT_TienKhungGio.setText("");
-                jT_KhungGio.setEditable(false);
-                jT_GioBD.setEditable(false);
-                jT_GioKT.setEditable(false);
-                jT_TienKhungGio.setEditable(false);
-                this.layKhungGio();
             }
+            
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, "Thay đổi thất bại. Xin nhập đúng định dạng giờ làm (HH:mm:ss).", "Thông báo", JOptionPane.WARNING_MESSAGE);           
@@ -5021,28 +5050,46 @@ public class QuanLi extends javax.swing.JFrame {
                 String tenCa = (String) jC_CaTruc.getSelectedItem();
                 String maCa = QLXe.layMaCaTrucTuTenCa(tenCa);
                 int checkCaTruc = QLXe.checkCaTruc(maCa, ngayLam);
-                if (checkCaTruc == 1){
+                System.err.println(Time.valueOf(LocalTime.now()).getTime());
+                if (ngayLam.before(java.sql.Date.valueOf(java.time.LocalDate.now()))){
+                    JOptionPane.showMessageDialog(null, "Không thể them ca làm trong quá khứ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    //set su kien
+                    jC_CaTruc.setSelectedIndex(0);
+                    jT_MaNVTruc.setText("");
+                    jT_TenNVTruc.setText("");
+                    jDate_NgayTruc.setDate(null);
+
+                    btn_XacNhanThemCT.setEnabled(false);
+                    btn_ThemCaTruc.setEnabled(true);
+                    jT_MaNVTruc.setEditable(false);
+                    jT_TenNVTruc.setEditable(false);
+                    jDate_NgayTruc.setEnabled(false);
+                }
+                else{
+                    if (checkCaTruc == 1){
                     JOptionPane.showMessageDialog(null, "Ca trực này đã có người làm. Không thể thêm mới.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else {
+                        QLXe.themCaTruc(maCa, ngayLam, maNV);
+                        JOptionPane.showMessageDialog(null, "Thêm thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                        this.layTTCaTruc();
+                    }
+
+
+                    //set su kien
+                    jC_CaTruc.setSelectedIndex(0);
+                    jT_MaNVTruc.setText("");
+                    jT_TenNVTruc.setText("");
+                    jDate_NgayTruc.setDate(null);
+
+                    btn_XacNhanThemCT.setEnabled(false);
+                    btn_ThemCaTruc.setEnabled(true);
+                    jT_MaNVTruc.setEditable(false);
+                    jT_TenNVTruc.setEditable(false);
+                    jDate_NgayTruc.setEnabled(false);
                 }
-                else {
-                    QLXe.themCaTruc(maCa, ngayLam, maNV);
-                    JOptionPane.showMessageDialog(null, "Thêm thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                    this.layTTCaTruc();
-                }
-
-
-                //set su kien
-                jC_CaTruc.setSelectedIndex(0);
-                jT_MaNVTruc.setText("");
-                jT_TenNVTruc.setText("");
-                jDate_NgayTruc.setDate(null);
-
-                btn_XacNhanThemCT.setEnabled(false);
-                btn_ThemCaTruc.setEnabled(true);
-                jT_MaNVTruc.setEditable(false);
-                jT_TenNVTruc.setEditable(false);
-                jDate_NgayTruc.setEnabled(false);
             }
+                
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ngày làm không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);

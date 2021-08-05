@@ -176,6 +176,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jT_MaSV">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jT_MaSVKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jT_HoTen">
         </Component>

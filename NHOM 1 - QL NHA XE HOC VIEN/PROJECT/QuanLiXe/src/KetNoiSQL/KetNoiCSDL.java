@@ -3,6 +3,8 @@ package KetNoiSQL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Time;
+import java.time.LocalTime;
 
 public class KetNoiCSDL {
     public static Connection ketNoi(){       

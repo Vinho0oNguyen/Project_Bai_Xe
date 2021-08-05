@@ -373,6 +373,12 @@ public class NhanVien extends javax.swing.JFrame {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel16.setText("Giới tính:");
 
+        jT_MaSV.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jT_MaSVKeyPressed(evt);
+            }
+        });
+
         jC_GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
 
         btn_XNSV.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -874,7 +880,7 @@ public class NhanVien extends javax.swing.JFrame {
         );
 
         jDi_ThanhTien.getContentPane().add(jPanel7);
-        jPanel7.setBounds(0, 0, 320, 390);
+        jPanel7.setBounds(0, 0, 322, 372);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1473,6 +1479,16 @@ public class NhanVien extends javax.swing.JFrame {
             jDi_SinhVien.dispose();
             jDi_XNDKThang.setLocationRelativeTo(null);
             jDi_XNDKThang.setVisible(true);
+            jT_MaSV.setText("");
+            jT_HoTen.setText("");
+            jT_HoTen.setEditable(false);
+            jT_Lop.setText("");
+            jT_Lop.setEditable(false);
+            jDate_NgaySV.setEnabled(false);
+            jT_QueQuan.setText("");
+            jT_QueQuan.setEditable(false);
+            jC_GioiTinh.setSelectedIndex(0);
+            jC_GioiTinh.setEnabled(false);
         }
         else if (maSV.equals("")){
             JOptionPane.showMessageDialog(null, "Mã sinh viên không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -1488,6 +1504,16 @@ public class NhanVien extends javax.swing.JFrame {
 
     private void btn_HuySVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HuySVActionPerformed
         // TODO add your handling code here:
+        jT_MaSV.setText("");
+        jT_HoTen.setText("");
+            jT_HoTen.setEditable(false);
+            jT_Lop.setText("");
+            jT_Lop.setEditable(false);
+            jDate_NgaySV.setEnabled(false);
+            jT_QueQuan.setText("");
+            jT_QueQuan.setEditable(false);
+            jC_GioiTinh.setSelectedIndex(0);
+            jC_GioiTinh.setEnabled(false);
         jDi_SinhVien.dispose();
     }//GEN-LAST:event_btn_HuySVActionPerformed
 
@@ -1761,7 +1787,7 @@ public class NhanVien extends javax.swing.JFrame {
         String ngayHH = df.format(cal.getTime());
         //
 
-        if (!bienSo.equals("") && (QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN") || QLXe.checkTinhTrangVeThang(bienSo).equals(""))){
+        if (!bienSo.equals("") && QLXe.checkTinhTrangVeThang(bienSo).equals("")){
             //hien thong tin nhap dialog sv
             jL_SoXe.setText(bienSo);
             jL_HieuXe1.setText(hieuXe);
@@ -1771,13 +1797,16 @@ public class NhanVien extends javax.swing.JFrame {
             jL_Tien.setText(giaTien);
             jDi_SinhVien.setLocationRelativeTo(null);
             jDi_SinhVien.setVisible(true);
-
+        }
+        else if(QLXe.checkTinhTrangVeThang(bienSo).equals("HẾT HẠN")){
+            JOptionPane.showMessageDialog(null, "Cập nhật lại thành công.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            QLXe.capNhatLaiTTVeThang(bienSo,Date.valueOf(ngayDK), Date.valueOf(ngayHH) ,"CÒN HẠN");
         }
         else if (QLXe.checkTinhTrangVeThang(bienSo).equals("CÒN HẠN")){
             JOptionPane.showMessageDialog(null, "Xe vẫn còn hạn, không thể thêm được nữa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         else{
-            JOptionPane.showMessageDialog(null, "Cac thông tin về xe không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Các thông tin về xe không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btn_ThangActionPerformed
 
@@ -1836,6 +1865,9 @@ public class NhanVien extends javax.swing.JFrame {
             if (!maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
                 JOptionPane.showMessageDialog(null, "Sai vé xe.", "Thông báo", JOptionPane.WARNING_MESSAGE);
 
+            }
+            else if(maVe.equals("")){
+                JOptionPane.showMessageDialog(null, "Mã vé không được để trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
             else if (maVe.equals(jTable_GuiXe.getValueAt(jTable_GuiXe.getSelectedRow(), 0))){
                 if (maLoaiVe.equals("L")){
@@ -2042,6 +2074,53 @@ public class NhanVien extends javax.swing.JFrame {
         // TODO add your handling code here:
         jPass_Pass.setEchoChar('*');
     }//GEN-LAST:event_jL_IconPsMouseReleased
+
+    private void jT_MaSVKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jT_MaSVKeyPressed
+        // TODO add your handling code here:
+        String maSV = jT_MaSV.getText();
+        String hoTen = "";
+        String lop = "";
+        Date namSinh = null;
+        String queQuan = "";
+        String gioiTinh = "";
+        if(evt.getKeyCode() == evt.VK_ENTER){
+            if(QLXe.checkSV(maSV) == 1){
+                Connection ketNoi = KetNoiCSDL.ketNoi();
+                String sql = "SELECT HO_TEN, LOP, NAM_SINH, QUE_QUAN, GIOI_TINH FROM SINH_VIEN WHERE MA_SINH_VIEN = '" + maSV + "'";
+                try {
+                    PreparedStatement pr = ketNoi.prepareStatement(sql);
+                    ResultSet rs = pr.executeQuery();
+                    while (rs.next()){
+                        hoTen = rs.getString("HO_TEN");
+                        lop = (rs.getString("LOP"));
+                        namSinh = rs.getDate("NAM_SINH");
+                        queQuan = rs.getString("QUE_QUAN");
+                        gioiTinh = rs.getString("GIOI_TINH");
+                    }
+                } 
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                jT_HoTen.setText(hoTen);
+                jT_Lop.setText(lop);
+                jDate_NgaySV.setDate(namSinh);
+                jT_QueQuan.setText(queQuan);
+                jC_GioiTinh.setSelectedItem(gioiTinh);
+            }
+            else{
+                jT_HoTen.setText("");
+                jT_Lop.setText("");
+                jDate_NgaySV.setDate(null);
+                jT_QueQuan.setText("");
+                jC_GioiTinh.setSelectedItem(0);
+                jT_HoTen.setEditable(true);
+                jT_Lop.setEditable(true);
+                jDate_NgaySV.setEnabled(true);
+                jT_QueQuan.setEditable(true);
+                jC_GioiTinh.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_jT_MaSVKeyPressed
 
     
     public static void main(String args[]) {
